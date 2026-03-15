@@ -49,22 +49,16 @@
   const year = $("#year");
   if (year) year.textContent = new Date().getFullYear();
 
-  // =========================
   // HEADER
-  // =========================
   const topbar = $("#topbar");
-
   function updateHeader() {
     if (!topbar) return;
     topbar.classList.toggle("scrolled", window.scrollY > 80);
   }
-
   updateHeader();
   window.addEventListener("scroll", updateHeader, { passive: true });
 
-  // =========================
   // MOBILE MENU
-  // =========================
   const menuToggle = $("#menuToggle");
   const mobileMenu = $("#mobileMenu");
 
@@ -90,9 +84,7 @@
     });
   }
 
-  // =========================
   // HERO
-  // =========================
   const heroSlider = $("#heroSlider");
   const heroTrack = $("#heroTrack");
   const heroDots = $("#heroDots");
@@ -162,13 +154,11 @@
   }
 
   function nextHero() {
-    if (!HERO_SLIDES.length) return;
     heroIndex = (heroIndex + 1) % HERO_SLIDES.length;
     updateHero();
   }
 
   function prevHero() {
-    if (!HERO_SLIDES.length) return;
     heroIndex = (heroIndex - 1 + HERO_SLIDES.length) % HERO_SLIDES.length;
     updateHero();
   }
@@ -213,9 +203,7 @@
   renderHero();
   startHeroTimer();
 
-  // =========================
   // PROJECTS
-  // =========================
   const projectTrack = $("#projectTrack");
   const projectIndicators = $("#projectIndicators");
   const projectPrev = $("#projectPrev");
@@ -294,19 +282,9 @@
 
   renderProjects();
 
-  // =========================
   // ACTIVE MENU
-  // =========================
   const menuLinks = $$(".navMenu a, .mobileMenu a");
-  const sections = [
-    "inicio",
-    "quem-somos",
-    "servicos",
-    "projetos",
-    "parceiros",
-    "depoimentos",
-    "contato"
-  ]
+  const sections = ["inicio", "quem-somos", "servicos", "projetos", "parceiros", "depoimentos", "contato"]
     .map((id) => document.getElementById(id))
     .filter(Boolean);
 
@@ -327,9 +305,7 @@
   window.addEventListener("scroll", updateActiveMenu, { passive: true });
   updateActiveMenu();
 
-  // =========================
   // BACK TO TOP
-  // =========================
   const backToTop = $("#backToTop");
 
   function updateBackToTop() {
@@ -346,19 +322,14 @@
     });
   }
 
-  // =========================
   // FLOAT WHATS
-  // =========================
   const floatWhats = $("#floatWhats");
-
   if (floatWhats) {
     const msg = `Olá! Vim pelo site da ${COMPANY_NAME} e quero solicitar um orçamento.`;
     floatWhats.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
   }
 
-  // =========================
   // FORM HELPERS
-  // =========================
   function buildWhatsappText(data) {
     return `Olá! Vim pelo site da ${COMPANY_NAME}.
 
@@ -367,20 +338,7 @@ E-mail: ${data.email || "-"}
 WhatsApp: ${data.phone || "-"}
 Cidade/Bairro: ${data.place || "-"}
 Serviço: ${data.service || "-"}
-Medidas: ${data.measures || "-"}
 Mensagem: ${data.message || "-"}`;
-  }
-
-  function getMainFormData() {
-    return {
-      name: $("#name")?.value.trim() || "",
-      email: $("#email")?.value.trim() || "",
-      phone: $("#phone")?.value.trim() || "",
-      place: $("#place")?.value.trim() || "",
-      service: $("#service")?.value.trim() || "",
-      measures: $("#measures")?.value.trim() || "",
-      message: $("#message")?.value.trim() || ""
-    };
   }
 
   function getModalFormData() {
@@ -390,7 +348,6 @@ Mensagem: ${data.message || "-"}`;
       phone: $("#mPhone")?.value.trim() || "",
       place: $("#mPlace")?.value.trim() || "",
       service: $("#mService")?.value.trim() || "",
-      measures: "",
       message: $("#mMessage")?.value.trim() || ""
     };
   }
@@ -400,43 +357,14 @@ Mensagem: ${data.message || "-"}`;
     window.open(url, "_blank", "noopener,noreferrer");
   }
 
-  function sendEmail(data) {
-    const subject = `Orçamento - ${COMPANY_NAME}`;
-    const body = `Nome: ${data.name || "-"}
-E-mail: ${data.email || "-"}
-WhatsApp: ${data.phone || "-"}
-Cidade/Bairro: ${data.place || "-"}
-Serviço: ${data.service || "-"}
-Medidas: ${data.measures || "-"}
-Mensagem: ${data.message || "-"}`;
-
-    window.location.href = `mailto:${COMPANY_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  }
-
-  const sendWhatsappBtn = $("#sendWhatsapp");
-  const sendEmailBtn = $("#sendEmail");
-
-  if (sendWhatsappBtn) {
-    sendWhatsappBtn.addEventListener("click", () => {
-      sendWhatsapp(getMainFormData());
-    });
-  }
-
-  if (sendEmailBtn) {
-    sendEmailBtn.addEventListener("click", () => {
-      sendEmail(getMainFormData());
-    });
-  }
-
-  // =========================
   // MODAL
-  // =========================
   const budgetModal = $("#budgetModal");
   const openBudgetModal = $("#openBudgetModal");
   const openBudgetModalTop = $("#openBudgetModalTop");
+  const openBudgetModalHero = $("#openBudgetModalHero");
+  const openBudgetModalInline = $("#openBudgetModalInline");
   const closeBudgetModal = $("#closeBudgetModal");
   const modalWhatsapp = $("#modalWhatsapp");
-  const modalEmail = $("#modalEmail");
 
   function openModal() {
     if (!budgetModal) return;
@@ -450,8 +378,10 @@ Mensagem: ${data.message || "-"}`;
     document.body.style.overflow = "";
   }
 
-  if (openBudgetModal) openBudgetModal.addEventListener("click", openModal);
-  if (openBudgetModalTop) openBudgetModalTop.addEventListener("click", openModal);
+  [openBudgetModal, openBudgetModalTop, openBudgetModalHero, openBudgetModalInline]
+    .filter(Boolean)
+    .forEach((btn) => btn.addEventListener("click", openModal));
+
   if (closeBudgetModal) closeBudgetModal.addEventListener("click", closeModal);
 
   if (budgetModal) {
@@ -466,30 +396,80 @@ Mensagem: ${data.message || "-"}`;
     });
   }
 
-  if (modalEmail) {
-    modalEmail.addEventListener("click", () => {
-      sendEmail(getModalFormData());
+  // IMAGE PREVIEW
+  const previewOverlay = $("#imagePreviewOverlay");
+  const previewImg = $("#imagePreviewImg");
+  const previewClose = $("#imagePreviewClose");
+  const previewSelectors = ".aboutImage, .serviceBigCard, .projectCard, .partnerCard";
+
+  function extractUrl(backgroundImage) {
+    if (!backgroundImage || backgroundImage === "none") return "";
+    const match = backgroundImage.match(/url\(["']?(.*?)["']?\)/);
+    return match ? match[1] : "";
+  }
+
+  function getPreviewSrc(target) {
+    if (!target) return "";
+
+    const innerImg = target.querySelector("img");
+    if (innerImg && innerImg.src) return innerImg.src;
+
+    const bg = getComputedStyle(target).backgroundImage;
+    const bgUrl = extractUrl(bg);
+    if (bgUrl) return bgUrl;
+
+    return "";
+  }
+
+  function openPreview(target) {
+    if (!previewOverlay || !previewImg) return;
+    const src = getPreviewSrc(target);
+    if (!src) return;
+
+    previewImg.src = src;
+    previewOverlay.classList.add("show");
+    previewOverlay.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closePreview() {
+    if (!previewOverlay || !previewImg) return;
+    previewOverlay.classList.remove("show");
+    previewOverlay.setAttribute("aria-hidden", "true");
+    previewImg.src = "";
+
+    if (!budgetModal?.classList.contains("show")) {
+      document.body.style.overflow = "";
+    }
+  }
+
+  document.addEventListener("click", (e) => {
+    const target = e.target.closest(previewSelectors);
+    if (!target) return;
+    openPreview(target);
+  });
+
+  if (previewClose) previewClose.addEventListener("click", closePreview);
+
+  if (previewOverlay) {
+    previewOverlay.addEventListener("click", (e) => {
+      if (e.target === previewOverlay) closePreview();
     });
   }
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && budgetModal?.classList.contains("show")) {
+    if (e.key === "Escape") {
       closeModal();
+      closePreview();
     }
   });
 
-  // =========================
-  // PAGE STATUS
-  // =========================
   window.addEventListener("load", () => {
     document.body.classList.add("site-loaded");
   });
 
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-      stopHeroTimer();
-    } else {
-      startHeroTimer();
-    }
+    if (document.hidden) stopHeroTimer();
+    else startHeroTimer();
   });
 })();
