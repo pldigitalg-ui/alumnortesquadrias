@@ -48,6 +48,8 @@
   const year = $("#year");
   if (year) year.textContent = new Date().getFullYear();
 
+  const isMobile = () => window.matchMedia("(max-width: 900px)").matches;
+
   // HEADER
   const topbar = $("#topbar");
   function updateHeader() {
@@ -91,6 +93,7 @@
   const heroDesc = $("#heroDesc");
   const heroPrev = $("#heroPrev");
   const heroNext = $("#heroNext");
+  const heroControls = $(".heroControls");
 
   let heroIndex = 0;
   let heroTimer = null;
@@ -207,9 +210,11 @@
   const projectIndicators = $("#projectIndicators");
   const projectPrev = $("#projectPrev");
   const projectNext = $("#projectNext");
-  let projectIndex = 0;
+  const projectSlider = $("#projectSlider");
 
+  let projectIndex = 0;
   const projectPages = [];
+
   for (let i = 0; i < PROJECTS.length; i += 2) {
     projectPages.push(PROJECTS.slice(i, i + 2));
   }
@@ -408,15 +413,17 @@ Mensagem: ${data.message || "-"}`;
     });
   }
 
-  // IMAGE PREVIEW
+  // SMALL IMAGE PREVIEW
   const previewOverlay = $("#imagePreviewOverlay");
   const previewImg = $("#imagePreviewImg");
   const previewClose = $("#imagePreviewClose");
+  const previewBox = $(".imagePreviewBox", previewOverlay);
   const previewSelectors = ".aboutImage, .serviceBigCard, .projectCard, .partnerCard";
 
   let hoverTimer = null;
-  let currentPreviewSource = "";
-  let currentPreviewTarget = null;
+  let activeHoverTarget = null;
+  let pointerX = 0;
+  let pointerY = 0;
 
   function extractUrl(backgroundImage) {
     if (!backgroundImage || backgroundImage === "none") return "";
@@ -446,53 +453,161 @@ Mensagem: ${data.message || "-"}`;
     );
   }
 
-  function openPreview(target) {
-    if (!previewOverlay || !previewImg || !target) return;
+  function setDesktopPreviewPosition(x, y) {
+    if (!previewBox || isMobile()) return;
+
+    const boxW = 320;
+    const boxH = 320;
+    const gap = 18;
+
+    let left = x + gap;
+    let top = y - (boxH / 2);
+
+    if (left + boxW > window.innerWidth - 16) {
+      left = x - boxW - gap;
+    }
+
+    if (left < 16) left = 16;
+    if (top < 16) top = 16;
+    if (top + boxH > window.innerHeight - 16) {
+      top = window.innerHeight - boxH - 16;
+    }
+
+    previewBox.style.left = `${left}px`;
+    previewBox.style.top = `${top}px`;
+  }
+
+  function openHoverPreview(target) {
+    if (!previewOverlay || !previewImg || !previewBox || !target) return;
+    if (isMobile()) return;
 
     const src = getPreviewSrc(target);
     if (!src) return;
 
-    if (currentPreviewSource === src && previewOverlay.classList.contains("show")) return;
+    activeHoverTarget = target;
+    previewImg.src = src;
 
-    currentPreviewSource = src;
-    currentPreviewTarget = target;
+    previewOverlay.classList.add("show");
+    previewOverlay.setAttribute("aria-hidden", "false");
+
+    previewOverlay.style.pointerEvents = "none";
+    previewOverlay.style.background = "transparent";
+    previewOverlay.style.backdropFilter = "none";
+    previewOverlay.style.webkitBackdropFilter = "none";
+
+    previewBox.style.position = "fixed";
+    previewBox.style.width = "320px";
+    previewBox.style.height = "320px";
+    previewBox.style.maxWidth = "320px";
+    previewBox.style.maxHeight = "320px";
+    previewBox.style.padding = "0";
+    previewBox.style.borderRadius = "22px";
+    previewBox.style.overflow = "hidden";
+    previewBox.style.background = "#ffffff";
+    previewBox.style.boxShadow = "0 22px 50px rgba(0,0,0,.22)";
+    previewBox.style.zIndex = "9999";
+
+    previewImg.style.width = "100%";
+    previewImg.style.height = "100%";
+    previewImg.style.maxWidth = "100%";
+    previewImg.style.maxHeight = "100%";
+    previewImg.style.objectFit = "cover";
+    previewImg.style.borderRadius = "22px";
+    previewImg.style.background = "#fff";
+
+    if (previewClose) previewClose.style.display = "none";
+
+    setDesktopPreviewPosition(pointerX || window.innerWidth * 0.62, pointerY || window.innerHeight * 0.5);
+  }
+
+  function openTapPreview(target) {
+    if (!previewOverlay || !previewImg || !previewBox || !target) return;
+
+    const src = getPreviewSrc(target);
+    if (!src) return;
+
     previewImg.src = src;
     previewOverlay.classList.add("show");
     previewOverlay.setAttribute("aria-hidden", "false");
-    lockBody();
+
+    previewOverlay.style.pointerEvents = "auto";
+    previewOverlay.style.background = "rgba(5,12,20,.28)";
+    previewOverlay.style.backdropFilter = "blur(2px)";
+    previewOverlay.style.webkitBackdropFilter = "blur(2px)";
+
+    previewBox.style.position = "fixed";
+    previewBox.style.left = "50%";
+    previewBox.style.top = "50%";
+    previewBox.style.transform = "translate(-50%, -50%)";
+    previewBox.style.width = "min(86vw, 380px)";
+    previewBox.style.height = "min(86vw, 380px)";
+    previewBox.style.maxWidth = "380px";
+    previewBox.style.maxHeight = "380px";
+    previewBox.style.padding = "0";
+    previewBox.style.borderRadius = "22px";
+    previewBox.style.overflow = "hidden";
+    previewBox.style.background = "#fff";
+    previewBox.style.boxShadow = "0 22px 50px rgba(0,0,0,.22)";
+    previewBox.style.zIndex = "9999";
+
+    previewImg.style.width = "100%";
+    previewImg.style.height = "100%";
+    previewImg.style.maxWidth = "100%";
+    previewImg.style.maxHeight = "100%";
+    previewImg.style.objectFit = "cover";
+    previewImg.style.borderRadius = "22px";
+    previewImg.style.background = "#fff";
+
+    if (previewClose) previewClose.style.display = "grid";
   }
 
   function closePreview() {
-    if (!previewOverlay || !previewImg) return;
+    if (!previewOverlay || !previewImg || !previewBox) return;
 
     previewOverlay.classList.remove("show");
     previewOverlay.setAttribute("aria-hidden", "true");
+
     previewImg.src = "";
-    currentPreviewSource = "";
-    currentPreviewTarget = null;
+    activeHoverTarget = null;
     clearTimeout(hoverTimer);
+
+    previewOverlay.removeAttribute("style");
+    previewBox.removeAttribute("style");
+    previewImg.removeAttribute("style");
+    if (previewClose) previewClose.removeAttribute("style");
+
     unlockBody();
   }
 
-  function scheduleOpen(target, delay = 120) {
+  function scheduleHoverPreview(target, delay = 120) {
     clearTimeout(hoverTimer);
     hoverTimer = setTimeout(() => {
-      openPreview(target);
+      openHoverPreview(target);
     }, delay);
   }
 
-  // DESKTOP: abre ao passar o mouse
+  document.addEventListener("mousemove", (e) => {
+    pointerX = e.clientX;
+    pointerY = e.clientY;
+
+    if (previewOverlay?.classList.contains("show") && activeHoverTarget && !isMobile()) {
+      setDesktopPreviewPosition(pointerX, pointerY);
+    }
+  }, { passive: true });
+
   document.addEventListener("mouseover", (e) => {
+    if (isMobile()) return;
+
     const target = e.target.closest(previewSelectors);
     if (!target) return;
     if (isInteractiveChild(e.target)) return;
-    if (previewOverlay?.classList.contains("show")) return;
 
-    scheduleOpen(target, 120);
+    scheduleHoverPreview(target, 120);
   });
 
-  // se sair antes do tempo, cancela
   document.addEventListener("mouseout", (e) => {
+    if (isMobile()) return;
+
     const target = e.target.closest(previewSelectors);
     if (!target) return;
 
@@ -500,18 +615,22 @@ Mensagem: ${data.message || "-"}`;
     if (related && target.contains(related)) return;
 
     clearTimeout(hoverTimer);
+
+    if (activeHoverTarget === target) {
+      closePreview();
+    }
   });
 
-  // CELULAR + fallback geral: toca/clica para abrir
   document.addEventListener("click", (e) => {
-    if (previewOverlay?.classList.contains("show")) return;
-
     const target = e.target.closest(previewSelectors);
     if (!target) return;
     if (isInteractiveChild(e.target)) return;
 
+    if (!isMobile()) return;
+
     e.preventDefault();
-    openPreview(target);
+    e.stopPropagation();
+    openTapPreview(target);
   });
 
   if (previewClose) {
@@ -524,7 +643,9 @@ Mensagem: ${data.message || "-"}`;
 
   if (previewOverlay) {
     previewOverlay.addEventListener("click", (e) => {
-      if (e.target === previewOverlay) closePreview();
+      if (isMobile() && e.target === previewOverlay) {
+        closePreview();
+      }
     });
   }
 
@@ -535,8 +656,53 @@ Mensagem: ${data.message || "-"}`;
     }
   });
 
+  function normalizeSliderControls() {
+    if (heroControls) {
+      heroControls.style.left = "24px";
+      heroControls.style.right = "auto";
+      heroControls.style.bottom = isMobile() ? "18px" : "28px";
+      heroControls.style.zIndex = "20";
+    }
+
+    if (heroPrev) {
+      heroPrev.style.position = "relative";
+      heroPrev.style.zIndex = "21";
+    }
+
+    if (heroNext) {
+      heroNext.style.position = "relative";
+      heroNext.style.zIndex = "21";
+    }
+
+    if (projectSlider) {
+      projectSlider.style.position = "relative";
+      projectSlider.style.paddingLeft = isMobile() ? "0px" : "54px";
+      projectSlider.style.paddingRight = isMobile() ? "0px" : "54px";
+    }
+
+    if (projectPrev) {
+      projectPrev.style.position = "absolute";
+      projectPrev.style.left = isMobile() ? "-9999px" : "8px";
+      projectPrev.style.top = "50%";
+      projectPrev.style.transform = "translateY(-50%)";
+      projectPrev.style.zIndex = "30";
+    }
+
+    if (projectNext) {
+      projectNext.style.position = "absolute";
+      projectNext.style.right = isMobile() ? "-9999px" : "8px";
+      projectNext.style.top = "50%";
+      projectNext.style.transform = "translateY(-50%)";
+      projectNext.style.zIndex = "30";
+    }
+  }
+
+  normalizeSliderControls();
+  window.addEventListener("resize", normalizeSliderControls);
+
   window.addEventListener("load", () => {
     document.body.classList.add("site-loaded");
+    normalizeSliderControls();
   });
 
   document.addEventListener("visibilitychange", () => {
