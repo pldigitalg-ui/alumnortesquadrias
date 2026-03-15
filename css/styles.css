@@ -80,8 +80,7 @@ button,input,textarea{font:inherit}
 
 .topStrip{
   height:var(--top-strip);
-  background:
-    linear-gradient(90deg, #12385e 0%, #2a608e 62%, #f3b23c 140%);
+  background:linear-gradient(90deg, #12385e 0%, #2a608e 62%, #f3b23c 140%);
   color:#fff;
   font-size:12px;
   font-weight:700;
@@ -131,6 +130,7 @@ button,input,textarea{font:inherit}
   box-shadow:0 12px 24px rgba(31,78,121,.24);
   position:relative;
   overflow:hidden;
+  flex:0 0 auto;
 }
 
 .brandBadge::before{
@@ -138,8 +138,7 @@ button,input,textarea{font:inherit}
   position:absolute;
   inset:4px;
   border-radius:10px 14px 10px 14px;
-  background:
-    url("../img/logo.png") center/contain no-repeat;
+  background:url("../img/logo.png") center/contain no-repeat;
 }
 
 .brandBadge.small{
@@ -275,13 +274,11 @@ button,input,textarea{font:inherit}
 }
 
 .whiteSection{
-  background:
-    linear-gradient(180deg, #f8fbfe 0%, #eff5fa 100%);
+  background:linear-gradient(180deg, #f8fbfe 0%, #eff5fa 100%);
 }
 
 .darkSection{
-  background:
-    linear-gradient(180deg, #143556 0%, #0f2945 100%);
+  background:linear-gradient(180deg, #143556 0%, #0f2945 100%);
 }
 
 .sectionHead{
@@ -401,25 +398,25 @@ button,input,textarea{font:inherit}
 .heroBrandBox{
   display:inline-flex;
   align-items:center;
-  gap:14px;
+  gap:10px;
   align-self:flex-start;
   background:rgba(255,255,255,.94);
   color:var(--blue);
-  padding:10px 14px;
-  border-radius:0 0 20px 0;
+  padding:6px 10px;
+  border-radius:0 0 14px 0;
   box-shadow:var(--shadow-md);
   min-width:auto;
-  margin-bottom:6px;
-  border-left:4px solid var(--gold);
+  margin-bottom:8px;
+  border-left:3px solid var(--gold);
   backdrop-filter:blur(10px);
 }
 
 .heroBrandBox span{
-  width:42px;
-  height:42px;
+  width:30px;
+  height:30px;
   display:grid;
   place-items:center;
-  border-radius:10px;
+  border-radius:8px;
   background:
     linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.02)),
     linear-gradient(135deg, var(--blue-3) 0%, var(--blue) 100%);
@@ -428,19 +425,19 @@ button,input,textarea{font:inherit}
   font-size:0;
   position:relative;
   overflow:hidden;
-  flex:0 0 auto;
+  flex:0 0 30px;
 }
 
 .heroBrandBox span::before{
   content:"";
   position:absolute;
-  inset:4px;
+  inset:3px;
   background:url("../img/logo.png") center/contain no-repeat;
 }
 
 .heroBrandBox strong{
-  font-size:17px;
-  letter-spacing:.08em;
+  font-size:12px;
+  letter-spacing:.05em;
   text-transform:uppercase;
   font-weight:900;
   color:#173451;
@@ -471,12 +468,38 @@ button,input,textarea{font:inherit}
   font-weight:500;
 }
 
+.heroBenefits{
+  margin:18px 0 0;
+  padding:0;
+  list-style:none;
+  display:grid;
+  gap:10px;
+  color:#fff;
+  max-width:560px;
+}
+
+.heroBenefits li{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  font-weight:700;
+  line-height:1.5;
+  color:rgba(255,255,255,.95);
+}
+
+.heroBenefits li::before{
+  content:"✓";
+  color:#ffd36b;
+  font-weight:900;
+  flex:0 0 auto;
+}
+
 .heroButtons{
   display:flex;
   flex-wrap:wrap;
   align-items:center;
   gap:14px;
-  margin-top:12px;
+  margin-top:18px;
 }
 
 .ctaPrimary,
@@ -580,7 +603,54 @@ button,input,textarea{font:inherit}
 }
 
 /* =========================
-   PARTNERS / DIFERENCIAIS
+   AUTHORITY
+========================= */
+.authoritySection{
+  background:linear-gradient(180deg,#ffffff 0%,#f4f8fc 100%);
+  padding:26px 0 18px;
+  border-top:1px solid rgba(14,39,66,.08);
+  border-bottom:1px solid rgba(14,39,66,.08);
+}
+
+.authorityGrid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+}
+
+.authorityCard{
+  background:#fff;
+  border:1px solid rgba(14,39,66,.08);
+  border-radius:22px;
+  padding:22px;
+  box-shadow:0 10px 24px rgba(12,34,58,.06);
+  text-align:center;
+  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.authorityCard:hover{
+  transform:translateY(-4px);
+  box-shadow:0 18px 34px rgba(12,34,58,.10);
+  border-color:rgba(243,178,60,.22);
+}
+
+.authorityCard strong{
+  display:block;
+  font-size:34px;
+  line-height:1;
+  color:#12385e;
+  margin-bottom:8px;
+}
+
+.authorityCard span{
+  color:#5f7386;
+  font-size:14px;
+  line-height:1.5;
+  font-weight:700;
+}
+
+/* =========================
+   PARTNERS
 ========================= */
 .partnersGrid{
   display:grid;
@@ -626,8 +696,7 @@ button,input,textarea{font:inherit}
 .partnerOverlay{
   position:absolute;
   inset:0;
-  background:
-    linear-gradient(180deg, rgba(17,50,81,.05) 0%, rgba(10,27,45,.24) 45%, rgba(10,27,45,.82) 100%);
+  background:linear-gradient(180deg, rgba(17,50,81,.05) 0%, rgba(10,27,45,.24) 45%, rgba(10,27,45,.82) 100%);
   z-index:1;
 }
 
@@ -709,8 +778,7 @@ button,input,textarea{font:inherit}
   content:"";
   position:absolute;
   inset:0;
-  background:
-    linear-gradient(180deg, rgba(255,166,0,.05) 0%, rgba(4,14,24,.08) 28%, rgba(4,14,24,.78) 100%);
+  background:linear-gradient(180deg, rgba(255,166,0,.05) 0%, rgba(4,14,24,.08) 28%, rgba(4,14,24,.78) 100%);
 }
 
 .projectCardContent{
@@ -720,6 +788,19 @@ button,input,textarea{font:inherit}
   bottom:24px;
   z-index:2;
   color:#fff;
+}
+
+.projectMiniTag{
+  display:inline-flex;
+  align-items:center;
+  padding:7px 12px;
+  border-radius:999px;
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.18);
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:10px;
+  backdrop-filter:blur(8px);
 }
 
 .projectCardContent h3{
@@ -1111,6 +1192,54 @@ button,input,textarea{font:inherit}
   gap:12px;
 }
 
+.contactExtraGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:28px;
+  margin-top:28px;
+}
+
+.contactMapCard,
+.contactSeoCard{
+  background:linear-gradient(180deg,#fff 0%,#f8fbfe 100%);
+  border:1px solid rgba(31,78,121,.08);
+  border-radius:30px;
+  padding:22px;
+  box-shadow:0 18px 42px rgba(12,34,58,.10);
+}
+
+.contactMapCard h3,
+.contactSeoCard h3{
+  margin:0 0 12px;
+  color:#143556;
+  font-size:28px;
+  line-height:1.05;
+}
+
+.contactMapCard p,
+.contactSeoCard p{
+  margin:0 0 16px;
+  color:#5f7386;
+  line-height:1.75;
+}
+
+.mapFrame{
+  width:100%;
+  height:340px;
+  border:0;
+  border-radius:22px;
+}
+
+.seoList{
+  margin:0;
+  padding-left:18px;
+  display:grid;
+  gap:8px;
+  color:#3f5467;
+  line-height:1.7;
+  font-weight:600;
+}
+
 /* =========================
    MODAL
 ========================= */
@@ -1407,6 +1536,7 @@ button,input,textarea{font:inherit}
 .serviceBigCard,
 .testimonialCard,
 .statBox,
+.authorityCard,
 .footerTop,
 .footerLinks{
   animation:fadeUpSoft .8s ease both;
@@ -1416,20 +1546,23 @@ button,input,textarea{font:inherit}
 .projectCard:nth-child(2),
 .serviceBigCard:nth-child(2),
 .testimonialCard:nth-child(2),
-.statBox:nth-child(2){
+.statBox:nth-child(2),
+.authorityCard:nth-child(2){
   animation-delay:.08s;
 }
 
 .partnerCard:nth-child(3),
 .serviceBigCard:nth-child(3),
 .testimonialCard:nth-child(3),
-.statBox:nth-child(3){
+.statBox:nth-child(3),
+.authorityCard:nth-child(3){
   animation-delay:.14s;
 }
 
 .partnerCard:nth-child(4),
 .serviceBigCard:nth-child(4),
-.statBox:nth-child(4){
+.statBox:nth-child(4),
+.authorityCard:nth-child(4){
   animation-delay:.2s;
 }
 
@@ -1473,6 +1606,8 @@ button,input,textarea{font:inherit}
   .partnersGrid{grid-template-columns:repeat(2,1fr)}
   .servicesGrid{grid-template-columns:repeat(2,1fr)}
   .testimonialsGrid{grid-template-columns:1fr}
+  .authorityGrid{grid-template-columns:repeat(2,1fr)}
+  .contactExtraGrid{grid-template-columns:1fr}
   .footerTop,
   .footerLinks,
   .contactGrid,
@@ -1504,7 +1639,7 @@ button,input,textarea{font:inherit}
   }
 
   .heroBrandBox strong{
-    font-size:16px;
+    font-size:12px;
   }
 
   .projectArrow.left{left:8px}
@@ -1552,7 +1687,7 @@ button,input,textarea{font:inherit}
     justify-content:center !important;
     padding:18px 0 34px !important;
   }
-@media (max-width: 700px){
+
   .heroBrandBox{
     gap:8px;
     padding:5px 8px;
@@ -1581,8 +1716,19 @@ button,input,textarea{font:inherit}
     max-width:30ch !important;
   }
 
+  .heroBenefits{
+    gap:8px;
+    margin-top:14px;
+  }
+
+  .heroBenefits li{
+    font-size:13px;
+  }
+
   .heroButtons{
     gap:10px;
+    flex-direction:column;
+    align-items:flex-start;
   }
 
   .ctaPrimary,
@@ -1600,7 +1746,8 @@ button,input,textarea{font:inherit}
   .partnersGrid,
   .servicesGrid,
   .aboutStats,
-  .footerLinks{
+  .footerLinks,
+  .authorityGrid{
     grid-template-columns:1fr;
   }
 
@@ -1626,8 +1773,19 @@ button,input,textarea{font:inherit}
 
   .contactForm,
   .contactInfoPanel,
-  .modalBody{
+  .modalBody,
+  .contactMapCard,
+  .contactSeoCard{
     padding:18px;
+  }
+
+  .contactMapCard h3,
+  .contactSeoCard h3{
+    font-size:24px;
+  }
+
+  .mapFrame{
+    height:280px;
   }
 
   .twoCols{
