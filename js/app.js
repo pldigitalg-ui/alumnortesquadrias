@@ -44,27 +44,17 @@
   const WHATSAPP = "553899658215";
   const COMPANY_EMAIL = "contato@alumnorte.com.br";
   const COMPANY_NAME = "Alumnorte";
-  const COMPANY_INSTAGRAM = "https://www.instagram.com/alumnortesquadrias_de_aluminio/";
 
   const year = $("#year");
   if (year) year.textContent = new Date().getFullYear();
 
-  // =========================
-  // HEADER
-  // =========================
   const topbar = $("#topbar");
-
   function updateHeader() {
-    if (!topbar) return;
-    topbar.classList.toggle("scrolled", window.scrollY > 80);
+    if (topbar) topbar.classList.toggle("scrolled", window.scrollY > 80);
   }
-
   updateHeader();
   window.addEventListener("scroll", updateHeader, { passive: true });
 
-  // =========================
-  // MOBILE MENU
-  // =========================
   const menuToggle = $("#menuToggle");
   const mobileMenu = $("#mobileMenu");
 
@@ -79,17 +69,12 @@
     });
 
     document.addEventListener("click", (e) => {
-      const clickedInsideMenu = mobileMenu.contains(e.target);
-      const clickedToggle = menuToggle.contains(e.target);
-      if (!clickedInsideMenu && !clickedToggle) {
+      if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
         mobileMenu.classList.remove("show");
       }
     });
   }
 
-  // =========================
-  // HERO
-  // =========================
   const heroTrack = $("#heroTrack");
   const heroDots = $("#heroDots");
   const heroTitle = $("#heroTitle");
@@ -105,7 +90,11 @@
 
     heroTrack.innerHTML = HERO_SLIDES.map((slide, i) => `
       <div class="heroSlide ${i === 0 ? "active" : ""}" data-index="${i}">
-        <img src="${slide.img}" alt="${slide.title}" ${i === 0 ? 'fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"'}>
+        <img
+          src="${slide.img}"
+          alt="${slide.title}"
+          ${i === 0 ? 'fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"'}
+        >
       </div>
     `).join("");
 
@@ -113,7 +102,14 @@
       <button class="heroDot ${i === 0 ? "active" : ""}" data-index="${i}" type="button" aria-label="Ir para slide ${i + 1}"></button>
     `).join("");
 
-    bindHeroDots();
+    $$(".heroDot", heroDots).forEach((dot) => {
+      dot.addEventListener("click", () => {
+        heroIndex = Number(dot.dataset.index);
+        updateHero();
+        restartHeroTimer();
+      });
+    });
+
     updateHero();
   }
 
@@ -126,16 +122,6 @@
 
     if (heroTitle) heroTitle.textContent = HERO_SLIDES[heroIndex].title;
     if (heroDesc) heroDesc.textContent = HERO_SLIDES[heroIndex].desc;
-  }
-
-  function bindHeroDots() {
-    $$(".heroDot", heroDots).forEach((dot) => {
-      dot.addEventListener("click", () => {
-        heroIndex = Number(dot.dataset.index);
-        updateHero();
-        restartHeroTimer();
-      });
-    });
   }
 
   function nextHero() {
@@ -154,6 +140,7 @@
   }
 
   function restartHeroTimer() {
+    clearInterval(heroTimer);
     startHeroTimer();
   }
 
@@ -163,9 +150,6 @@
   renderHero();
   startHeroTimer();
 
-  // =========================
-  // PROJECTS
-  // =========================
   const projectTrack = $("#projectTrack");
   const projectIndicators = $("#projectIndicators");
   const projectPrev = $("#projectPrev");
@@ -198,7 +182,13 @@
       <button class="projectIndicator ${i === 0 ? "active" : ""}" data-index="${i}" type="button" aria-label="Ir para página ${i + 1}"></button>
     `).join("");
 
-    bindProjectIndicators();
+    $$(".projectIndicator", projectIndicators).forEach((dot) => {
+      dot.addEventListener("click", () => {
+        projectIndex = Number(dot.dataset.index);
+        updateProjects();
+      });
+    });
+
     updateProjects();
   }
 
@@ -209,15 +199,6 @@
 
     $$(".projectIndicator", projectIndicators).forEach((dot, i) => {
       dot.classList.toggle("active", i === projectIndex);
-    });
-  }
-
-  function bindProjectIndicators() {
-    $$(".projectIndicator", projectIndicators).forEach((dot) => {
-      dot.addEventListener("click", () => {
-        projectIndex = Number(dot.dataset.index);
-        updateProjects();
-      });
     });
   }
 
@@ -237,16 +218,13 @@
 
   renderProjects();
 
-  // =========================
-  // ACTIVE MENU
-  // =========================
   const menuLinks = $$(".navMenu a, .mobileMenu a");
   const sections = ["inicio", "quem-somos", "servicos", "projetos", "parceiros", "depoimentos", "contato"]
     .map((id) => document.getElementById(id))
     .filter(Boolean);
 
   function updateActiveMenu() {
-    const scrollY = window.scrollY + 140;
+    const scrollY = window.scrollY + 160;
     let currentId = "inicio";
 
     sections.forEach((sec) => {
@@ -262,16 +240,10 @@
   window.addEventListener("scroll", updateActiveMenu, { passive: true });
   updateActiveMenu();
 
-  // =========================
-  // BACK TO TOP
-  // =========================
   const backToTop = $("#backToTop");
-
   function updateBackToTop() {
-    if (!backToTop) return;
-    backToTop.classList.toggle("show", window.scrollY > 500);
+    if (backToTop) backToTop.classList.toggle("show", window.scrollY > 500);
   }
-
   window.addEventListener("scroll", updateBackToTop, { passive: true });
   updateBackToTop();
 
@@ -281,19 +253,12 @@
     });
   }
 
-  // =========================
-  // FLOAT WHATS
-  // =========================
   const floatWhats = $("#floatWhats");
-
   if (floatWhats) {
     const msg = `Olá! Vim pelo site da ${COMPANY_NAME} e quero solicitar um orçamento.`;
     floatWhats.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
   }
 
-  // =========================
-  // FORM HELPERS
-  // =========================
   function buildWhatsappText(data) {
     return `Olá! Vim pelo site da ${COMPANY_NAME}.
 
@@ -337,8 +302,7 @@ Mensagem: ${data.message || "-"}`;
 
   function sendEmail(data) {
     const subject = `Orçamento - ${COMPANY_NAME}`;
-    const body =
-`Nome: ${data.name || "-"}
+    const body = `Nome: ${data.name || "-"}
 E-mail: ${data.email || "-"}
 WhatsApp: ${data.phone || "-"}
 Cidade/Bairro: ${data.place || "-"}
@@ -360,9 +324,6 @@ Mensagem: ${data.message || "-"}`;
     sendEmailBtn.addEventListener("click", () => sendEmail(getMainFormData()));
   }
 
-  // =========================
-  // MODAL
-  // =========================
   const budgetModal = $("#budgetModal");
   const openBudgetModal = $("#openBudgetModal");
   const openBudgetModalTop = $("#openBudgetModalTop");
@@ -404,9 +365,6 @@ Mensagem: ${data.message || "-"}`;
     if (e.key === "Escape") closeModal();
   });
 
-  // =========================
-  // OTIMIZAÇÃO DE CARREGAMENTO
-  // =========================
   window.addEventListener("load", () => {
     document.body.classList.add("site-loaded");
   });
