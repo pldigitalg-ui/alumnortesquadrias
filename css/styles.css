@@ -102,10 +102,10 @@ button,input,textarea{font:inherit}
 
 .navInner{
   min-height:var(--nav-h);
-  display:flex;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
   align-items:center;
-  justify-content:space-between;
-  gap:18px;
+  gap:22px;
 }
 
 .brandMark{
@@ -113,11 +113,12 @@ button,input,textarea{font:inherit}
   align-items:center;
   gap:12px;
   flex:0 0 auto;
+  min-width:0;
 }
 
 .brandBadge{
-  width:56px;
-  height:42px;
+  width:54px;
+  height:40px;
   border-radius:12px 16px 12px 16px;
   background:
     linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.02)),
@@ -150,29 +151,36 @@ button,input,textarea{font:inherit}
   inset:3px;
 }
 
+.brandName{
+  min-width:0;
+}
+
 .brandName strong{
-  font-size:28px;
-  letter-spacing:.035em;
+  display:block;
+  font-size:24px;
+  letter-spacing:.03em;
   color:var(--blue);
   font-weight:900;
+  line-height:1;
 }
 
 .navMenu{
   display:flex;
   align-items:center;
-  gap:28px;
-  flex:1 1 auto;
   justify-content:center;
+  gap:18px;
   min-width:0;
+  flex-wrap:nowrap;
 }
 
 .navMenu a{
-  font-size:15px;
+  font-size:14px;
   font-weight:800;
   color:#294862;
   position:relative;
   white-space:nowrap;
   transition:color .22s ease, opacity .22s ease;
+  padding:6px 0;
 }
 
 .navMenu a:hover{
@@ -183,7 +191,7 @@ button,input,textarea{font:inherit}
   content:"";
   position:absolute;
   left:0;
-  bottom:-9px;
+  bottom:-6px;
   width:0;
   height:3px;
   border-radius:999px;
@@ -199,17 +207,20 @@ button,input,textarea{font:inherit}
 .navActions{
   display:flex;
   align-items:center;
-  gap:12px;
+  justify-content:flex-end;
+  gap:10px;
   flex:0 0 auto;
 }
 
 .navBtn{
-  min-height:46px;
-  padding:12px 18px;
+  min-height:42px;
+  padding:10px 16px;
   border-radius:999px;
   font-weight:800;
+  font-size:13px;
   border:1px solid rgba(31,78,121,.12);
   transition:transform .22s ease, box-shadow .22s ease, background .22s ease;
+  white-space:nowrap;
 }
 
 .navBtn.ghost{
@@ -338,8 +349,8 @@ button,input,textarea{font:inherit}
 ========================= */
 .heroSection{
   position:relative;
-  height:100vh;
   min-height:760px;
+  height:100vh;
   background:#12385e;
 }
 
@@ -362,11 +373,13 @@ button,input,textarea{font:inherit}
   transform:scale(1.02);
   transition:opacity .7s ease, transform 1.8s ease;
   will-change:opacity, transform;
+  pointer-events:none;
 }
 
 .heroSlide.active{
   opacity:1;
   transform:scale(1);
+  pointer-events:auto;
 }
 
 .heroSlide img{
@@ -380,7 +393,7 @@ button,input,textarea{font:inherit}
   position:absolute;
   inset:0;
   background:
-    linear-gradient(90deg, rgba(7,24,41,.76) 0%, rgba(16,49,81,.50) 42%, rgba(27,74,115,.18) 100%),
+    linear-gradient(90deg, rgba(7,24,41,.78) 0%, rgba(16,49,81,.52) 42%, rgba(27,74,115,.14) 100%),
     linear-gradient(180deg, rgba(255,163,36,.08) 0%, rgba(9,24,40,.28) 100%);
   z-index:2;
 }
@@ -388,11 +401,13 @@ button,input,textarea{font:inherit}
 .heroContent{
   position:relative;
   z-index:3;
-  height:100%;
+  min-height:100%;
   display:flex;
   flex-direction:column;
   justify-content:center;
-  gap:16px;
+  align-items:flex-start;
+  gap:18px;
+  padding:122px 0 120px;
 }
 
 .heroBrandBox{
@@ -405,8 +420,7 @@ button,input,textarea{font:inherit}
   padding:6px 10px;
   border-radius:0 0 14px 0;
   box-shadow:var(--shadow-md);
-  min-width:auto;
-  margin-bottom:8px;
+  margin-bottom:4px;
   border-left:3px solid var(--gold);
   backdrop-filter:blur(10px);
 }
@@ -444,32 +458,32 @@ button,input,textarea{font:inherit}
 }
 
 .heroText{
-  max-width:760px;
+  max-width:650px;
 }
 
 .heroText h1{
-  margin:10px 0 0;
+  margin:8px 0 0;
   color:#fff;
   font-family:"Cormorant Garamond", serif;
   font-weight:700;
-  font-size:clamp(30px, 4vw, 54px);
+  font-size:clamp(34px, 4.2vw, 58px);
   line-height:.96;
   letter-spacing:-.8px;
-  max-width:11ch;
+  max-width:12ch;
   text-shadow:0 8px 24px rgba(0,0,0,.18);
 }
 
 .heroText p{
-  margin:16px 0 0;
+  margin:18px 0 0;
   color:rgba(255,255,255,.95);
-  font-size:14.5px;
-  line-height:1.7;
-  max-width:40ch;
+  font-size:15px;
+  line-height:1.78;
+  max-width:42ch;
   font-weight:500;
 }
 
 .heroBenefits{
-  margin:18px 0 0;
+  margin:20px 0 0;
   padding:0;
   list-style:none;
   display:grid;
@@ -483,8 +497,9 @@ button,input,textarea{font:inherit}
   align-items:flex-start;
   gap:10px;
   font-weight:700;
-  line-height:1.5;
+  line-height:1.55;
   color:rgba(255,255,255,.95);
+  font-size:14px;
 }
 
 .heroBenefits li::before{
@@ -499,7 +514,9 @@ button,input,textarea{font:inherit}
   flex-wrap:wrap;
   align-items:center;
   gap:14px;
-  margin-top:18px;
+  margin-top:26px;
+  position:relative;
+  z-index:3;
 }
 
 .ctaPrimary,
@@ -551,10 +568,11 @@ button,input,textarea{font:inherit}
 .heroControls{
   position:absolute;
   left:0;
-  bottom:42px;
+  bottom:38px;
   display:flex;
   align-items:center;
   gap:14px;
+  z-index:4;
 }
 
 .heroArrow{
@@ -655,18 +673,18 @@ button,input,textarea{font:inherit}
 .partnersGrid{
   display:grid;
   grid-template-columns:repeat(4, 1fr);
-  gap:24px;
+  gap:22px;
 }
 
 .partnerCard{
   position:relative;
-  min-height:400px;
-  border-radius:30px;
+  min-height:420px;
+  border-radius:28px;
   overflow:hidden;
   box-shadow:var(--shadow-md);
   background-size:cover;
   background-position:center;
-  transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+  transition:transform .28s ease, box-shadow .28s ease;
   will-change:transform, opacity;
   isolation:isolate;
 }
@@ -696,34 +714,36 @@ button,input,textarea{font:inherit}
 .partnerOverlay{
   position:absolute;
   inset:0;
-  background:linear-gradient(180deg, rgba(17,50,81,.05) 0%, rgba(10,27,45,.24) 45%, rgba(10,27,45,.82) 100%);
+  background:linear-gradient(180deg, rgba(17,50,81,.04) 0%, rgba(10,27,45,.16) 44%, rgba(10,27,45,.74) 100%);
   z-index:1;
 }
 
 .partnerContent{
   position:absolute;
-  left:22px;
-  right:22px;
-  bottom:22px;
+  left:18px;
+  right:18px;
+  bottom:18px;
   z-index:2;
   color:#fff;
-  background:linear-gradient(180deg, rgba(12,34,58,.10), rgba(12,34,58,.34));
-  border:1px solid rgba(255,255,255,.10);
+  background:linear-gradient(180deg, rgba(12,34,58,.08), rgba(12,34,58,.26));
+  border:1px solid rgba(255,255,255,.08);
   backdrop-filter:blur(8px);
-  border-radius:22px;
-  padding:18px 18px 16px;
+  border-radius:18px;
+  padding:16px 16px 14px;
+  max-height:48%;
+  overflow:auto;
 }
 
 .partnerContent h3{
   margin:0 0 8px;
-  font-size:22px;
+  font-size:20px;
   line-height:1.08;
 }
 
 .partnerContent p{
   margin:0;
-  font-size:13.5px;
-  line-height:1.62;
+  font-size:12.8px;
+  line-height:1.58;
   color:rgba(255,255,255,.92);
 }
 
@@ -732,6 +752,7 @@ button,input,textarea{font:inherit}
 ========================= */
 .projectSlider{
   position:relative;
+  padding:0 34px;
 }
 
 .projectViewport{
@@ -747,6 +768,7 @@ button,input,textarea{font:inherit}
 
 .projectSlide{
   min-width:100%;
+  flex:0 0 100%;
   display:grid;
   grid-template-columns:repeat(2, 1fr);
   gap:24px;
@@ -754,12 +776,12 @@ button,input,textarea{font:inherit}
 
 .projectCard{
   position:relative;
-  min-height:480px;
+  min-height:460px;
   border-radius:28px;
   overflow:hidden;
   box-shadow:var(--shadow-lg);
   background:#1b2b3d;
-  transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+  transition:transform .28s ease, box-shadow .28s ease;
   will-change:transform, opacity;
 }
 
@@ -805,13 +827,13 @@ button,input,textarea{font:inherit}
 
 .projectCardContent h3{
   margin:0 0 10px;
-  font-size:30px;
+  font-size:28px;
   line-height:1.06;
 }
 
 .projectCardContent p{
   margin:0;
-  font-size:15px;
+  font-size:14px;
   line-height:1.7;
   color:rgba(255,255,255,.92);
 }
@@ -820,8 +842,8 @@ button,input,textarea{font:inherit}
   position:absolute;
   top:50%;
   transform:translateY(-50%);
-  width:58px;
-  height:58px;
+  width:54px;
+  height:54px;
   border:none;
   border-radius:50%;
   background:rgba(255,255,255,.94);
@@ -839,8 +861,8 @@ button,input,textarea{font:inherit}
   transform:translateY(-50%) scale(1.04);
 }
 
-.projectArrow.left{left:-18px}
-.projectArrow.right{right:-18px}
+.projectArrow.left{left:0}
+.projectArrow.right{right:0}
 
 .projectIndicators{
   margin-top:22px;
@@ -854,14 +876,15 @@ button,input,textarea{font:inherit}
   height:14px;
   border:none;
   border-radius:999px;
-  background:rgba(255,255,255,.26);
+  background:rgba(31,78,121,.18);
   cursor:pointer;
   flex:0 0 auto;
+  transition:.22s ease;
 }
 
 .projectIndicator.active{
   width:44px;
-  background:linear-gradient(90deg, var(--gold-3), #fff);
+  background:linear-gradient(90deg, var(--gold), var(--blue-3));
 }
 
 /* =========================
@@ -1110,13 +1133,14 @@ button,input,textarea{font:inherit}
 }
 
 .openModalBtn{
-  min-height:54px;
+  min-height:50px;
   border:none;
   border-radius:999px;
   background:linear-gradient(135deg, var(--gold) 0%, var(--gold-2) 100%);
   color:#fff;
   font-weight:900;
-  padding:14px 20px;
+  font-size:14px;
+  padding:12px 18px;
   cursor:pointer;
   position:relative;
   z-index:1;
@@ -1602,7 +1626,19 @@ button,input,textarea{font:inherit}
    RESPONSIVE
 ========================= */
 @media (max-width: 1180px){
-  .navMenu{gap:18px}
+  .navInner{
+    grid-template-columns:auto 1fr auto;
+    gap:16px;
+  }
+
+  .navMenu{
+    gap:12px;
+  }
+
+  .navMenu a{
+    font-size:13px;
+  }
+
   .partnersGrid{grid-template-columns:repeat(2,1fr)}
   .servicesGrid{grid-template-columns:repeat(2,1fr)}
   .testimonialsGrid{grid-template-columns:1fr}
@@ -1642,8 +1678,12 @@ button,input,textarea{font:inherit}
     font-size:12px;
   }
 
-  .projectArrow.left{left:8px}
-  .projectArrow.right{right:8px}
+  .projectSlider{
+    padding:0 18px;
+  }
+
+  .projectArrow.left{left:0}
+  .projectArrow.right{right:0}
   .projectCard{min-height:400px}
 }
 
@@ -1662,6 +1702,7 @@ button,input,textarea{font:inherit}
 
   .navInner{
     min-height:74px;
+    grid-template-columns:1fr auto;
   }
 
   .brandName strong{
@@ -1685,7 +1726,7 @@ button,input,textarea{font:inherit}
   .heroContent{
     min-height:560px !important;
     justify-content:center !important;
-    padding:18px 0 34px !important;
+    padding:86px 0 34px !important;
   }
 
   .heroBrandBox{
@@ -1701,6 +1742,10 @@ button,input,textarea{font:inherit}
 
   .heroBrandBox strong{
     font-size:11px;
+  }
+
+  .heroText{
+    max-width:100%;
   }
 
   .heroText h1{
@@ -1742,6 +1787,14 @@ button,input,textarea{font:inherit}
     display:none !important;
   }
 
+  .projectSlider{
+    padding:0;
+  }
+
+  .projectArrow{
+    display:none;
+  }
+
   .projectSlide,
   .partnersGrid,
   .servicesGrid,
@@ -1753,6 +1806,10 @@ button,input,textarea{font:inherit}
 
   .partnerCard{
     min-height:360px;
+  }
+
+  .partnerContent{
+    max-height:none;
   }
 
   .serviceBigCard{
