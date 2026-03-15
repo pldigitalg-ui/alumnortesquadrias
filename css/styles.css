@@ -364,11 +364,15 @@ button,input,textarea{font:inherit}
 .heroTrack{
   position:absolute;
   inset:0;
+  width:100%;
+  height:100%;
 }
 
 .heroSlide{
   position:absolute;
   inset:0;
+  width:100%;
+  height:100%;
   opacity:0;
   transform:scale(1.02);
   transition:opacity .7s ease, transform 1.8s ease;
@@ -396,18 +400,19 @@ button,input,textarea{font:inherit}
     linear-gradient(90deg, rgba(7,24,41,.78) 0%, rgba(16,49,81,.52) 42%, rgba(27,74,115,.14) 100%),
     linear-gradient(180deg, rgba(255,163,36,.08) 0%, rgba(9,24,40,.28) 100%);
   z-index:2;
+  pointer-events:none;
 }
 
 .heroContent{
   position:relative;
-  z-index:3;
+  z-index:5;
   min-height:100%;
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:flex-start;
   gap:18px;
-  padding:122px 0 120px;
+  padding:122px 0 150px;
 }
 
 .heroBrandBox{
@@ -516,7 +521,7 @@ button,input,textarea{font:inherit}
   gap:14px;
   margin-top:26px;
   position:relative;
-  z-index:3;
+  z-index:6;
 }
 
 .ctaPrimary,
@@ -567,20 +572,20 @@ button,input,textarea{font:inherit}
 
 .heroControls{
   position:absolute;
-  left:0;
-  bottom:38px;
+  left:24px;
+  bottom:28px;
   display:flex;
   align-items:center;
   gap:14px;
-  z-index:4;
+  z-index:7;
 }
 
 .heroArrow{
-  width:52px;
-  height:52px;
+  width:54px;
+  height:54px;
   border:none;
   border-radius:50%;
-  background:rgba(255,255,255,.14);
+  background:rgba(255,255,255,.18);
   color:#fff;
   font-size:22px;
   font-weight:900;
@@ -589,6 +594,7 @@ button,input,textarea{font:inherit}
   backdrop-filter:blur(8px);
   flex:0 0 auto;
   transition:transform .22s ease, background .22s ease, box-shadow .22s ease;
+  box-shadow:0 12px 28px rgba(0,0,0,.18);
 }
 
 .heroArrow:hover{
@@ -699,11 +705,16 @@ button,input,textarea{font:inherit}
   transform:scale(1.02);
   filter:contrast(1.12) saturate(1.10) brightness(.98);
   z-index:0;
+  transition:transform .35s ease;
 }
 
 .partnerCard:hover{
   transform:translateY(-6px);
   box-shadow:0 24px 48px rgba(20,53,86,.18);
+}
+
+.partnerCard:hover::before{
+  transform:scale(1.04);
 }
 
 .partnerCardA{background-image:url("../img/parceiro-1.jpg")}
@@ -716,6 +727,7 @@ button,input,textarea{font:inherit}
   inset:0;
   background:linear-gradient(180deg, rgba(17,50,81,.04) 0%, rgba(10,27,45,.16) 44%, rgba(10,27,45,.74) 100%);
   z-index:1;
+  pointer-events:none;
 }
 
 .partnerContent{
@@ -752,18 +764,20 @@ button,input,textarea{font:inherit}
 ========================= */
 .projectSlider{
   position:relative;
-  padding:0 34px;
+  padding:0 64px;
 }
 
 .projectViewport{
   overflow:hidden;
   border-radius:34px;
+  position:relative;
 }
 
 .projectTrack{
   display:flex;
   transition:transform .55s ease;
   will-change:transform;
+  position:relative;
 }
 
 .projectSlide{
@@ -794,6 +808,11 @@ button,input,textarea{font:inherit}
   height:100%;
   object-fit:cover;
   filter:contrast(1.08) saturate(1.08);
+  transition:transform .35s ease;
+}
+
+.projectCard:hover img{
+  transform:scale(1.02);
 }
 
 .projectCard::after{
@@ -801,6 +820,7 @@ button,input,textarea{font:inherit}
   position:absolute;
   inset:0;
   background:linear-gradient(180deg, rgba(255,166,0,.05) 0%, rgba(4,14,24,.08) 28%, rgba(4,14,24,.78) 100%);
+  pointer-events:none;
 }
 
 .projectCardContent{
@@ -842,16 +862,16 @@ button,input,textarea{font:inherit}
   position:absolute;
   top:50%;
   transform:translateY(-50%);
-  width:54px;
-  height:54px;
+  width:56px;
+  height:56px;
   border:none;
   border-radius:50%;
-  background:rgba(255,255,255,.94);
+  background:rgba(255,255,255,.96);
   color:#173451;
-  box-shadow:var(--shadow-md);
+  box-shadow:0 18px 36px rgba(12,34,58,.18);
   font-size:24px;
   font-weight:900;
-  z-index:4;
+  z-index:10;
   cursor:pointer;
   transition:transform .22s ease, background .22s ease, box-shadow .22s ease;
 }
@@ -869,6 +889,8 @@ button,input,textarea{font:inherit}
   display:flex;
   justify-content:center;
   gap:10px;
+  position:relative;
+  z-index:5;
 }
 
 .projectIndicator{
@@ -919,6 +941,11 @@ button,input,textarea{font:inherit}
   border-radius:30px;
   box-shadow:var(--shadow-lg);
   filter:contrast(1.05) saturate(1.04);
+  transition:transform .35s ease;
+}
+
+.aboutImage:hover img{
+  transform:scale(1.02);
 }
 
 .aboutStats{
@@ -984,12 +1011,18 @@ button,input,textarea{font:inherit}
   height:100%;
   object-fit:cover;
   filter:contrast(1.08) saturate(1.08);
+  transition:transform .35s ease;
+}
+
+.serviceBigCard:hover img{
+  transform:scale(1.02);
 }
 
 .serviceBigOverlay{
   position:absolute;
   inset:0;
   background:linear-gradient(180deg, rgba(18,56,94,.08) 24%, rgba(8,22,38,.82) 100%);
+  pointer-events:none;
 }
 
 .serviceBigContent{
@@ -1623,6 +1656,72 @@ button,input,textarea{font:inherit}
 }
 
 /* =========================
+   IMAGE PREVIEW
+========================= */
+.imagePreviewOverlay{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  background:transparent;
+  z-index:9999;
+  pointer-events:none;
+}
+
+.imagePreviewOverlay.show{
+  display:flex;
+}
+
+.imagePreviewBox{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.imagePreviewBox img,
+#imagePreviewImg{
+  display:block;
+  width:auto;
+  max-width:100%;
+  max-height:100%;
+  object-fit:cover;
+  border-radius:22px;
+  background:#fff;
+  box-shadow:0 22px 50px rgba(0,0,0,.22);
+}
+
+.imagePreviewClose{
+  position:fixed;
+  top:14px;
+  right:14px;
+  width:46px;
+  height:46px;
+  border:none;
+  border-radius:50%;
+  display:none;
+  place-items:center;
+  background:rgba(15,35,54,.68);
+  color:#fff;
+  font-size:26px;
+  font-weight:700;
+  cursor:pointer;
+  z-index:10000;
+}
+
+.aboutImage,
+.aboutImage img,
+.serviceBigCard,
+.serviceBigCard img,
+.projectCard,
+.projectCard img,
+.partnerCard{
+  cursor:zoom-in;
+}
+
+/* =========================
    RESPONSIVE
 ========================= */
 @media (max-width: 1180px){
@@ -1652,6 +1751,7 @@ button,input,textarea{font:inherit}
   .modalGrid{
     grid-template-columns:1fr;
   }
+
   .aboutStats{grid-template-columns:repeat(2,1fr)}
   .projectSlide{grid-template-columns:1fr 1fr}
 }
@@ -1682,8 +1782,8 @@ button,input,textarea{font:inherit}
     padding:0 18px;
   }
 
-  .projectArrow.left{left:0}
-  .projectArrow.right{right:0}
+  .projectArrow.left{left:2px}
+  .projectArrow.right{right:2px}
   .projectCard{min-height:400px}
 }
 
@@ -1784,7 +1884,7 @@ button,input,textarea{font:inherit}
   }
 
   .heroControls{
-    display:none !important;
+    display:none;
   }
 
   .projectSlider{
@@ -1875,6 +1975,14 @@ button,input,textarea{font:inherit}
   .backToTop{
     bottom:60px !important;
   }
+
+  .imagePreviewClose{
+    top:10px;
+    right:10px;
+    width:42px;
+    height:42px;
+    font-size:24px;
+  }
 }
 
 /* =========================
@@ -1885,373 +1993,5 @@ button,input,textarea{font:inherit}
     animation:none !important;
     transition:none !important;
     scroll-behavior:auto !important;
-  }
-}
-/* =========================
-   IMAGE PREVIEW
-========================= */
-.imagePreviewOverlay{
-  position:fixed;
-  inset:0;
-  background:rgba(5,12,20,.82);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:24px;
-  z-index:200;
-  backdrop-filter:blur(8px);
-}
-
-.imagePreviewOverlay.show{
-  display:flex;
-}
-
-.imagePreviewBox{
-  position:relative;
-  width:min(1100px, 100%);
-  max-height:90vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.imagePreviewBox img{
-  width:auto;
-  max-width:100%;
-  max-height:90vh;
-  object-fit:contain;
-  border-radius:22px;
-  box-shadow:0 30px 80px rgba(0,0,0,.35);
-  background:#fff;
-}
-
-.imagePreviewClose{
-  position:absolute;
-  top:18px;
-  right:18px;
-  width:52px;
-  height:52px;
-  border:none;
-  border-radius:50%;
-  background:rgba(255,255,255,.14);
-  color:#fff;
-  font-size:30px;
-  font-weight:700;
-  cursor:pointer;
-  z-index:2;
-  backdrop-filter:blur(8px);
-  transition:transform .22s ease, background .22s ease;
-}
-
-.imagePreviewClose:hover{
-  transform:scale(1.06);
-  background:rgba(255,255,255,.22);
-}
-
-.aboutImage,
-.serviceBigCard,
-.projectCard,
-.partnerCard{
-  cursor:zoom-in;
-}
-
-@media (max-width: 700px){
-  .imagePreviewOverlay{
-    padding:12px;
-  }
-
-  .imagePreviewClose{
-    top:10px;
-    right:10px;
-    width:44px;
-    height:44px;
-    font-size:26px;
-  }
-
-  .imagePreviewBox img{
-    border-radius:16px;
-  }
-}
-/* =========================================
-   CORREÇÕES FINAIS — NÃO ALTERAR ESTRUTURA
-========================================= */
-
-/* garante que controles fiquem acima de overlays e imagens */
-.heroSlider,
-.projectSlider,
-.projectViewport,
-.projectTrack,
-.projectSlide,
-.heroTrack{
-  position:relative;
-}
-
-.heroControls{
-  position:absolute !important;
-  left:24px !important;
-  right:auto !important;
-  bottom:28px !important;
-  z-index:20 !important;
-  display:flex !important;
-  align-items:center !important;
-  gap:14px !important;
-  pointer-events:auto !important;
-}
-
-.heroArrow{
-  display:grid !important;
-  place-items:center !important;
-  width:54px !important;
-  height:54px !important;
-  border:none !important;
-  border-radius:50% !important;
-  background:rgba(255,255,255,.18) !important;
-  color:#fff !important;
-  font-size:22px !important;
-  font-weight:900 !important;
-  line-height:1 !important;
-  cursor:pointer !important;
-  box-shadow:0 12px 28px rgba(0,0,0,.18) !important;
-  backdrop-filter:blur(8px) !important;
-  -webkit-backdrop-filter:blur(8px) !important;
-  opacity:1 !important;
-  visibility:visible !important;
-  pointer-events:auto !important;
-}
-
-.heroArrow:hover{
-  transform:translateY(-2px) !important;
-  background:linear-gradient(135deg, var(--gold) 0%, var(--gold-2) 100%) !important;
-}
-
-.heroDots{
-  display:flex !important;
-  align-items:center !important;
-  gap:10px !important;
-  z-index:21 !important;
-}
-
-.heroDot{
-  display:block !important;
-  opacity:1 !important;
-  visibility:visible !important;
-}
-
-/* ========= setas dos projetos ========= */
-.projectSlider{
-  position:relative !important;
-  padding:0 52px !important;
-}
-
-.projectViewport{
-  overflow:hidden !important;
-  border-radius:34px !important;
-  position:relative !important;
-  z-index:1 !important;
-}
-
-.projectTrack{
-  display:flex !important;
-  position:relative !important;
-  z-index:1 !important;
-}
-
-.projectArrow{
-  position:absolute !important;
-  top:50% !important;
-  transform:translateY(-50%) !important;
-  display:grid !important;
-  place-items:center !important;
-  width:56px !important;
-  height:56px !important;
-  border:none !important;
-  border-radius:50% !important;
-  background:rgba(255,255,255,.96) !important;
-  color:#173451 !important;
-  font-size:24px !important;
-  font-weight:900 !important;
-  line-height:1 !important;
-  box-shadow:0 18px 36px rgba(12,34,58,.18) !important;
-  cursor:pointer !important;
-  z-index:30 !important;
-  opacity:1 !important;
-  visibility:visible !important;
-  pointer-events:auto !important;
-}
-
-.projectArrow.left{
-  left:10px !important;
-}
-
-.projectArrow.right{
-  right:10px !important;
-}
-
-.projectArrow:hover{
-  background:linear-gradient(135deg, var(--gold-3) 0%, #fff 100%) !important;
-  transform:translateY(-50%) scale(1.04) !important;
-}
-
-.projectIndicators{
-  position:relative !important;
-  z-index:5 !important;
-}
-
-/* ========= garante que imagens/camadas não escondam controles ========= */
-.heroOverlay{
-  z-index:2 !important;
-}
-
-.heroContent{
-  z-index:5 !important;
-}
-
-.projectCard,
-.partnerCard,
-.serviceBigCard,
-.aboutImage{
-  position:relative;
-  overflow:hidden;
-}
-
-.projectCard::after,
-.partnerOverlay,
-.serviceBigOverlay{
-  pointer-events:none;
-}
-
-/* ========= preview visual ========= */
-.imagePreviewOverlay{
-  position:fixed !important;
-  inset:0 !important;
-  display:none !important;
-  align-items:center !important;
-  justify-content:center !important;
-  padding:24px !important;
-  background:rgba(5,12,20,.82) !important;
-  z-index:9999 !important;
-  backdrop-filter:blur(8px) !important;
-  -webkit-backdrop-filter:blur(8px) !important;
-}
-
-.imagePreviewOverlay.show{
-  display:flex !important;
-}
-
-.imagePreviewBox{
-  position:relative !important;
-  width:min(1100px, 100%) !important;
-  max-height:90vh !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  z-index:2 !important;
-}
-
-.imagePreviewBox img,
-#imagePreviewImg{
-  display:block !important;
-  width:auto !important;
-  max-width:100% !important;
-  max-height:90vh !important;
-  object-fit:contain !important;
-  border-radius:22px !important;
-  box-shadow:0 30px 80px rgba(0,0,0,.35) !important;
-  background:#fff !important;
-}
-
-.imagePreviewClose{
-  position:fixed !important;
-  top:18px !important;
-  right:18px !important;
-  width:52px !important;
-  height:52px !important;
-  border:none !important;
-  border-radius:50% !important;
-  display:grid !important;
-  place-items:center !important;
-  background:rgba(255,255,255,.14) !important;
-  color:#fff !important;
-  font-size:30px !important;
-  font-weight:700 !important;
-  line-height:1 !important;
-  cursor:pointer !important;
-  z-index:10000 !important;
-  backdrop-filter:blur(8px) !important;
-  -webkit-backdrop-filter:blur(8px) !important;
-}
-
-.imagePreviewClose:hover{
-  transform:scale(1.06) !important;
-  background:rgba(255,255,255,.22) !important;
-}
-
-/* deixa claro que as imagens/cards são interativos */
-.aboutImage,
-.aboutImage img,
-.serviceBigCard,
-.serviceBigCard img,
-.projectCard,
-.projectCard img,
-.partnerCard{
-  cursor:zoom-in !important;
-}
-
-/* melhora interação visual */
-.projectCard:hover img,
-.serviceBigCard:hover img,
-.aboutImage:hover img{
-  transform:scale(1.02);
-  transition:transform .35s ease;
-}
-
-.partnerCard:hover::before{
-  transform:scale(1.04);
-  transition:transform .35s ease;
-}
-
-/* ========= mobile ========= */
-@media (max-width: 980px){
-  .projectSlider{
-    padding:0 18px !important;
-  }
-
-  .projectArrow.left{
-    left:2px !important;
-  }
-
-  .projectArrow.right{
-    right:2px !important;
-  }
-}
-
-@media (max-width: 700px){
-  .heroControls{
-    display:none !important;
-  }
-
-  .projectSlider{
-    padding:0 !important;
-  }
-
-  .projectArrow{
-    display:none !important;
-  }
-
-  .imagePreviewOverlay{
-    padding:12px !important;
-  }
-
-  .imagePreviewClose{
-    top:10px !important;
-    right:10px !important;
-    width:44px !important;
-    height:44px !important;
-    font-size:26px !important;
-  }
-
-  .imagePreviewBox img,
-  #imagePreviewImg{
-    border-radius:16px !important;
   }
 }
