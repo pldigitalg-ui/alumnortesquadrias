@@ -97,12 +97,36 @@
 
   let heroIndex = 0;
   let heroTimer = null;
+  let heroTouchStartX = 0;
+  let heroTouchEndX = 0;
+  let heroIsPaused = false;
+
+  function preloadImage(src) {
+    if (!src) return;
+    const img = new Image();
+    img.src = src;
+  }
+
+  function preloadNearbyHeroImages() {
+    if (!HERO_SLIDES.length) return;
+    const nextIndex = (heroIndex + 1) % HERO_SLIDES.length;
+    const prevIndex = (heroIndex - 1 + HERO_SLIDES.length) % HERO_SLIDES.length;
+
+    preloadImage(HERO_SLIDES[nextIndex]?.img);
+    preloadImage(HERO_SLIDES[prevIndex]?.img);
+  }
 
   function renderHero() {
     if (!heroTrack || !heroDots || !HERO_SLIDES.length) return;
 
+    heroIndex = 0;
+
     heroTrack.innerHTML = HERO_SLIDES.map((slide, i) => `
-      <div class="heroSlide ${i === 0 ? "active" : ""}" data-index="${i}" aria-hidden="${i === 0 ? "false" : "true"}">
+      <div
+        class="heroSlide ${i === 0 ? "active" : ""}"
+        data-index="${i}"
+        aria-hidden="${i === 0 ? "false" : "true"}"
+      >
         <img
           src="${slide.img}"
           alt="${slide.title}"
@@ -130,6 +154,7 @@
     });
 
     updateHero();
+    preloadNearbyHeroImages();
   }
 
   function updateHero() {
@@ -153,22 +178,28 @@
 
     if (heroTitle && current) heroTitle.textContent = current.title;
     if (heroDesc && current) heroDesc.textContent = current.desc;
+
+    preloadNearbyHeroImages();
   }
 
   function nextHero() {
+    if (!HERO_SLIDES.length) return;
     heroIndex = (heroIndex + 1) % HERO_SLIDES.length;
     updateHero();
   }
 
   function prevHero() {
+    if (!HERO_SLIDES.length) return;
     heroIndex = (heroIndex - 1 + HERO_SLIDES.length) % HERO_SLIDES.length;
     updateHero();
   }
 
   function startHeroTimer() {
-    if (!heroTrack || HERO_SLIDES.length <= 1) return;
+    if (!heroTrack || HERO_SLIDES.length <= 1 || heroIsPaused) return;
     clearInterval(heroTimer);
-    heroTimer = setInterval(nextHero, HERO_INTERVAL);
+    heroTimer = setInterval(() => {
+      nextHero();
+    }, HERO_INTERVAL);
   }
 
   function stopHeroTimer() {
@@ -179,6 +210,16 @@
   function restartHeroTimer() {
     stopHeroTimer();
     startHeroTimer();
+  }
+
+  function pauseHero() {
+    heroIsPaused = true;
+    stopHeroTimer();
+  }
+
+  function resumeHero() {
+    heroIsPaused = false;
+    restartHeroTimer();
   }
 
   if (heroPrev) {
@@ -196,13 +237,39 @@
   }
 
   if (heroSlider) {
-    heroSlider.addEventListener("mouseenter", stopHeroTimer);
-    heroSlider.addEventListener("mouseleave", startHeroTimer);
-    heroSlider.addEventListener("touchstart", stopHeroTimer, { passive: true });
-    heroSlider.addEventListener("touchend", restartHeroTimer, { passive: true });
+    heroSlider.addEventListener("mouseenter", () => {
+      pauseHero();
+    });
+
+    heroSlider.addEventListener("mouseleave", () => {
+      resumeHero();
+    });
+
+    heroSlider.addEventListener("touchstart", (e) => {
+      pauseHero();
+      heroTouchStartX = e.changedTouches[0].clientX;
+      heroTouchEndX = heroTouchStartX;
+    }, { passive: true });
+
+    heroSlider.addEventListener("touchmove", (e) => {
+      heroTouchEndX = e.changedTouches[0].clientX;
+    }, { passive: true });
+
+    heroSlider.addEventListener("touchend", () => {
+      const diff = heroTouchStartX - heroTouchEndX;
+      const minSwipe = 40;
+
+      if (Math.abs(diff) > minSwipe) {
+        if (diff > 0) nextHero();
+        else prevHero();
+      }
+
+      resumeHero();
+    }, { passive: true });
   }
 
   renderHero();
+  updateHero();
   startHeroTimer();
 
   // PROJECTS
@@ -706,7 +773,10 @@ Mensagem: ${data.message || "-"}`;
   });
 
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden) stopHeroTimer();
-    else startHeroTimer();
+    if (document.hidden) {
+      stopHeroTimer();
+    } else if (!heroIsPaused) {
+      startHeroTimer();
+    }
   });
 })();
