@@ -42,7 +42,6 @@
   ];
 
   const WHATSAPP = "553899658215";
-  const COMPANY_EMAIL = "contato@alumnorte.com.br";
   const COMPANY_NAME = "Alumnorte";
   const HERO_INTERVAL = 6500;
 
@@ -366,16 +365,29 @@ Mensagem: ${data.message || "-"}`;
   const closeBudgetModal = $("#closeBudgetModal");
   const modalWhatsapp = $("#modalWhatsapp");
 
+  function lockBody() {
+    document.body.style.overflow = "hidden";
+  }
+
+  function unlockBody() {
+    const previewOverlay = $("#imagePreviewOverlay");
+    const modalOpen = budgetModal?.classList.contains("show");
+    const previewOpen = previewOverlay?.classList.contains("show");
+    if (!modalOpen && !previewOpen) {
+      document.body.style.overflow = "";
+    }
+  }
+
   function openModal() {
     if (!budgetModal) return;
     budgetModal.classList.add("show");
-    document.body.style.overflow = "hidden";
+    lockBody();
   }
 
   function closeModal() {
     if (!budgetModal) return;
     budgetModal.classList.remove("show");
-    document.body.style.overflow = "";
+    unlockBody();
   }
 
   [openBudgetModal, openBudgetModalTop, openBudgetModalHero, openBudgetModalInline]
@@ -402,6 +414,10 @@ Mensagem: ${data.message || "-"}`;
   const previewClose = $("#imagePreviewClose");
   const previewSelectors = ".aboutImage, .serviceBigCard, .projectCard, .partnerCard";
 
+  let hoverTimer = null;
+  let currentPreviewSource = "";
+  let currentPreviewTarget = null;
+
   function extractUrl(backgroundImage) {
     if (!backgroundImage || backgroundImage === "none") return "";
     const match = backgroundImage.match(/url\(["']?(.*?)["']?\)/);
@@ -412,7 +428,10 @@ Mensagem: ${data.message || "-"}`;
     if (!target) return "";
 
     const innerImg = target.querySelector("img");
-    if (innerImg && innerImg.src) return innerImg.src;
+    if (innerImg) {
+      const src = innerImg.getAttribute("src") || innerImg.src || "";
+      if (src) return src;
+    }
 
     const bg = getComputedStyle(target).backgroundImage;
     const bgUrl = extractUrl(bg);
@@ -421,35 +440,87 @@ Mensagem: ${data.message || "-"}`;
     return "";
   }
 
+  function isInteractiveChild(el) {
+    return !!el.closest(
+      "a, button, input, textarea, select, label, .heroArrow, .projectArrow, .heroDot, .projectIndicator, .menuToggle, .closeModalBtn, .imagePreviewClose"
+    );
+  }
+
   function openPreview(target) {
-    if (!previewOverlay || !previewImg) return;
+    if (!previewOverlay || !previewImg || !target) return;
+
     const src = getPreviewSrc(target);
     if (!src) return;
 
+    if (currentPreviewSource === src && previewOverlay.classList.contains("show")) return;
+
+    currentPreviewSource = src;
+    currentPreviewTarget = target;
     previewImg.src = src;
     previewOverlay.classList.add("show");
     previewOverlay.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
+    lockBody();
   }
 
   function closePreview() {
     if (!previewOverlay || !previewImg) return;
+
     previewOverlay.classList.remove("show");
     previewOverlay.setAttribute("aria-hidden", "true");
     previewImg.src = "";
-
-    if (!budgetModal?.classList.contains("show")) {
-      document.body.style.overflow = "";
-    }
+    currentPreviewSource = "";
+    currentPreviewTarget = null;
+    clearTimeout(hoverTimer);
+    unlockBody();
   }
 
-  document.addEventListener("click", (e) => {
+  function scheduleOpen(target, delay = 120) {
+    clearTimeout(hoverTimer);
+    hoverTimer = setTimeout(() => {
+      openPreview(target);
+    }, delay);
+  }
+
+  // DESKTOP: abre ao passar o mouse
+  document.addEventListener("mouseover", (e) => {
     const target = e.target.closest(previewSelectors);
     if (!target) return;
+    if (isInteractiveChild(e.target)) return;
+    if (previewOverlay?.classList.contains("show")) return;
+
+    scheduleOpen(target, 120);
+  });
+
+  // se sair antes do tempo, cancela
+  document.addEventListener("mouseout", (e) => {
+    const target = e.target.closest(previewSelectors);
+    if (!target) return;
+
+    const related = e.relatedTarget;
+    if (related && target.contains(related)) return;
+
+    clearTimeout(hoverTimer);
+  });
+
+  // CELULAR + fallback geral: toca/clica para abrir
+  document.addEventListener("click", (e) => {
+    if (previewOverlay?.classList.contains("show")) return;
+
+    const target = e.target.closest(previewSelectors);
+    if (!target) return;
+    if (isInteractiveChild(e.target)) return;
+
+    e.preventDefault();
     openPreview(target);
   });
 
-  if (previewClose) previewClose.addEventListener("click", closePreview);
+  if (previewClose) {
+    previewClose.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closePreview();
+    });
+  }
 
   if (previewOverlay) {
     previewOverlay.addEventListener("click", (e) => {
