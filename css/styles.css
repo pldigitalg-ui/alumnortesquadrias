@@ -1530,3 +1530,20 @@ button,input,textarea{font:inherit}
     scroll-behavior:auto !important;
   }
 }
+.siteLogo{
+  height:52px;
+  width:auto;
+  object-fit:contain;
+}
+
+.heroLogo{
+  height:64px;
+  width:auto;
+  object-fit:contain;
+}
+
+.footerLogo{
+  height:46px;
+  width:auto;
+  object-fit:contain;
+}
