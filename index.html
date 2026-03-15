@@ -650,121 +650,120 @@
       </div>
     </div>
   </footer>
+<script>
+  document.addEventListener("DOMContentLoaded", function(){
+    const openTop = document.getElementById("openBudgetModalTop");
+    const openMain = document.getElementById("openBudgetModal");
+    const openInline = document.getElementById("openBudgetModalInline");
+    const openHero = document.getElementById("openBudgetModalHero");
+    const modal = document.getElementById("budgetModal");
+    const closeBtn = document.getElementById("closeBudgetModal");
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function(){
-      const openTop = document.getElementById("openBudgetModalTop");
-      const openMain = document.getElementById("openBudgetModal");
-      const openInline = document.getElementById("openBudgetModalInline");
-      const openHero = document.getElementById("openBudgetModalHero");
-      const modal = document.getElementById("budgetModal");
-      const closeBtn = document.getElementById("closeBudgetModal");
+    function openModal(){
+      if(modal) modal.classList.add("show");
+    }
 
-      function openModal(){
-        if(modal) modal.classList.add("show");
-      }
+    function closeModal(){
+      if(modal) modal.classList.remove("show");
+    }
 
-      function closeModal(){
-        if(modal) modal.classList.remove("show");
-      }
+    if(openTop) openTop.addEventListener("click", openModal);
+    if(openMain) openMain.addEventListener("click", openModal);
+    if(openInline) openInline.addEventListener("click", openModal);
+    if(openHero) openHero.addEventListener("click", openModal);
+    if(closeBtn) closeBtn.addEventListener("click", closeModal);
 
-      if(openTop) openTop.addEventListener("click", openModal);
-      if(openMain) openMain.addEventListener("click", openModal);
-      if(openInline) openInline.addEventListener("click", openModal);
-      if(openHero) openHero.addEventListener("click", openModal);
-      if(closeBtn) closeBtn.addEventListener("click", closeModal);
-
-      if(modal){
-        modal.addEventListener("click", function(e){
-          if(e.target === modal) closeModal();
-        });
-      }
-
-      const previewOverlay = document.getElementById("imagePreviewOverlay");
-      const previewImg = document.getElementById("imagePreviewImg");
-      const previewClose = document.getElementById("imagePreviewClose");
-
-      let hoverTimer = null;
-      let activeTarget = null;
-
-      const previewSelectors = ".aboutImage, .serviceBigCard, .projectCard, .partnerCard";
-
-      function extractUrl(backgroundImage){
-        if (!backgroundImage || backgroundImage === "none") return "";
-        const match = backgroundImage.match(/url\(["']?(.*?)["']?\)/);
-        return match ? match[1] : "";
-      }
-
-      function getPreviewSrc(target){
-        if (!target) return "";
-
-        const innerImg = target.querySelector("img");
-        if (innerImg && innerImg.src) return innerImg.src;
-
-        const bg = getComputedStyle(target).backgroundImage;
-        const bgUrl = extractUrl(bg);
-        if (bgUrl) return bgUrl;
-
-        return "";
-      }
-
-      function openPreview(target){
-        if (!previewOverlay || !previewImg) return;
-        const src = getPreviewSrc(target);
-        if (!src) return;
-
-        activeTarget = target;
-        previewImg.src = src;
-        previewOverlay.classList.add("show");
-        previewOverlay.setAttribute("aria-hidden", "false");
-      }
-
-      function closePreview(){
-        if (!previewOverlay || !previewImg) return;
-        previewOverlay.classList.remove("show");
-        previewOverlay.setAttribute("aria-hidden", "true");
-        previewImg.src = "";
-        activeTarget = null;
-      }
-
-      document.addEventListener("mouseover", function(e){
-        const target = e.target.closest(previewSelectors);
-        if (!target) return;
-        if (activeTarget === target) return;
-
-        clearTimeout(hoverTimer);
-        hoverTimer = setTimeout(() => {
-          openPreview(target);
-        }, 120);
+    if(modal){
+      modal.addEventListener("click", function(e){
+        if(e.target === modal) closeModal();
       });
+    }
 
-      document.addEventListener("click", function(e){
-        const target = e.target.closest(previewSelectors);
-        if (!target) return;
+    const previewOverlay = document.getElementById("imagePreviewOverlay");
+    const previewImg = document.getElementById("imagePreviewImg");
+    const previewClose = document.getElementById("imagePreviewClose");
+
+    let hoverTimer = null;
+    let activeTarget = null;
+
+    const previewSelectors = ".aboutImage, .serviceBigCard, .projectCard, .partnerCard";
+
+    function extractUrl(backgroundImage){
+      if (!backgroundImage || backgroundImage === "none") return "";
+      const match = backgroundImage.match(/url\(["']?(.*?)["']?\)/);
+      return match ? match[1] : "";
+    }
+
+    function getPreviewSrc(target){
+      if (!target) return "";
+
+      const innerImg = target.querySelector("img");
+      if (innerImg && innerImg.src) return innerImg.src;
+
+      const bg = getComputedStyle(target).backgroundImage;
+      const bgUrl = extractUrl(bg);
+      if (bgUrl) return bgUrl;
+
+      return "";
+    }
+
+    function openPreview(target){
+      if (!previewOverlay || !previewImg) return;
+      const src = getPreviewSrc(target);
+      if (!src) return;
+
+      activeTarget = target;
+      previewImg.src = src;
+      previewOverlay.classList.add("show");
+      previewOverlay.setAttribute("aria-hidden", "false");
+    }
+
+    function closePreview(){
+      if (!previewOverlay || !previewImg) return;
+      previewOverlay.classList.remove("show");
+      previewOverlay.setAttribute("aria-hidden", "true");
+      previewImg.src = "";
+      activeTarget = null;
+    }
+
+    document.addEventListener("mouseover", function(e){
+      const target = e.target.closest(previewSelectors);
+      if (!target) return;
+      if (activeTarget === target) return;
+
+      clearTimeout(hoverTimer);
+      hoverTimer = setTimeout(() => {
         openPreview(target);
-      });
-
-      if(previewClose){
-        previewClose.addEventListener("click", closePreview);
-      }
-
-      if(previewOverlay){
-        previewOverlay.addEventListener("click", function(e){
-          if(e.target === previewOverlay) closePreview();
-        });
-      }
-
-      document.addEventListener("keydown", function(e){
-        if (e.key === "Escape") {
-          closeModal();
-          closePreview();
-        }
-      });
-
-      const year = document.getElementById("year");
-      if(year) year.textContent = new Date().getFullYear();
+      }, 120);
     });
-  </script>
+
+    document.addEventListener("click", function(e){
+      const target = e.target.closest(previewSelectors);
+      if (!target) return;
+      openPreview(target);
+    });
+
+    if(previewClose){
+      previewClose.addEventListener("click", closePreview);
+    }
+
+    if(previewOverlay){
+      previewOverlay.addEventListener("click", function(e){
+        if(e.target === previewOverlay) closePreview();
+      });
+    }
+
+    document.addEventListener("keydown", function(e){
+      if (e.key === "Escape") {
+        closeModal();
+        closePreview();
+      }
+    });
+
+    const year = document.getElementById("year");
+    if(year) year.textContent = new Date().getFullYear();
+  });
+</script>
 
   <script src="js/app.js"></script>
 </body>
