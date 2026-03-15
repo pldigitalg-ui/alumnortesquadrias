@@ -33,171 +33,6 @@
   <link rel="preload" as="image" href="img/hero-1.jpg" />
   <link rel="stylesheet" href="css/styles.css" />
 
-  <style>
-    .heroButtons{
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-      margin-top:18px;
-    }
-
-    .heroBenefits{
-      margin:18px 0 0;
-      padding:0;
-      list-style:none;
-      display:grid;
-      gap:10px;
-      color:#fff;
-      max-width:560px;
-    }
-
-    .heroBenefits li{
-      display:flex;
-      align-items:flex-start;
-      gap:10px;
-      font-weight:700;
-      line-height:1.5;
-      color:rgba(255,255,255,.95);
-    }
-
-    .heroBenefits li::before{
-      content:"✓";
-      color:#ffd36b;
-      font-weight:900;
-      flex:0 0 auto;
-    }
-
-    .authoritySection{
-      background:linear-gradient(180deg,#ffffff 0%,#f4f8fc 100%);
-      padding:26px 0 18px;
-      border-top:1px solid rgba(14,39,66,.08);
-      border-bottom:1px solid rgba(14,39,66,.08);
-    }
-
-    .authorityGrid{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:18px;
-    }
-
-    .authorityCard{
-      background:#fff;
-      border:1px solid rgba(14,39,66,.08);
-      border-radius:22px;
-      padding:22px;
-      box-shadow:0 10px 24px rgba(12,34,58,.06);
-      text-align:center;
-    }
-
-    .authorityCard strong{
-      display:block;
-      font-size:34px;
-      line-height:1;
-      color:#12385e;
-      margin-bottom:8px;
-    }
-
-    .authorityCard span{
-      color:#5f7386;
-      font-size:14px;
-      line-height:1.5;
-      font-weight:700;
-    }
-
-    .contactExtraGrid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:28px;
-      margin-top:28px;
-    }
-
-    .contactMapCard,
-    .contactSeoCard{
-      background:linear-gradient(180deg,#fff 0%,#f8fbfe 100%);
-      border:1px solid rgba(31,78,121,.08);
-      border-radius:30px;
-      padding:22px;
-      box-shadow:0 18px 42px rgba(12,34,58,.10);
-    }
-
-    .contactMapCard h3,
-    .contactSeoCard h3{
-      margin:0 0 12px;
-      color:#143556;
-      font-size:28px;
-      line-height:1.05;
-    }
-
-    .contactMapCard p,
-    .contactSeoCard p{
-      margin:0 0 16px;
-      color:#5f7386;
-      line-height:1.75;
-    }
-
-    .mapFrame{
-      width:100%;
-      height:340px;
-      border:0;
-      border-radius:22px;
-    }
-
-    .seoList{
-      margin:0;
-      padding-left:18px;
-      display:grid;
-      gap:8px;
-      color:#3f5467;
-      line-height:1.7;
-      font-weight:600;
-    }
-
-    .projectMiniTag{
-      display:inline-flex;
-      align-items:center;
-      padding:7px 12px;
-      border-radius:999px;
-      background:rgba(255,255,255,.14);
-      border:1px solid rgba(255,255,255,.18);
-      font-size:12px;
-      font-weight:800;
-      margin-bottom:10px;
-      backdrop-filter:blur(8px);
-    }
-
-    @media (max-width: 980px){
-      .authorityGrid,
-      .contactExtraGrid{
-        grid-template-columns:1fr 1fr;
-      }
-    }
-
-    @media (max-width: 700px){
-      .authorityGrid,
-      .contactExtraGrid{
-        grid-template-columns:1fr;
-      }
-
-      .authorityCard strong{
-        font-size:28px;
-      }
-
-      .contactMapCard h3,
-      .contactSeoCard h3{
-        font-size:24px;
-      }
-
-      .mapFrame{
-        height:280px;
-      }
-
-      .heroButtons{
-        flex-direction:column;
-        align-items:flex-start;
-      }
-    }
-  </style>
-
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -283,9 +118,7 @@
 
         <div class="heroContent wrap">
           <div class="heroBrandBox">
-            <span>
-              <img src="img/logo.png" alt="Logo Alumnorte" class="heroLogo" />
-            </span>
+            <span></span>
             <strong>ALUMNORTE</strong>
           </div>
 
@@ -732,6 +565,13 @@
     </div>
   </div>
 
+  <div class="imagePreviewOverlay" id="imagePreviewOverlay" aria-hidden="true">
+    <button class="imagePreviewClose" id="imagePreviewClose" type="button" aria-label="Fechar imagem">×</button>
+    <div class="imagePreviewBox">
+      <img id="imagePreviewImg" src="" alt="Visualização ampliada" />
+    </div>
+  </div>
+
   <a class="floatWhats" id="floatWhats" href="https://api.whatsapp.com/send/?phone=553899658215&text=Ol%C3%A1%20Alumnorte,%20quero%20solicitar%20um%20or%C3%A7amento.&type=phone_number&app_absent=0" target="_blank" rel="noopener" aria-label="WhatsApp">✆</a>
   <button class="backToTop" id="backToTop" type="button" aria-label="Voltar ao topo">↑</button>
 
@@ -839,6 +679,87 @@
           if(e.target === modal) closeModal();
         });
       }
+
+      const previewOverlay = document.getElementById("imagePreviewOverlay");
+      const previewImg = document.getElementById("imagePreviewImg");
+      const previewClose = document.getElementById("imagePreviewClose");
+
+      let hoverTimer = null;
+      let activeTarget = null;
+
+      const previewSelectors = ".aboutImage, .serviceBigCard, .projectCard, .partnerCard";
+
+      function extractUrl(backgroundImage){
+        if (!backgroundImage || backgroundImage === "none") return "";
+        const match = backgroundImage.match(/url\(["']?(.*?)["']?\)/);
+        return match ? match[1] : "";
+      }
+
+      function getPreviewSrc(target){
+        if (!target) return "";
+
+        const innerImg = target.querySelector("img");
+        if (innerImg && innerImg.src) return innerImg.src;
+
+        const bg = getComputedStyle(target).backgroundImage;
+        const bgUrl = extractUrl(bg);
+        if (bgUrl) return bgUrl;
+
+        return "";
+      }
+
+      function openPreview(target){
+        if (!previewOverlay || !previewImg) return;
+        const src = getPreviewSrc(target);
+        if (!src) return;
+
+        activeTarget = target;
+        previewImg.src = src;
+        previewOverlay.classList.add("show");
+        previewOverlay.setAttribute("aria-hidden", "false");
+      }
+
+      function closePreview(){
+        if (!previewOverlay || !previewImg) return;
+        previewOverlay.classList.remove("show");
+        previewOverlay.setAttribute("aria-hidden", "true");
+        previewImg.src = "";
+        activeTarget = null;
+      }
+
+      document.addEventListener("mouseover", function(e){
+        const target = e.target.closest(previewSelectors);
+        if (!target) return;
+        if (activeTarget === target) return;
+
+        clearTimeout(hoverTimer);
+        hoverTimer = setTimeout(() => {
+          openPreview(target);
+        }, 120);
+      });
+
+      document.addEventListener("click", function(e){
+        const target = e.target.closest(previewSelectors);
+        if (!target) return;
+        openPreview(target);
+      });
+
+      if(previewClose){
+        previewClose.addEventListener("click", closePreview);
+      }
+
+      if(previewOverlay){
+        previewOverlay.addEventListener("click", function(e){
+          if(e.target === previewOverlay) closePreview();
+        });
+      }
+
+      document.addEventListener("keydown", function(e){
+        if (e.key === "Escape") {
+          closeModal();
+          closePreview();
+        }
+      });
 
       const year = document.getElementById("year");
       if(year) year.textContent = new Date().getFullYear();
