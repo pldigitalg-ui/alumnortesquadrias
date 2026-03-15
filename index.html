@@ -93,7 +93,7 @@
           <button class="navBtn ghost" id="openBudgetModalTop" type="button">Orçamento WhatsApp</button>
         </div>
 
-        <button class="menuToggle" id="menuToggle" aria-label="Abrir menu" type="button">
+        <button class="menuToggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false" type="button">
           <span></span><span></span><span></span>
         </button>
       </div>
@@ -124,7 +124,11 @@
 
           <div class="heroText">
             <div class="sectionKicker light">Esquadrias de alumínio em Janaúba MG</div>
-            <h1 id="heroTitle">Portas, janelas, fachadas e vidro com acabamento premium para transformar seu projeto</h1>
+
+            <h1 id="heroTitle">
+              Portas, janelas, fachadas e vidro com acabamento premium para transformar seu projeto
+            </h1>
+
             <p id="heroDesc">
               A Alumnorte desenvolve esquadrias de alumínio, vidraçaria, portões, pele de vidro e projetos sob medida para residências, comércios e fachadas em Janaúba e região.
             </p>
@@ -140,12 +144,12 @@
               <a class="ctaSecondary" href="#projetos">Ver projetos realizados</a>
             </div>
           </div>
+        </div>
 
-          <div class="heroControls">
-            <button class="heroArrow" id="heroPrev" type="button" aria-label="Anterior">←</button>
-            <div class="heroDots" id="heroDots"></div>
-            <button class="heroArrow" id="heroNext" type="button" aria-label="Próximo">→</button>
-          </div>
+        <div class="heroControls">
+          <button class="heroArrow" id="heroPrev" type="button" aria-label="Anterior">←</button>
+          <div class="heroDots" id="heroDots"></div>
+          <button class="heroArrow" id="heroNext" type="button" aria-label="Próximo">→</button>
         </div>
       </div>
     </section>
@@ -572,7 +576,15 @@
     </div>
   </div>
 
-  <a class="floatWhats" id="floatWhats" href="https://api.whatsapp.com/send/?phone=553899658215&text=Ol%C3%A1%20Alumnorte,%20quero%20solicitar%20um%20or%C3%A7amento.&type=phone_number&app_absent=0" target="_blank" rel="noopener" aria-label="WhatsApp">✆</a>
+  <a
+    class="floatWhats"
+    id="floatWhats"
+    href="https://api.whatsapp.com/send/?phone=553899658215&text=Ol%C3%A1%20Alumnorte,%20quero%20solicitar%20um%20or%C3%A7amento.&type=phone_number&app_absent=0"
+    target="_blank"
+    rel="noopener"
+    aria-label="WhatsApp"
+  >✆</a>
+
   <button class="backToTop" id="backToTop" type="button" aria-label="Voltar ao topo">↑</button>
 
   <footer class="footer">
@@ -650,120 +662,6 @@
       </div>
     </div>
   </footer>
-<script>
-  document.addEventListener("DOMContentLoaded", function(){
-    const openTop = document.getElementById("openBudgetModalTop");
-    const openMain = document.getElementById("openBudgetModal");
-    const openInline = document.getElementById("openBudgetModalInline");
-    const openHero = document.getElementById("openBudgetModalHero");
-    const modal = document.getElementById("budgetModal");
-    const closeBtn = document.getElementById("closeBudgetModal");
-
-    function openModal(){
-      if(modal) modal.classList.add("show");
-    }
-
-    function closeModal(){
-      if(modal) modal.classList.remove("show");
-    }
-
-    if(openTop) openTop.addEventListener("click", openModal);
-    if(openMain) openMain.addEventListener("click", openModal);
-    if(openInline) openInline.addEventListener("click", openModal);
-    if(openHero) openHero.addEventListener("click", openModal);
-    if(closeBtn) closeBtn.addEventListener("click", closeModal);
-
-    if(modal){
-      modal.addEventListener("click", function(e){
-        if(e.target === modal) closeModal();
-      });
-    }
-
-    const previewOverlay = document.getElementById("imagePreviewOverlay");
-    const previewImg = document.getElementById("imagePreviewImg");
-    const previewClose = document.getElementById("imagePreviewClose");
-
-    let hoverTimer = null;
-    let activeTarget = null;
-
-    const previewSelectors = ".aboutImage, .serviceBigCard, .projectCard, .partnerCard";
-
-    function extractUrl(backgroundImage){
-      if (!backgroundImage || backgroundImage === "none") return "";
-      const match = backgroundImage.match(/url\(["']?(.*?)["']?\)/);
-      return match ? match[1] : "";
-    }
-
-    function getPreviewSrc(target){
-      if (!target) return "";
-
-      const innerImg = target.querySelector("img");
-      if (innerImg && innerImg.src) return innerImg.src;
-
-      const bg = getComputedStyle(target).backgroundImage;
-      const bgUrl = extractUrl(bg);
-      if (bgUrl) return bgUrl;
-
-      return "";
-    }
-
-    function openPreview(target){
-      if (!previewOverlay || !previewImg) return;
-      const src = getPreviewSrc(target);
-      if (!src) return;
-
-      activeTarget = target;
-      previewImg.src = src;
-      previewOverlay.classList.add("show");
-      previewOverlay.setAttribute("aria-hidden", "false");
-    }
-
-    function closePreview(){
-      if (!previewOverlay || !previewImg) return;
-      previewOverlay.classList.remove("show");
-      previewOverlay.setAttribute("aria-hidden", "true");
-      previewImg.src = "";
-      activeTarget = null;
-    }
-
-    document.addEventListener("mouseover", function(e){
-      const target = e.target.closest(previewSelectors);
-      if (!target) return;
-      if (activeTarget === target) return;
-
-      clearTimeout(hoverTimer);
-      hoverTimer = setTimeout(() => {
-        openPreview(target);
-      }, 120);
-    });
-
-    document.addEventListener("click", function(e){
-      const target = e.target.closest(previewSelectors);
-      if (!target) return;
-      openPreview(target);
-    });
-
-    if(previewClose){
-      previewClose.addEventListener("click", closePreview);
-    }
-
-    if(previewOverlay){
-      previewOverlay.addEventListener("click", function(e){
-        if(e.target === previewOverlay) closePreview();
-      });
-    }
-
-    document.addEventListener("keydown", function(e){
-      if (e.key === "Escape") {
-        closeModal();
-        closePreview();
-      }
-    });
-
-    const year = document.getElementById("year");
-    if(year) year.textContent = new Date().getFullYear();
-  });
-</script>
 
   <script src="js/app.js"></script>
 </body>
