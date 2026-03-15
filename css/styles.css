@@ -1887,3 +1887,88 @@ button,input,textarea{font:inherit}
     scroll-behavior:auto !important;
   }
 }
+/* =========================
+   IMAGE PREVIEW
+========================= */
+.imagePreviewOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(5,12,20,.82);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  z-index:200;
+  backdrop-filter:blur(8px);
+}
+
+.imagePreviewOverlay.show{
+  display:flex;
+}
+
+.imagePreviewBox{
+  position:relative;
+  width:min(1100px, 100%);
+  max-height:90vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.imagePreviewBox img{
+  width:auto;
+  max-width:100%;
+  max-height:90vh;
+  object-fit:contain;
+  border-radius:22px;
+  box-shadow:0 30px 80px rgba(0,0,0,.35);
+  background:#fff;
+}
+
+.imagePreviewClose{
+  position:absolute;
+  top:18px;
+  right:18px;
+  width:52px;
+  height:52px;
+  border:none;
+  border-radius:50%;
+  background:rgba(255,255,255,.14);
+  color:#fff;
+  font-size:30px;
+  font-weight:700;
+  cursor:pointer;
+  z-index:2;
+  backdrop-filter:blur(8px);
+  transition:transform .22s ease, background .22s ease;
+}
+
+.imagePreviewClose:hover{
+  transform:scale(1.06);
+  background:rgba(255,255,255,.22);
+}
+
+.aboutImage,
+.serviceBigCard,
+.projectCard,
+.partnerCard{
+  cursor:zoom-in;
+}
+
+@media (max-width: 700px){
+  .imagePreviewOverlay{
+    padding:12px;
+  }
+
+  .imagePreviewClose{
+    top:10px;
+    right:10px;
+    width:44px;
+    height:44px;
+    font-size:26px;
+  }
+
+  .imagePreviewBox img{
+    border-radius:16px;
+  }
+}
