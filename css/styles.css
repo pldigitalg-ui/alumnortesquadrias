@@ -1972,3 +1972,286 @@ button,input,textarea{font:inherit}
     border-radius:16px;
   }
 }
+/* =========================================
+   CORREÇÕES FINAIS — NÃO ALTERAR ESTRUTURA
+========================================= */
+
+/* garante que controles fiquem acima de overlays e imagens */
+.heroSlider,
+.projectSlider,
+.projectViewport,
+.projectTrack,
+.projectSlide,
+.heroTrack{
+  position:relative;
+}
+
+.heroControls{
+  position:absolute !important;
+  left:24px !important;
+  right:auto !important;
+  bottom:28px !important;
+  z-index:20 !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:14px !important;
+  pointer-events:auto !important;
+}
+
+.heroArrow{
+  display:grid !important;
+  place-items:center !important;
+  width:54px !important;
+  height:54px !important;
+  border:none !important;
+  border-radius:50% !important;
+  background:rgba(255,255,255,.18) !important;
+  color:#fff !important;
+  font-size:22px !important;
+  font-weight:900 !important;
+  line-height:1 !important;
+  cursor:pointer !important;
+  box-shadow:0 12px 28px rgba(0,0,0,.18) !important;
+  backdrop-filter:blur(8px) !important;
+  -webkit-backdrop-filter:blur(8px) !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+}
+
+.heroArrow:hover{
+  transform:translateY(-2px) !important;
+  background:linear-gradient(135deg, var(--gold) 0%, var(--gold-2) 100%) !important;
+}
+
+.heroDots{
+  display:flex !important;
+  align-items:center !important;
+  gap:10px !important;
+  z-index:21 !important;
+}
+
+.heroDot{
+  display:block !important;
+  opacity:1 !important;
+  visibility:visible !important;
+}
+
+/* ========= setas dos projetos ========= */
+.projectSlider{
+  position:relative !important;
+  padding:0 52px !important;
+}
+
+.projectViewport{
+  overflow:hidden !important;
+  border-radius:34px !important;
+  position:relative !important;
+  z-index:1 !important;
+}
+
+.projectTrack{
+  display:flex !important;
+  position:relative !important;
+  z-index:1 !important;
+}
+
+.projectArrow{
+  position:absolute !important;
+  top:50% !important;
+  transform:translateY(-50%) !important;
+  display:grid !important;
+  place-items:center !important;
+  width:56px !important;
+  height:56px !important;
+  border:none !important;
+  border-radius:50% !important;
+  background:rgba(255,255,255,.96) !important;
+  color:#173451 !important;
+  font-size:24px !important;
+  font-weight:900 !important;
+  line-height:1 !important;
+  box-shadow:0 18px 36px rgba(12,34,58,.18) !important;
+  cursor:pointer !important;
+  z-index:30 !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+}
+
+.projectArrow.left{
+  left:10px !important;
+}
+
+.projectArrow.right{
+  right:10px !important;
+}
+
+.projectArrow:hover{
+  background:linear-gradient(135deg, var(--gold-3) 0%, #fff 100%) !important;
+  transform:translateY(-50%) scale(1.04) !important;
+}
+
+.projectIndicators{
+  position:relative !important;
+  z-index:5 !important;
+}
+
+/* ========= garante que imagens/camadas não escondam controles ========= */
+.heroOverlay{
+  z-index:2 !important;
+}
+
+.heroContent{
+  z-index:5 !important;
+}
+
+.projectCard,
+.partnerCard,
+.serviceBigCard,
+.aboutImage{
+  position:relative;
+  overflow:hidden;
+}
+
+.projectCard::after,
+.partnerOverlay,
+.serviceBigOverlay{
+  pointer-events:none;
+}
+
+/* ========= preview visual ========= */
+.imagePreviewOverlay{
+  position:fixed !important;
+  inset:0 !important;
+  display:none !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:24px !important;
+  background:rgba(5,12,20,.82) !important;
+  z-index:9999 !important;
+  backdrop-filter:blur(8px) !important;
+  -webkit-backdrop-filter:blur(8px) !important;
+}
+
+.imagePreviewOverlay.show{
+  display:flex !important;
+}
+
+.imagePreviewBox{
+  position:relative !important;
+  width:min(1100px, 100%) !important;
+  max-height:90vh !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  z-index:2 !important;
+}
+
+.imagePreviewBox img,
+#imagePreviewImg{
+  display:block !important;
+  width:auto !important;
+  max-width:100% !important;
+  max-height:90vh !important;
+  object-fit:contain !important;
+  border-radius:22px !important;
+  box-shadow:0 30px 80px rgba(0,0,0,.35) !important;
+  background:#fff !important;
+}
+
+.imagePreviewClose{
+  position:fixed !important;
+  top:18px !important;
+  right:18px !important;
+  width:52px !important;
+  height:52px !important;
+  border:none !important;
+  border-radius:50% !important;
+  display:grid !important;
+  place-items:center !important;
+  background:rgba(255,255,255,.14) !important;
+  color:#fff !important;
+  font-size:30px !important;
+  font-weight:700 !important;
+  line-height:1 !important;
+  cursor:pointer !important;
+  z-index:10000 !important;
+  backdrop-filter:blur(8px) !important;
+  -webkit-backdrop-filter:blur(8px) !important;
+}
+
+.imagePreviewClose:hover{
+  transform:scale(1.06) !important;
+  background:rgba(255,255,255,.22) !important;
+}
+
+/* deixa claro que as imagens/cards são interativos */
+.aboutImage,
+.aboutImage img,
+.serviceBigCard,
+.serviceBigCard img,
+.projectCard,
+.projectCard img,
+.partnerCard{
+  cursor:zoom-in !important;
+}
+
+/* melhora interação visual */
+.projectCard:hover img,
+.serviceBigCard:hover img,
+.aboutImage:hover img{
+  transform:scale(1.02);
+  transition:transform .35s ease;
+}
+
+.partnerCard:hover::before{
+  transform:scale(1.04);
+  transition:transform .35s ease;
+}
+
+/* ========= mobile ========= */
+@media (max-width: 980px){
+  .projectSlider{
+    padding:0 18px !important;
+  }
+
+  .projectArrow.left{
+    left:2px !important;
+  }
+
+  .projectArrow.right{
+    right:2px !important;
+  }
+}
+
+@media (max-width: 700px){
+  .heroControls{
+    display:none !important;
+  }
+
+  .projectSlider{
+    padding:0 !important;
+  }
+
+  .projectArrow{
+    display:none !important;
+  }
+
+  .imagePreviewOverlay{
+    padding:12px !important;
+  }
+
+  .imagePreviewClose{
+    top:10px !important;
+    right:10px !important;
+    width:44px !important;
+    height:44px !important;
+    font-size:26px !important;
+  }
+
+  .imagePreviewBox img,
+  #imagePreviewImg{
+    border-radius:16px !important;
+  }
+}
