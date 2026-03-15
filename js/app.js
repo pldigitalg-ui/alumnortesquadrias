@@ -71,8 +71,8 @@
   if (menuToggle && mobileMenu) {
     menuToggle.addEventListener("click", (e) => {
       e.stopPropagation();
-      mobileMenu.classList.toggle("show");
-      menuToggle.setAttribute("aria-expanded", mobileMenu.classList.contains("show") ? "true" : "false");
+      const isOpen = mobileMenu.classList.toggle("show");
+      menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
     });
 
     $$("a", mobileMenu).forEach((link) => {
@@ -105,7 +105,7 @@
   let heroTimer = null;
 
   function renderHero() {
-    if (!heroTrack || !heroDots) return;
+    if (!heroTrack || !heroDots || !HERO_SLIDES.length) return;
 
     heroTrack.innerHTML = HERO_SLIDES.map((slide, i) => `
       <div class="heroSlide ${i === 0 ? "active" : ""}" data-index="${i}" aria-hidden="${i === 0 ? "false" : "true"}">
@@ -139,7 +139,7 @@
   }
 
   function updateHero() {
-    if (!heroTrack || !heroDots) return;
+    if (!heroTrack || !heroDots || !HERO_SLIDES.length) return;
 
     const slides = $$(".heroSlide", heroTrack);
     const dots = $$(".heroDot", heroDots);
@@ -162,11 +162,13 @@
   }
 
   function nextHero() {
+    if (!HERO_SLIDES.length) return;
     heroIndex = (heroIndex + 1) % HERO_SLIDES.length;
     updateHero();
   }
 
   function prevHero() {
+    if (!HERO_SLIDES.length) return;
     heroIndex = (heroIndex - 1 + HERO_SLIDES.length) % HERO_SLIDES.length;
     updateHero();
   }
@@ -226,7 +228,7 @@
   }
 
   function renderProjects() {
-    if (!projectTrack || !projectIndicators) return;
+    if (!projectTrack || !projectIndicators || !projectPages.length) return;
 
     projectTrack.innerHTML = projectPages.map((page) => `
       <div class="projectSlide">
@@ -263,7 +265,7 @@
   }
 
   function updateProjects() {
-    if (!projectTrack || !projectIndicators) return;
+    if (!projectTrack || !projectIndicators || !projectPages.length) return;
 
     projectTrack.style.transform = `translateX(-${projectIndex * 100}%)`;
 
@@ -276,6 +278,7 @@
 
   if (projectPrev) {
     projectPrev.addEventListener("click", () => {
+      if (!projectPages.length) return;
       projectIndex = (projectIndex - 1 + projectPages.length) % projectPages.length;
       updateProjects();
     });
@@ -283,6 +286,7 @@
 
   if (projectNext) {
     projectNext.addEventListener("click", () => {
+      if (!projectPages.length) return;
       projectIndex = (projectIndex + 1) % projectPages.length;
       updateProjects();
     });
@@ -294,7 +298,15 @@
   // ACTIVE MENU
   // =========================
   const menuLinks = $$(".navMenu a, .mobileMenu a");
-  const sections = ["inicio", "quem-somos", "servicos", "projetos", "parceiros", "depoimentos", "contato"]
+  const sections = [
+    "inicio",
+    "quem-somos",
+    "servicos",
+    "projetos",
+    "parceiros",
+    "depoimentos",
+    "contato"
+  ]
     .map((id) => document.getElementById(id))
     .filter(Boolean);
 
@@ -385,7 +397,7 @@ Mensagem: ${data.message || "-"}`;
 
   function sendWhatsapp(data) {
     const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(buildWhatsappText(data))}`;
-    window.open(url, "_blank", "noopener");
+    window.open(url, "_blank", "noopener,noreferrer");
   }
 
   function sendEmail(data) {
@@ -461,7 +473,9 @@ Mensagem: ${data.message || "-"}`;
   }
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeModal();
+    if (e.key === "Escape" && budgetModal?.classList.contains("show")) {
+      closeModal();
+    }
   });
 
   // =========================
