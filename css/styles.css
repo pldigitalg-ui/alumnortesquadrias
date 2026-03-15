@@ -1552,17 +1552,20 @@ button,input,textarea{font:inherit}
     justify-content:center !important;
     padding:18px 0 34px !important;
   }
-
+@media (max-width: 700px){
   .heroBrandBox{
-    transform:none;
-    margin-bottom:10px;
-    min-width:auto;
-    padding:10px 14px;
+    gap:8px;
+    padding:5px 8px;
+  }
+
+  .heroBrandBox span{
+    width:26px;
+    height:26px;
+    flex:0 0 26px;
   }
 
   .heroBrandBox strong{
-    font-size:15px;
-    letter-spacing:.06em;
+    font-size:11px;
   }
 
   .heroText h1{
