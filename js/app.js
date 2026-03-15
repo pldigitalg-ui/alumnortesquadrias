@@ -44,17 +44,27 @@
   const WHATSAPP = "553899658215";
   const COMPANY_EMAIL = "contato@alumnorte.com.br";
   const COMPANY_NAME = "Alumnorte";
+  const HERO_INTERVAL = 6500;
 
   const year = $("#year");
   if (year) year.textContent = new Date().getFullYear();
 
+  // =========================
+  // HEADER
+  // =========================
   const topbar = $("#topbar");
+
   function updateHeader() {
-    if (topbar) topbar.classList.toggle("scrolled", window.scrollY > 80);
+    if (!topbar) return;
+    topbar.classList.toggle("scrolled", window.scrollY > 80);
   }
+
   updateHeader();
   window.addEventListener("scroll", updateHeader, { passive: true });
 
+  // =========================
+  // MOBILE MENU
+  // =========================
   const menuToggle = $("#menuToggle");
   const mobileMenu = $("#mobileMenu");
 
@@ -62,19 +72,28 @@
     menuToggle.addEventListener("click", (e) => {
       e.stopPropagation();
       mobileMenu.classList.toggle("show");
+      menuToggle.setAttribute("aria-expanded", mobileMenu.classList.contains("show") ? "true" : "false");
     });
 
     $$("a", mobileMenu).forEach((link) => {
-      link.addEventListener("click", () => mobileMenu.classList.remove("show"));
+      link.addEventListener("click", () => {
+        mobileMenu.classList.remove("show");
+        menuToggle.setAttribute("aria-expanded", "false");
+      });
     });
 
     document.addEventListener("click", (e) => {
       if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
         mobileMenu.classList.remove("show");
+        menuToggle.setAttribute("aria-expanded", "false");
       }
     });
   }
 
+  // =========================
+  // HERO
+  // =========================
+  const heroSlider = $("#heroSlider");
   const heroTrack = $("#heroTrack");
   const heroDots = $("#heroDots");
   const heroTitle = $("#heroTitle");
@@ -89,7 +108,7 @@
     if (!heroTrack || !heroDots) return;
 
     heroTrack.innerHTML = HERO_SLIDES.map((slide, i) => `
-      <div class="heroSlide ${i === 0 ? "active" : ""}" data-index="${i}">
+      <div class="heroSlide ${i === 0 ? "active" : ""}" data-index="${i}" aria-hidden="${i === 0 ? "false" : "true"}">
         <img
           src="${slide.img}"
           alt="${slide.title}"
@@ -99,7 +118,13 @@
     `).join("");
 
     heroDots.innerHTML = HERO_SLIDES.map((_, i) => `
-      <button class="heroDot ${i === 0 ? "active" : ""}" data-index="${i}" type="button" aria-label="Ir para slide ${i + 1}"></button>
+      <button
+        class="heroDot ${i === 0 ? "active" : ""}"
+        data-index="${i}"
+        type="button"
+        aria-label="Ir para slide ${i + 1}"
+        aria-pressed="${i === 0 ? "true" : "false"}"
+      ></button>
     `).join("");
 
     $$(".heroDot", heroDots).forEach((dot) => {
@@ -114,14 +139,26 @@
   }
 
   function updateHero() {
+    if (!heroTrack || !heroDots) return;
+
     const slides = $$(".heroSlide", heroTrack);
     const dots = $$(".heroDot", heroDots);
+    const current = HERO_SLIDES[heroIndex];
 
-    slides.forEach((slide, i) => slide.classList.toggle("active", i === heroIndex));
-    dots.forEach((dot, i) => dot.classList.toggle("active", i === heroIndex));
+    slides.forEach((slide, i) => {
+      const isActive = i === heroIndex;
+      slide.classList.toggle("active", isActive);
+      slide.setAttribute("aria-hidden", isActive ? "false" : "true");
+    });
 
-    if (heroTitle) heroTitle.textContent = HERO_SLIDES[heroIndex].title;
-    if (heroDesc) heroDesc.textContent = HERO_SLIDES[heroIndex].desc;
+    dots.forEach((dot, i) => {
+      const isActive = i === heroIndex;
+      dot.classList.toggle("active", isActive);
+      dot.setAttribute("aria-pressed", isActive ? "true" : "false");
+    });
+
+    if (heroTitle && current) heroTitle.textContent = current.title;
+    if (heroDesc && current) heroDesc.textContent = current.desc;
   }
 
   function nextHero() {
@@ -135,21 +172,48 @@
   }
 
   function startHeroTimer() {
+    if (!heroTrack || HERO_SLIDES.length <= 1) return;
     clearInterval(heroTimer);
-    heroTimer = setInterval(nextHero, 6500);
+    heroTimer = setInterval(nextHero, HERO_INTERVAL);
+  }
+
+  function stopHeroTimer() {
+    clearInterval(heroTimer);
+    heroTimer = null;
   }
 
   function restartHeroTimer() {
-    clearInterval(heroTimer);
+    stopHeroTimer();
     startHeroTimer();
   }
 
-  if (heroPrev) heroPrev.addEventListener("click", () => { prevHero(); restartHeroTimer(); });
-  if (heroNext) heroNext.addEventListener("click", () => { nextHero(); restartHeroTimer(); });
+  if (heroPrev) {
+    heroPrev.addEventListener("click", () => {
+      prevHero();
+      restartHeroTimer();
+    });
+  }
+
+  if (heroNext) {
+    heroNext.addEventListener("click", () => {
+      nextHero();
+      restartHeroTimer();
+    });
+  }
+
+  if (heroSlider) {
+    heroSlider.addEventListener("mouseenter", stopHeroTimer);
+    heroSlider.addEventListener("mouseleave", startHeroTimer);
+    heroSlider.addEventListener("touchstart", stopHeroTimer, { passive: true });
+    heroSlider.addEventListener("touchend", restartHeroTimer, { passive: true });
+  }
 
   renderHero();
   startHeroTimer();
 
+  // =========================
+  // PROJECTS
+  // =========================
   const projectTrack = $("#projectTrack");
   const projectIndicators = $("#projectIndicators");
   const projectPrev = $("#projectPrev");
@@ -179,7 +243,13 @@
     `).join("");
 
     projectIndicators.innerHTML = projectPages.map((_, i) => `
-      <button class="projectIndicator ${i === 0 ? "active" : ""}" data-index="${i}" type="button" aria-label="Ir para página ${i + 1}"></button>
+      <button
+        class="projectIndicator ${i === 0 ? "active" : ""}"
+        data-index="${i}"
+        type="button"
+        aria-label="Ir para página ${i + 1}"
+        aria-pressed="${i === 0 ? "true" : "false"}"
+      ></button>
     `).join("");
 
     $$(".projectIndicator", projectIndicators).forEach((dot) => {
@@ -193,12 +263,14 @@
   }
 
   function updateProjects() {
-    if (!projectTrack) return;
+    if (!projectTrack || !projectIndicators) return;
 
     projectTrack.style.transform = `translateX(-${projectIndex * 100}%)`;
 
     $$(".projectIndicator", projectIndicators).forEach((dot, i) => {
-      dot.classList.toggle("active", i === projectIndex);
+      const isActive = i === projectIndex;
+      dot.classList.toggle("active", isActive);
+      dot.setAttribute("aria-pressed", isActive ? "true" : "false");
     });
   }
 
@@ -218,14 +290,17 @@
 
   renderProjects();
 
+  // =========================
+  // ACTIVE MENU
+  // =========================
   const menuLinks = $$(".navMenu a, .mobileMenu a");
   const sections = ["inicio", "quem-somos", "servicos", "projetos", "parceiros", "depoimentos", "contato"]
     .map((id) => document.getElementById(id))
     .filter(Boolean);
 
   function updateActiveMenu() {
-    const scrollY = window.scrollY + 160;
     let currentId = "inicio";
+    const scrollY = window.scrollY + 160;
 
     sections.forEach((sec) => {
       if (scrollY >= sec.offsetTop) currentId = sec.id;
@@ -240,10 +315,16 @@
   window.addEventListener("scroll", updateActiveMenu, { passive: true });
   updateActiveMenu();
 
+  // =========================
+  // BACK TO TOP
+  // =========================
   const backToTop = $("#backToTop");
+
   function updateBackToTop() {
-    if (backToTop) backToTop.classList.toggle("show", window.scrollY > 500);
+    if (!backToTop) return;
+    backToTop.classList.toggle("show", window.scrollY > 500);
   }
+
   window.addEventListener("scroll", updateBackToTop, { passive: true });
   updateBackToTop();
 
@@ -253,12 +334,19 @@
     });
   }
 
+  // =========================
+  // FLOAT WHATS
+  // =========================
   const floatWhats = $("#floatWhats");
+
   if (floatWhats) {
     const msg = `Olá! Vim pelo site da ${COMPANY_NAME} e quero solicitar um orçamento.`;
     floatWhats.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
   }
 
+  // =========================
+  // FORM HELPERS
+  // =========================
   function buildWhatsappText(data) {
     return `Olá! Vim pelo site da ${COMPANY_NAME}.
 
@@ -297,7 +385,7 @@ Mensagem: ${data.message || "-"}`;
 
   function sendWhatsapp(data) {
     const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(buildWhatsappText(data))}`;
-    window.open(url, "_blank");
+    window.open(url, "_blank", "noopener");
   }
 
   function sendEmail(data) {
@@ -317,13 +405,20 @@ Mensagem: ${data.message || "-"}`;
   const sendEmailBtn = $("#sendEmail");
 
   if (sendWhatsappBtn) {
-    sendWhatsappBtn.addEventListener("click", () => sendWhatsapp(getMainFormData()));
+    sendWhatsappBtn.addEventListener("click", () => {
+      sendWhatsapp(getMainFormData());
+    });
   }
 
   if (sendEmailBtn) {
-    sendEmailBtn.addEventListener("click", () => sendEmail(getMainFormData()));
+    sendEmailBtn.addEventListener("click", () => {
+      sendEmail(getMainFormData());
+    });
   }
 
+  // =========================
+  // MODAL
+  // =========================
   const budgetModal = $("#budgetModal");
   const openBudgetModal = $("#openBudgetModal");
   const openBudgetModalTop = $("#openBudgetModalTop");
@@ -354,24 +449,31 @@ Mensagem: ${data.message || "-"}`;
   }
 
   if (modalWhatsapp) {
-    modalWhatsapp.addEventListener("click", () => sendWhatsapp(getModalFormData()));
+    modalWhatsapp.addEventListener("click", () => {
+      sendWhatsapp(getModalFormData());
+    });
   }
 
   if (modalEmail) {
-    modalEmail.addEventListener("click", () => sendEmail(getModalFormData()));
+    modalEmail.addEventListener("click", () => {
+      sendEmail(getModalFormData());
+    });
   }
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeModal();
   });
 
+  // =========================
+  // PAGE STATUS
+  // =========================
   window.addEventListener("load", () => {
     document.body.classList.add("site-loaded");
   });
 
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
-      clearInterval(heroTimer);
+      stopHeroTimer();
     } else {
       startHeroTimer();
     }
