@@ -230,26 +230,37 @@ textarea{
 }
 
 .navBtn{
-  min-height:42px;
-  padding:10px 16px;
+  min-height:44px;
+  padding:11px 18px;
   border-radius:999px;
   font-weight:800;
   font-size:13px;
-  border:1px solid rgba(31,78,121,.12);
-  transition:transform .22s ease, box-shadow .22s ease, background .22s ease;
+  border:1px solid rgba(31,78,121,.14);
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease,
+    background .22s ease,
+    color .22s ease,
+    border-color .22s ease;
   white-space:nowrap;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  line-height:1;
 }
 
 .navBtn.ghost{
-  background:linear-gradient(135deg, #fff 0%, #f6fbff 100%);
+  background:linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
   color:var(--blue);
-  box-shadow:var(--shadow-sm);
+  box-shadow:0 10px 22px rgba(12,34,58,.07);
 }
 
 .navBtn.ghost:hover{
-  background:linear-gradient(135deg, var(--gold-3) 0%, #fff4d8 100%);
-  transform:translateY(-1px);
-  box-shadow:0 16px 32px rgba(12,34,58,.10);
+  background:linear-gradient(180deg, #ffffff 0%, #eef6ff 100%);
+  color:var(--navy);
+  border-color:rgba(31,78,121,.22);
+  transform:translateY(-2px);
+  box-shadow:0 16px 34px rgba(12,34,58,.12);
 }
 
 .menuToggle{
@@ -560,42 +571,63 @@ textarea{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  font-weight:900;
+  font-weight:800;
   font-size:14px;
-  border:none;
   cursor:pointer;
-  transition:transform .22s ease, box-shadow .22s ease, background .22s ease;
   white-space:nowrap;
   line-height:1;
+  letter-spacing:.01em;
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease,
+    background .22s ease,
+    color .22s ease,
+    border-color .22s ease;
 }
 
+/* botão principal */
 .ctaPrimary{
   background:linear-gradient(135deg, var(--gold) 0%, var(--gold-2) 100%);
   color:#fff;
-  box-shadow:0 18px 38px rgba(255,143,31,.28);
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 18px 38px rgba(255,143,31,.24);
 }
 
 .ctaPrimary:hover{
   transform:translateY(-2px);
-  box-shadow:0 22px 42px rgba(255,143,31,.34);
+  box-shadow:0 24px 46px rgba(255,143,31,.30);
+  filter:saturate(1.03) brightness(1.02);
 }
 
+/* botão secundário */
 .ctaSecondary{
-  background:rgba(255,255,255,.12);
+  background:rgba(255,255,255,.10);
   color:#fff;
-  border:1px solid rgba(255,255,255,.22);
-  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.24);
+  backdrop-filter:blur(10px);
+  box-shadow:0 10px 24px rgba(0,0,0,.10);
 }
 
 .ctaSecondary:hover{
   transform:translateY(-2px);
   background:rgba(255,255,255,.18);
+  border-color:rgba(255,255,255,.34);
+  box-shadow:0 18px 34px rgba(0,0,0,.14);
 }
 
 .ctaSecondary.darkOutline{
-  background:#fff;
+  background:linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(246,250,255,.98) 100%);
   color:#173451;
-  border:1px solid rgba(8,31,53,.12);
+  border:1px solid rgba(17,49,81,.12);
+  box-shadow:0 12px 28px rgba(12,34,58,.08);
+}
+
+.ctaSecondary.darkOutline:hover{
+  background:#fff;
+  color:var(--blue);
+  border-color:rgba(31,78,121,.22);
+  transform:translateY(-2px);
+  box-shadow:0 18px 34px rgba(12,34,58,.12);
 }
 
 .heroControls{
@@ -756,6 +788,7 @@ textarea{
   background:linear-gradient(180deg, rgba(17,50,81,.04) 0%, rgba(10,27,45,.16) 44%, rgba(10,27,45,.74) 100%);
   z-index:1;
   pointer-events:none;
+  transition:background .28s ease;
 }
 
 .partnerContent{
@@ -772,6 +805,7 @@ textarea{
   padding:16px 16px 14px;
   max-height:48%;
   overflow:auto;
+  transition:transform .28s ease, background .28s ease, border-color .28s ease, box-shadow .28s ease;
 }
 
 .partnerContent h3{
@@ -836,7 +870,7 @@ textarea{
   height:100%;
   object-fit:cover;
   filter:contrast(1.08) saturate(1.08);
-  transition:transform .35s ease;
+  transition:transform .35s ease, filter .35s ease;
 }
 
 .projectCard:hover img{
@@ -849,6 +883,7 @@ textarea{
   inset:0;
   background:linear-gradient(180deg, rgba(255,166,0,.05) 0%, rgba(4,14,24,.08) 28%, rgba(4,14,24,.78) 100%);
   pointer-events:none;
+  transition:background .28s ease;
 }
 
 .projectCardContent{
@@ -858,6 +893,7 @@ textarea{
   bottom:24px;
   z-index:2;
   color:#fff;
+  transition:transform .28s ease;
 }
 
 .projectMiniTag{
@@ -871,6 +907,7 @@ textarea{
   font-weight:800;
   margin-bottom:10px;
   backdrop-filter:blur(8px);
+  transition:background .28s ease, border-color .28s ease, transform .28s ease;
 }
 
 .projectCardContent h3{
@@ -969,7 +1006,7 @@ textarea{
   border-radius:30px;
   box-shadow:var(--shadow-lg);
   filter:contrast(1.05) saturate(1.04);
-  transition:transform .35s ease;
+  transition:transform .35s ease, box-shadow .35s ease, filter .35s ease;
 }
 
 .aboutImage:hover img{
@@ -1039,7 +1076,7 @@ textarea{
   height:100%;
   object-fit:cover;
   filter:contrast(1.08) saturate(1.08);
-  transition:transform .35s ease;
+  transition:transform .35s ease, filter .35s ease;
 }
 
 .serviceBigCard:hover img{
@@ -1051,6 +1088,7 @@ textarea{
   inset:0;
   background:linear-gradient(180deg, rgba(18,56,94,.08) 24%, rgba(8,22,38,.82) 100%);
   pointer-events:none;
+  transition:background .28s ease;
 }
 
 .serviceBigContent{
@@ -1060,6 +1098,7 @@ textarea{
   bottom:24px;
   z-index:2;
   color:#fff;
+  transition:transform .28s ease;
 }
 
 .serviceBigContent h3{
@@ -1194,24 +1233,35 @@ textarea{
 }
 
 .openModalBtn{
-  min-height:50px;
+  min-height:52px;
   border:none;
   border-radius:999px;
   background:linear-gradient(135deg, var(--gold) 0%, var(--gold-2) 100%);
   color:#fff;
-  font-weight:900;
+  font-weight:800;
   font-size:14px;
-  padding:12px 18px;
+  padding:14px 22px;
   cursor:pointer;
   position:relative;
   z-index:1;
-  box-shadow:0 18px 32px rgba(255,143,31,.26);
-  transition:transform .22s ease, box-shadow .22s ease;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  line-height:1;
+  letter-spacing:.01em;
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 18px 38px rgba(255,143,31,.24);
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease,
+    background .22s ease,
+    color .22s ease;
 }
 
 .openModalBtn:hover{
   transform:translateY(-2px);
-  box-shadow:0 22px 38px rgba(255,143,31,.30);
+  box-shadow:0 24px 46px rgba(255,143,31,.30);
+  filter:saturate(1.03) brightness(1.02);
 }
 
 .contactForm{
@@ -1377,6 +1427,13 @@ textarea{
   background:#f3f6f9;
   font-size:28px;
   cursor:pointer;
+  transition:transform .22s ease, background .22s ease, box-shadow .22s ease;
+}
+
+.closeModalBtn:hover{
+  transform:translateY(-1px);
+  background:#ffffff;
+  box-shadow:0 12px 26px rgba(12,34,58,.10);
 }
 
 .modalBody{
@@ -1425,6 +1482,164 @@ textarea{
   flex-wrap:wrap;
   gap:12px;
   margin-top:6px;
+}
+
+/* =========================
+   PADRÃO VISUAL DE BOTÕES
+========================= */
+.navBtn,
+.ctaPrimary,
+.ctaSecondary,
+.openModalBtn{
+  position:relative;
+  overflow:hidden;
+}
+
+.navBtn::before,
+.ctaPrimary::before,
+.ctaSecondary::before,
+.openModalBtn::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg, rgba(255,255,255,.18), rgba(255,255,255,0) 38%);
+  opacity:0;
+  transition:opacity .22s ease;
+  pointer-events:none;
+}
+
+.navBtn:hover::before,
+.ctaPrimary:hover::before,
+.ctaSecondary:hover::before,
+.openModalBtn:hover::before{
+  opacity:1;
+}
+
+.navBtn:active,
+.ctaPrimary:active,
+.ctaSecondary:active,
+.openModalBtn:active{
+  transform:translateY(0) scale(.985);
+}
+
+.navBtn:focus-visible,
+.ctaPrimary:focus-visible,
+.ctaSecondary:focus-visible,
+.openModalBtn:focus-visible{
+  outline:none;
+  box-shadow:
+    0 0 0 4px rgba(31,78,121,.12),
+    0 16px 34px rgba(12,34,58,.12);
+}
+
+/* =========================
+   HOVERS EXTRA PREMIUM
+========================= */
+.authorityCard,
+.statBox,
+.testimonialCard,
+.contactMapCard,
+.contactSeoCard,
+.contactForm,
+.modalInfo{
+  transition:
+    transform .28s ease,
+    box-shadow .28s ease,
+    border-color .28s ease,
+    background .28s ease;
+}
+
+.authorityCard:hover,
+.statBox:hover,
+.testimonialCard:hover,
+.contactMapCard:hover,
+.contactSeoCard:hover{
+  transform:translateY(-5px);
+  box-shadow:0 22px 42px rgba(12,34,58,.12);
+}
+
+.contactForm:hover,
+.modalInfo:hover{
+  box-shadow:0 22px 46px rgba(12,34,58,.14);
+}
+
+.partnerCard:hover .partnerOverlay{
+  background:linear-gradient(180deg, rgba(17,50,81,.02) 0%, rgba(10,27,45,.16) 40%, rgba(10,27,45,.82) 100%);
+}
+
+.partnerCard:hover .partnerContent{
+  transform:translateY(-4px);
+  background:linear-gradient(180deg, rgba(12,34,58,.12), rgba(12,34,58,.34));
+  border-color:rgba(255,255,255,.14);
+  box-shadow:0 18px 34px rgba(0,0,0,.16);
+}
+
+.projectCard:hover{
+  box-shadow:0 30px 68px rgba(12,34,58,.22);
+}
+
+.projectCard:hover::after{
+  background:linear-gradient(180deg, rgba(255,166,0,.08) 0%, rgba(4,14,24,.10) 24%, rgba(4,14,24,.84) 100%);
+}
+
+.projectCard:hover .projectCardContent{
+  transform:translateY(-4px);
+}
+
+.projectCard:hover .projectMiniTag{
+  background:rgba(255,255,255,.18);
+  border-color:rgba(255,255,255,.26);
+  transform:translateY(-2px);
+}
+
+.projectCard:hover img{
+  filter:contrast(1.1) saturate(1.12) brightness(.98);
+}
+
+.serviceBigCard:hover{
+  box-shadow:0 28px 58px rgba(12,34,58,.18);
+}
+
+.serviceBigCard:hover .serviceBigOverlay{
+  background:linear-gradient(180deg, rgba(18,56,94,.06) 18%, rgba(8,22,38,.86) 100%);
+}
+
+.serviceBigCard:hover .serviceBigContent{
+  transform:translateY(-4px);
+}
+
+.serviceBigCard:hover img{
+  filter:contrast(1.1) saturate(1.1) brightness(.98);
+}
+
+.aboutImage:hover img{
+  box-shadow:0 34px 72px rgba(12,34,58,.22);
+  filter:contrast(1.08) saturate(1.06);
+}
+
+.footerSocials a{
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease,
+    background .22s ease,
+    color .22s ease,
+    border-color .22s ease;
+}
+
+.footerSocials a:hover{
+  transform:translateY(-3px);
+  background:linear-gradient(180deg, #ffffff 0%, #eef6ff 100%);
+  box-shadow:0 16px 30px rgba(12,34,58,.10);
+  color:var(--blue);
+}
+
+.footerCol a{
+  transition:color .22s ease, transform .22s ease;
+}
+
+.footerCol a:hover{
+  color:var(--gold-2);
+  transform:translateX(3px);
 }
 
 /* =========================
@@ -1534,6 +1749,12 @@ textarea{
   border-radius:999px;
   padding:4px 6px 4px 18px;
   background:#fff;
+  transition:box-shadow .22s ease, border-color .22s ease;
+}
+
+.footerSearchBox:focus-within{
+  border-color:var(--blue);
+  box-shadow:0 0 0 4px rgba(31,78,121,.10);
 }
 
 .footerSearchBox input{
@@ -1552,6 +1773,12 @@ textarea{
   background:linear-gradient(135deg, var(--gold-3) 0%, #fff 100%);
   cursor:pointer;
   color:#102845;
+  transition:transform .22s ease, box-shadow .22s ease, background .22s ease;
+}
+
+.footerSearchBox button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 14px 28px rgba(12,34,58,.10);
 }
 
 .footerDirect{
@@ -1590,10 +1817,6 @@ textarea{
   display:block;
   margin:0 0 12px;
   color:#31485a;
-}
-
-.footerCol a:hover{
-  color:var(--gold-2);
 }
 
 .footerBottom{
@@ -1737,6 +1960,12 @@ textarea{
   font-weight:700;
   cursor:pointer;
   z-index:10000;
+  transition:transform .22s ease, background .22s ease;
+}
+
+.imagePreviewClose:hover{
+  transform:scale(1.04);
+  background:rgba(15,35,54,.84);
 }
 
 .aboutImage,
@@ -1929,7 +2158,9 @@ textarea{
   }
 
   .ctaPrimary,
-  .ctaSecondary{
+  .ctaSecondary,
+  .openModalBtn,
+  .navBtn{
     min-height:48px;
     padding:13px 18px;
     font-size:13px;
