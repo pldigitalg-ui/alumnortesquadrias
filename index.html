@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#0c2340" />
+  <meta name="theme-color" content="#0d2340" />
 
   <title>Alumnorte Esquadrias de Alumínio em Janaúba MG | Portas, Janelas e Vidraçaria</title>
 
@@ -34,6 +34,1298 @@
   <link rel="preload" as="image" href="img/hero-2.jpg" />
   <link rel="preload" as="image" href="img/hero-3.jpg" />
   <link rel="stylesheet" href="css/styles.css" />
+
+  <style>
+    :root{
+      --navy:#0d2340;
+      --navy-2:#14355f;
+      --navy-3:#1b4a80;
+      --gold:#c6a76a;
+      --gold-soft:#d7bf8c;
+      --silver:#b8c4d1;
+      --silver-2:#dfe6ee;
+      --white:#ffffff;
+      --paper:#f5f7fa;
+      --paper-2:#eef3f8;
+      --ink:#142132;
+      --muted:#5c6b7c;
+      --line:rgba(13,35,64,.10);
+      --shadow:0 20px 60px rgba(9,24,46,.10);
+      --shadow-soft:0 12px 30px rgba(9,24,46,.08);
+      --radius:26px;
+      --radius-lg:34px;
+      --container:min(1240px, calc(100% - 32px));
+      --topbar-h:108px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      color:var(--ink);
+      background:linear-gradient(180deg,#f8fafc 0%,#f3f6fa 40%,#eff4f8 100%);
+      overflow-x:hidden;
+    }
+    img{max-width:100%;display:block}
+    a{text-decoration:none;color:inherit}
+    button,input,textarea{font:inherit}
+    .wrap{width:var(--container);margin:0 auto}
+
+    .topbar{
+      position:fixed;
+      inset:0 0 auto 0;
+      z-index:1000;
+      transition:.35s ease;
+    }
+    .topbar.scrolled .topStrip{
+      background:rgba(13,35,64,.95);
+      border-bottom-color:rgba(255,255,255,.08);
+    }
+    .topbar.scrolled .mainNav{
+      background:rgba(255,255,255,.95);
+      backdrop-filter:blur(16px);
+      box-shadow:0 16px 40px rgba(10,28,52,.10);
+      border-bottom:1px solid rgba(15,39,70,.08);
+    }
+    .topbar.scrolled .navMenu a{color:var(--navy)}
+    .topbar.scrolled .brandName small{color:#5f6d7c}
+    .topbar.scrolled .brandName strong{color:var(--navy)}
+    .topbar.scrolled .menuToggle span{background:var(--navy)}
+
+    .topStrip{
+      background:rgba(9,24,46,.72);
+      border-bottom:1px solid rgba(255,255,255,.08);
+      color:#eaf1f7;
+      transition:.35s ease;
+    }
+    .topStripInner{
+      min-height:40px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      font-size:12px;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+    }
+
+    .mainNav{
+      background:rgba(255,255,255,.10);
+      backdrop-filter:blur(10px);
+      transition:.35s ease;
+    }
+    .navInner{
+      min-height:68px;
+      display:grid;
+      grid-template-columns:auto 1fr auto auto;
+      align-items:center;
+      gap:24px;
+    }
+
+    .brandMark{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      min-width:max-content;
+    }
+    .brandBadge{
+      width:46px;height:46px;border-radius:14px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.95), rgba(223,230,238,.8)),
+        linear-gradient(145deg,var(--gold),var(--gold-soft));
+      border:1px solid rgba(255,255,255,.55);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.8),
+        0 10px 22px rgba(11,26,49,.12);
+      position:relative;
+      overflow:hidden;
+    }
+    .brandBadge::before{
+      content:"";
+      position:absolute; inset:8px;
+      border-radius:10px;
+      border:1px solid rgba(13,35,64,.10);
+      background:linear-gradient(180deg,rgba(198,167,106,.18),rgba(13,35,64,.03));
+    }
+    .brandName{
+      display:flex;
+      flex-direction:column;
+      line-height:1.05;
+    }
+    .brandName strong{
+      font-size:20px;
+      letter-spacing:.12em;
+      color:#fff;
+    }
+    .brandName small{
+      color:rgba(255,255,255,.74);
+      font-size:11px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      margin-top:6px;
+    }
+
+    .navMenu{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:28px;
+      flex-wrap:wrap;
+    }
+    .navMenu a{
+      position:relative;
+      color:#f6f8fb;
+      font-size:14px;
+      font-weight:700;
+      letter-spacing:.04em;
+      padding:8px 0;
+      transition:.25s ease;
+    }
+    .navMenu a::after{
+      content:"";
+      position:absolute;
+      left:0; bottom:0;
+      width:0; height:2px;
+      background:linear-gradient(90deg,var(--gold),var(--gold-soft));
+      transition:.25s ease;
+    }
+    .navMenu a:hover::after,
+    .navMenu a.active::after{width:100%}
+
+    .navActions{display:flex;align-items:center}
+    .navBtn,
+    .ctaPrimary,
+    .openModalBtn,
+    .modalActions .ctaPrimary{
+      border:0;
+      cursor:pointer;
+      border-radius:999px;
+      padding:14px 24px;
+      font-weight:700;
+      letter-spacing:.02em;
+      transition:.28s ease;
+    }
+    .navBtn.ghost{
+      background:linear-gradient(135deg,var(--gold),var(--gold-soft));
+      color:var(--navy);
+      box-shadow:0 12px 26px rgba(198,167,106,.28);
+    }
+    .navBtn.ghost:hover,
+    .ctaPrimary:hover,
+    .openModalBtn:hover{transform:translateY(-2px)}
+
+    .menuToggle{
+      display:none;
+      width:48px;height:48px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.10);
+      cursor:pointer;
+    }
+    .menuToggle span{
+      display:block;
+      width:22px;height:2px;
+      background:#fff;
+      margin:5px auto;
+      border-radius:2px;
+      transition:.3s ease;
+    }
+
+    .mobileMenu{
+      display:none;
+      background:#fff;
+      border-top:1px solid rgba(13,35,64,.08);
+      box-shadow:0 20px 40px rgba(10,28,52,.10);
+    }
+    .mobileMenu a{
+      display:block;
+      padding:16px 20px;
+      border-bottom:1px solid rgba(13,35,64,.06);
+      color:var(--navy);
+      font-weight:700;
+    }
+    .mobileMenu.show{display:block}
+
+    main{display:block}
+
+    .heroSection{
+      position:relative;
+      min-height:100vh;
+      padding-top:var(--topbar-h);
+      overflow:hidden;
+      background:
+        radial-gradient(circle at top left, rgba(198,167,106,.18), transparent 28%),
+        linear-gradient(180deg,#102849 0%,#0d2340 40%,#123053 100%);
+    }
+    .heroSlider{
+      position:relative;
+      min-height:calc(100vh - 0px);
+      display:flex;
+      align-items:stretch;
+    }
+    .heroTrack{
+      position:absolute;
+      inset:0;
+    }
+    .heroSlide{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      transition:opacity .7s ease, transform 2.5s ease;
+      transform:scale(1.04);
+    }
+    .heroSlide.active{
+      opacity:1;
+      transform:scale(1);
+    }
+    .heroSlide img{
+      width:100%;height:100%;
+      object-fit:cover;
+      filter:saturate(1.05) contrast(1.02);
+    }
+    .heroOverlay{
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(90deg, rgba(7,19,37,.82) 0%, rgba(7,19,37,.66) 34%, rgba(7,19,37,.18) 68%, rgba(7,19,37,.10) 100%),
+        linear-gradient(180deg, rgba(8,22,42,.18) 0%, rgba(8,22,42,.55) 100%);
+      z-index:1;
+    }
+    .heroSection::after{
+      content:"";
+      position:absolute;
+      left:0; right:0; bottom:0;
+      height:120px;
+      background:linear-gradient(180deg,rgba(255,255,255,0),#f5f7fa 78%);
+      z-index:1;
+      pointer-events:none;
+    }
+
+    .heroContent{
+      position:relative;
+      z-index:2;
+      width:100%;
+      display:grid;
+      grid-template-columns:minmax(0,680px) 1fr;
+      align-items:center;
+      gap:40px;
+      padding:84px 0 120px;
+    }
+
+    .heroText{
+      position:relative;
+      max-width:720px;
+    }
+
+    .heroBrandBox{
+      display:inline-flex;
+      align-items:center;
+      gap:14px;
+      padding:10px 16px;
+      border-radius:999px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.20);
+      backdrop-filter:blur(12px);
+      margin-bottom:24px;
+      color:#fff;
+      font-size:13px;
+      font-weight:700;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+    }
+    .heroBrandBox span{
+      width:10px;height:10px;border-radius:50%;
+      background:linear-gradient(135deg,var(--gold),#f1dfb4);
+      box-shadow:0 0 0 6px rgba(198,167,106,.14);
+    }
+
+    .sectionKicker{
+      display:inline-block;
+      margin-bottom:18px;
+      color:var(--navy-3);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+    }
+    .sectionKicker.light{color:#d8e4f1}
+
+    #heroTitle{
+      margin:0;
+      color:#fff;
+      font-size:clamp(40px, 6vw, 74px);
+      line-height:.98;
+      letter-spacing:-.04em;
+      max-width:820px;
+      text-shadow:0 8px 30px rgba(0,0,0,.22);
+    }
+    #heroDesc{
+      margin:24px 0 0;
+      max-width:660px;
+      color:rgba(255,255,255,.86);
+      font-size:18px;
+      line-height:1.75;
+    }
+
+    .heroBenefits{
+      list-style:none;
+      padding:0;
+      margin:34px 0 0;
+      display:grid;
+      gap:14px;
+      max-width:650px;
+    }
+    .heroBenefits li{
+      position:relative;
+      padding:18px 18px 18px 64px;
+      color:#f6f8fb;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:20px;
+      backdrop-filter:blur(10px);
+      line-height:1.6;
+    }
+    .heroBenefits li::before{
+      content:"";
+      position:absolute;
+      left:20px; top:50%;
+      width:26px;height:26px;
+      transform:translateY(-50%);
+      border-radius:50%;
+      background:linear-gradient(135deg,var(--gold),#f1dfb4);
+      box-shadow:0 0 0 8px rgba(198,167,106,.10);
+    }
+
+    .heroButtons{
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      margin-top:34px;
+    }
+    .ctaPrimary{
+      background:linear-gradient(135deg,var(--gold),var(--gold-soft));
+      color:var(--navy);
+      box-shadow:0 18px 34px rgba(198,167,106,.24);
+    }
+    .ctaSecondary{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:52px;
+      padding:0 22px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.24);
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      font-weight:700;
+      backdrop-filter:blur(10px);
+      transition:.25s ease;
+    }
+    .ctaSecondary:hover{transform:translateY(-2px);background:rgba(255,255,255,.12)}
+    .ctaSecondary.darkOutline{
+      color:var(--navy);
+      border-color:rgba(13,35,64,.14);
+      background:#fff;
+    }
+
+    .heroDotsWrap{
+      position:absolute;
+      left:0; right:0; bottom:34px;
+      z-index:3;
+    }
+    .heroDots{
+      width:var(--container);
+      margin:0 auto;
+      display:flex;
+      gap:10px;
+      justify-content:flex-start;
+    }
+    .heroDot{
+      width:12px;height:12px;border-radius:50%;
+      border:1px solid rgba(255,255,255,.5);
+      background:rgba(255,255,255,.18);
+      cursor:pointer;
+      transition:.25s ease;
+    }
+    .heroDot.active{
+      width:34px;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--gold),#f1dfb4);
+      border-color:transparent;
+    }
+
+    .authoritySection{
+      position:relative;
+      z-index:3;
+      margin-top:-54px;
+      padding-bottom:20px;
+    }
+    .authorityGrid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:18px;
+    }
+    .authorityCard{
+      background:rgba(255,255,255,.86);
+      backdrop-filter:blur(18px);
+      border:1px solid rgba(255,255,255,.66);
+      border-radius:28px;
+      padding:28px 24px;
+      box-shadow:var(--shadow);
+      min-height:170px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+    .authorityCard strong{
+      font-size:28px;
+      line-height:1;
+      color:var(--navy);
+      letter-spacing:-.03em;
+    }
+    .authorityCard span{
+      margin-top:18px;
+      color:var(--muted);
+      line-height:1.65;
+      font-size:14px;
+    }
+
+    .section{
+      padding:100px 0;
+      position:relative;
+    }
+    .whiteSection{background:transparent}
+    .darkSection{
+      background:
+        radial-gradient(circle at top right, rgba(198,167,106,.10), transparent 22%),
+        linear-gradient(180deg,#10294b 0%, #0d2340 100%);
+      color:#fff;
+    }
+
+    .sectionHead{
+      display:grid;
+      grid-template-columns:minmax(0, 540px) minmax(0, 520px);
+      justify-content:space-between;
+      align-items:end;
+      gap:24px;
+      margin-bottom:42px;
+    }
+    .sectionHead h2{
+      margin:0;
+      font-size:clamp(32px, 4vw, 52px);
+      line-height:1.02;
+      letter-spacing:-.03em;
+      color:var(--navy);
+    }
+    .sectionHead p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.8;
+      font-size:16px;
+    }
+    .sectionHeadLight h2,
+    .sectionHeadLight p{color:#fff}
+    .sectionHeadLight p{color:rgba(255,255,255,.74)}
+
+    .aboutSection{
+      padding-top:88px;
+    }
+    .aboutGrid{
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:32px;
+      align-items:stretch;
+    }
+    .aboutText{
+      background:linear-gradient(180deg,#ffffff 0%, #f8fbfe 100%);
+      border:1px solid var(--line);
+      border-radius:var(--radius-lg);
+      padding:42px;
+      box-shadow:var(--shadow-soft);
+    }
+    .aboutText h3{
+      margin:0 0 18px;
+      font-size:30px;
+      line-height:1.12;
+      letter-spacing:-.03em;
+      color:var(--navy);
+    }
+    .aboutText p{
+      margin:0 0 18px;
+      color:var(--muted);
+      line-height:1.9;
+      font-size:16px;
+    }
+    .aboutImage{
+      position:relative;
+      border-radius:var(--radius-lg);
+      overflow:hidden;
+      min-height:520px;
+      box-shadow:var(--shadow);
+      background:#dfe6ee;
+    }
+    .aboutImage img{
+      width:100%;height:100%;
+      object-fit:cover;
+    }
+    .aboutImage::after{
+      content:"";
+      position:absolute; inset:auto 0 0 0;
+      height:46%;
+      background:linear-gradient(180deg,rgba(13,35,64,0),rgba(13,35,64,.20));
+      pointer-events:none;
+    }
+
+    .aboutStats{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:18px;
+      margin-top:22px;
+    }
+    .statBox{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:26px 22px;
+      box-shadow:var(--shadow-soft);
+    }
+    .statBox strong{
+      display:block;
+      margin-bottom:10px;
+      color:var(--navy);
+      font-size:18px;
+      letter-spacing:-.02em;
+    }
+    .statBox span{
+      color:var(--muted);
+      line-height:1.65;
+      font-size:14px;
+    }
+
+    .servicesGrid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:22px;
+    }
+    .serviceBigCard{
+      position:relative;
+      min-height:420px;
+      border-radius:30px;
+      overflow:hidden;
+      background:#d8e1ea;
+      box-shadow:var(--shadow);
+      isolation:isolate;
+    }
+    .serviceBigCard img{
+      width:100%;height:100%;
+      object-fit:cover;
+      transition:transform .8s ease;
+    }
+    .serviceBigCard:hover img{transform:scale(1.05)}
+    .serviceBigOverlay{
+      position:absolute; inset:0;
+      background:
+        linear-gradient(180deg, rgba(13,35,64,.04) 0%, rgba(13,35,64,.18) 38%, rgba(13,35,64,.86) 100%);
+      z-index:1;
+    }
+    .serviceBigContent{
+      position:absolute;
+      left:0; right:0; bottom:0;
+      z-index:2;
+      padding:28px 28px 30px;
+      color:#fff;
+    }
+    .serviceBigContent h3{
+      margin:0 0 12px;
+      font-size:29px;
+      line-height:1;
+      letter-spacing:-.03em;
+    }
+    .serviceBigContent p{
+      margin:0;
+      line-height:1.7;
+      color:rgba(255,255,255,.82);
+    }
+
+    .projectShowcaseSection{
+      overflow:hidden;
+    }
+    .projectSlider{position:relative}
+    .projectViewport{overflow:hidden}
+    .projectTrack{
+      display:flex;
+      gap:22px;
+      transition:transform .45s ease;
+      will-change:transform;
+    }
+    .projectCard{
+      min-width:calc(33.333% - 14.7px);
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:30px;
+      overflow:hidden;
+      box-shadow:0 18px 40px rgba(0,0,0,.18);
+      backdrop-filter:blur(16px);
+    }
+    .projectMedia{
+      position:relative;
+      aspect-ratio:1.15/1;
+      overflow:hidden;
+    }
+    .projectMedia img{
+      width:100%;height:100%;
+      object-fit:cover;
+      transition:transform .7s ease;
+    }
+    .projectCard:hover .projectMedia img{transform:scale(1.05)}
+    .projectBody{padding:24px 24px 28px}
+    .projectBody h3{
+      margin:0 0 12px;
+      color:#fff;
+      font-size:26px;
+      letter-spacing:-.03em;
+    }
+    .projectBody p{
+      margin:0;
+      color:rgba(255,255,255,.72);
+      line-height:1.75;
+      font-size:15px;
+    }
+    .projectIndicators{
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      margin-top:24px;
+    }
+    .projectIndicators button{
+      width:12px;height:12px;border-radius:50%;
+      border:0;
+      background:rgba(255,255,255,.24);
+      cursor:pointer;
+      transition:.25s ease;
+    }
+    .projectIndicators button.active{
+      width:34px;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--gold),#f1dfb4);
+    }
+
+    .partnersGrid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:20px;
+    }
+    .partnerCard{
+      position:relative;
+      min-height:340px;
+      border-radius:28px;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      background:#dfe6ee;
+      border:1px solid rgba(13,35,64,.08);
+    }
+    .partnerCard img{
+      width:100%;height:100%;object-fit:cover;
+      transition:transform .7s ease;
+    }
+    .partnerCard:hover img{transform:scale(1.04)}
+    .partnerOverlay{
+      position:absolute; inset:0;
+      background:linear-gradient(180deg, rgba(13,35,64,.02) 0%, rgba(13,35,64,.16) 40%, rgba(13,35,64,.82) 100%);
+    }
+    .partnerContent{
+      position:absolute; left:0; right:0; bottom:0;
+      padding:24px;
+      color:#fff;
+    }
+    .partnerContent h3{
+      margin:0 0 8px;
+      font-size:23px;
+      letter-spacing:-.03em;
+    }
+    .partnerContent p{
+      margin:0;
+      color:rgba(255,255,255,.76);
+      line-height:1.7;
+      font-size:14px;
+    }
+
+    .curiosityGrid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:20px;
+    }
+    .curiosityCard{
+      background:linear-gradient(180deg,#ffffff 0%, #f7fafc 100%);
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:28px 26px;
+      box-shadow:var(--shadow-soft);
+      min-height:250px;
+      position:relative;
+      overflow:hidden;
+    }
+    .curiosityCard::after{
+      content:"";
+      position:absolute;
+      right:-30px; top:-30px;
+      width:120px;height:120px;border-radius:50%;
+      background:radial-gradient(circle, rgba(198,167,106,.18), transparent 68%);
+      pointer-events:none;
+    }
+    .curiosityNumber{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:52px;height:52px;
+      border-radius:18px;
+      background:linear-gradient(135deg,var(--navy),var(--navy-3));
+      color:#fff;
+      font-weight:800;
+      letter-spacing:.08em;
+      margin-bottom:18px;
+      box-shadow:0 12px 24px rgba(13,35,64,.14);
+    }
+    .curiosityCard h3{
+      margin:0 0 12px;
+      color:var(--navy);
+      font-size:24px;
+      line-height:1.15;
+      letter-spacing:-.03em;
+    }
+    .curiosityCard p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.8;
+      font-size:15px;
+    }
+
+    .testimonialsGrid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:20px;
+    }
+    .testimonialCard{
+      background:linear-gradient(180deg,#fff 0%, #f8fbfe 100%);
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:30px 28px;
+      box-shadow:var(--shadow-soft);
+      min-height:260px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+    .stars{
+      letter-spacing:.20em;
+      color:var(--gold);
+      margin-bottom:18px;
+      font-size:18px;
+    }
+    .testimonialCard p{
+      margin:0 0 22px;
+      color:var(--muted);
+      line-height:1.9;
+      font-size:16px;
+    }
+    .testimonialCard strong{
+      color:var(--navy);
+      font-size:15px;
+      letter-spacing:.03em;
+    }
+
+    .contactSection{
+      position:relative;
+      overflow:hidden;
+    }
+    .contactSection::before{
+      content:"";
+      position:absolute;
+      inset:auto -120px -120px auto;
+      width:320px;height:320px;border-radius:50%;
+      background:radial-gradient(circle, rgba(198,167,106,.16), transparent 66%);
+      pointer-events:none;
+    }
+    .contactGrid{
+      display:grid;
+      grid-template-columns:.95fr 1.05fr;
+      gap:24px;
+      align-items:stretch;
+    }
+    .contactInfoPanel,
+    .contactForm,
+    .contactMapCard,
+    .contactSeoCard{
+      background:linear-gradient(180deg,#fff 0%, #f8fbfe 100%);
+      border:1px solid var(--line);
+      border-radius:30px;
+      box-shadow:var(--shadow-soft);
+    }
+    .contactInfoPanel{
+      padding:34px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+    .contactInfoPanel h3,
+    .contactMapCard h3,
+    .contactSeoCard h3{
+      margin:0 0 14px;
+      color:var(--navy);
+      font-size:28px;
+      line-height:1.08;
+      letter-spacing:-.03em;
+    }
+    .contactInfoPanel p,
+    .contactMapCard p,
+    .contactSeoCard p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.8;
+    }
+    .contactInfoList{
+      display:grid;
+      gap:14px;
+      margin:28px 0;
+    }
+    .contactInfoItem{
+      padding:18px 18px;
+      border-radius:20px;
+      background:var(--paper);
+      border:1px solid rgba(13,35,64,.06);
+    }
+    .contactInfoItem strong{
+      display:block;
+      color:var(--navy);
+      margin-bottom:6px;
+    }
+    .contactInfoItem span{color:var(--muted)}
+    .openModalBtn{
+      align-self:flex-start;
+      background:linear-gradient(135deg,var(--navy),var(--navy-3));
+      color:#fff;
+      box-shadow:0 16px 30px rgba(13,35,64,.20);
+    }
+
+    .contactForm{padding:30px}
+    .formRow{display:block}
+    .field{
+      display:block;
+      width:100%;
+    }
+    .field span{
+      display:block;
+      color:var(--navy);
+      font-weight:700;
+      margin-bottom:10px;
+    }
+    .field input,
+    .field textarea{
+      width:100%;
+      border:1px solid rgba(13,35,64,.12);
+      background:#fff;
+      color:var(--ink);
+      padding:16px 18px;
+      border-radius:18px;
+      outline:none;
+      transition:.2s ease;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+    }
+    .field textarea{min-height:190px;resize:vertical;line-height:1.8}
+    .field input:focus,
+    .field textarea:focus{
+      border-color:rgba(27,74,128,.40);
+      box-shadow:0 0 0 4px rgba(27,74,128,.08);
+    }
+
+    .contactActions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      margin-top:22px;
+    }
+
+    .contactExtraGrid{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:24px;
+      margin-top:24px;
+    }
+    .contactMapCard,
+    .contactSeoCard{
+      padding:30px;
+    }
+    .mapFrame{
+      width:100%;
+      height:300px;
+      border:0;
+      border-radius:24px;
+      margin-top:18px;
+      background:#dfe6ee;
+    }
+    .seoList{
+      list-style:none;
+      padding:0;
+      margin:22px 0 0;
+      display:grid;
+      gap:12px;
+    }
+    .seoList li{
+      padding:14px 16px;
+      background:var(--paper);
+      border:1px solid rgba(13,35,64,.06);
+      border-radius:16px;
+      color:var(--muted);
+    }
+
+    .modalOverlay{
+      position:fixed;
+      inset:0;
+      background:rgba(7,19,37,.68);
+      backdrop-filter:blur(12px);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      z-index:1200;
+    }
+    .modalOverlay.show{display:flex}
+    .modalBox{
+      width:min(1080px,100%);
+      max-height:90vh;
+      overflow:auto;
+      background:linear-gradient(180deg,#fdfefe 0%, #f5f8fb 100%);
+      border-radius:34px;
+      box-shadow:0 28px 80px rgba(0,0,0,.24);
+      border:1px solid rgba(255,255,255,.66);
+    }
+    .modalTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:26px 28px;
+      border-bottom:1px solid rgba(13,35,64,.08);
+    }
+    .modalTop h3{
+      margin:0;
+      color:var(--navy);
+      font-size:30px;
+      letter-spacing:-.03em;
+    }
+    .closeModalBtn{
+      width:46px;height:46px;border-radius:14px;border:0;
+      background:var(--paper);
+      color:var(--navy);
+      font-size:28px;
+      cursor:pointer;
+    }
+    .modalBody{padding:28px}
+    .modalGrid{
+      display:grid;
+      grid-template-columns:.95fr 1.05fr;
+      gap:22px;
+    }
+    .modalInfo,
+    .modalForm{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:26px;
+      padding:26px;
+      box-shadow:var(--shadow-soft);
+    }
+    .modalInfo h4{
+      margin:0 0 12px;
+      font-size:26px;
+      color:var(--navy);
+      letter-spacing:-.03em;
+    }
+    .modalInfo p{
+      color:var(--muted);
+      line-height:1.8;
+      margin:0 0 18px;
+    }
+    .modalInfo ul{
+      margin:0;
+      padding-left:18px;
+      color:var(--muted);
+      line-height:1.9;
+    }
+    .modalForm{display:grid;gap:14px}
+    .modalActions{display:flex;gap:12px;justify-content:flex-start;margin-top:8px}
+    .modalActions .ctaPrimary{
+      min-width:240px;
+    }
+
+    .imagePreviewOverlay{
+      position:fixed;
+      inset:0;
+      background:rgba(4,10,18,.88);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:26px;
+      z-index:1300;
+    }
+    .imagePreviewOverlay.show{display:flex}
+    .imagePreviewBox{
+      width:min(980px,100%);
+      max-height:88vh;
+      overflow:hidden;
+      border-radius:26px;
+      box-shadow:0 30px 80px rgba(0,0,0,.40);
+      background:#0a1829;
+    }
+    .imagePreviewBox img{
+      width:100%;
+      max-height:88vh;
+      object-fit:contain;
+      background:#0a1829;
+    }
+    .imagePreviewClose{
+      position:absolute;
+      top:22px; right:22px;
+      width:52px;height:52px;border-radius:16px;border:0;
+      background:rgba(255,255,255,.12);
+      color:#fff;
+      font-size:28px;
+      cursor:pointer;
+      z-index:2;
+    }
+
+    .floatWhats{
+      position:fixed;
+      right:18px;
+      bottom:22px;
+      width:62px;height:62px;border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:28px;
+      color:#fff;
+      background:linear-gradient(135deg,#15c95c,#0aa547);
+      box-shadow:0 18px 34px rgba(8,167,73,.28);
+      z-index:950;
+    }
+    .backToTop{
+      position:fixed;
+      right:18px;
+      bottom:96px;
+      width:54px;height:54px;border-radius:18px;border:0;
+      background:linear-gradient(135deg,var(--navy),var(--navy-3));
+      color:#fff;
+      font-size:22px;
+      cursor:pointer;
+      box-shadow:0 16px 30px rgba(13,35,64,.22);
+      display:none;
+      z-index:949;
+    }
+    .backToTop.show{display:block}
+
+    .footer{
+      background:
+        radial-gradient(circle at top left, rgba(198,167,106,.10), transparent 24%),
+        linear-gradient(180deg,#10294b 0%,#0d2340 100%);
+      color:#fff;
+      margin-top:40px;
+    }
+    .footerTop{
+      display:grid;
+      grid-template-columns:1.15fr 1fr .9fr;
+      gap:24px;
+      padding:54px 0 30px;
+      align-items:start;
+    }
+    .footerBrand{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:30px;
+      padding:28px;
+      backdrop-filter:blur(10px);
+    }
+    .footerBrandLine{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:18px;
+    }
+    .brandBadge.small{width:38px;height:38px;border-radius:12px}
+    .footerBrandLine strong{
+      font-size:20px;
+      letter-spacing:.12em;
+    }
+    .footerBrandText{
+      margin:0 0 20px;
+      color:rgba(255,255,255,.76);
+      line-height:1.8;
+    }
+    .footerSocials{
+      display:flex;
+      gap:12px;
+    }
+    .footerSocials a{
+      width:46px;height:46px;border-radius:14px;
+      display:flex;align-items:center;justify-content:center;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.12);
+      color:#fff;
+      font-weight:700;
+      transition:.25s ease;
+    }
+    .footerSocials a:hover{transform:translateY(-2px);background:rgba(255,255,255,.16)}
+
+    .footerSearch,
+    .footerDirect{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:30px;
+      padding:28px;
+      backdrop-filter:blur(10px);
+    }
+    .footerSearch span{
+      display:block;
+      color:#fff;
+      font-size:18px;
+      line-height:1.5;
+      margin-bottom:16px;
+    }
+    .footerSearchBox{
+      display:flex;
+      gap:10px;
+    }
+    .footerSearchBox input{
+      flex:1;
+      min-width:0;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.10);
+      color:#fff;
+      padding:14px 16px;
+      border-radius:16px;
+      outline:none;
+    }
+    .footerSearchBox input::placeholder{color:rgba(255,255,255,.58)}
+    .footerSearchBox button{
+      width:52px;border:0;border-radius:16px;
+      background:linear-gradient(135deg,var(--gold),var(--gold-soft));
+      color:var(--navy);
+      font-size:18px;
+      cursor:pointer;
+      font-weight:700;
+    }
+    .footerDirect{
+      display:grid;
+      gap:18px;
+    }
+    .footerDirect strong{
+      display:block;
+      margin-bottom:6px;
+      color:#fff;
+    }
+    .footerDirect span{
+      color:rgba(255,255,255,.74);
+      line-height:1.7;
+    }
+
+    .footerLinks{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:22px;
+      padding:0 0 36px;
+    }
+    .footerCol{
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:24px;
+      padding:24px;
+    }
+    .footerCol h4{
+      margin:0 0 14px;
+      font-size:17px;
+      color:#fff;
+      letter-spacing:.02em;
+    }
+    .footerCol a{
+      display:block;
+      color:rgba(255,255,255,.72);
+      padding:8px 0;
+      transition:.2s ease;
+    }
+    .footerCol a:hover{color:#fff}
+
+    .footerBottom{
+      border-top:1px solid rgba(255,255,255,.08);
+    }
+    .footerBottomInner{
+      min-height:66px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      color:rgba(255,255,255,.66);
+      font-size:14px;
+    }
+
+    @media (max-width:1180px){
+      .authorityGrid,
+      .aboutStats,
+      .partnersGrid{grid-template-columns:repeat(2,1fr)}
+      .servicesGrid,
+      .curiosityGrid,
+      .testimonialsGrid{grid-template-columns:repeat(2,1fr)}
+      .footerTop,
+      .footerLinks{grid-template-columns:repeat(2,1fr)}
+      .projectCard{min-width:calc(50% - 11px)}
+    }
+
+    @media (max-width:920px){
+      :root{--topbar-h:96px}
+      .navInner{grid-template-columns:auto 1fr auto}
+      .navMenu,.navActions{display:none}
+      .menuToggle{display:block;justify-self:end}
+      .heroContent,
+      .sectionHead,
+      .aboutGrid,
+      .contactGrid,
+      .contactExtraGrid,
+      .modalGrid{
+        grid-template-columns:1fr;
+      }
+      .heroContent{padding-top:70px}
+      .aboutImage{min-height:380px}
+      .projectCard{min-width:100%}
+    }
+
+    @media (max-width:720px){
+      .topStrip{display:none}
+      .heroSection{padding-top:76px}
+      #heroTitle{font-size:clamp(34px, 10vw, 52px)}
+      #heroDesc{font-size:16px}
+      .heroBenefits li{padding-left:58px}
+      .authoritySection{margin-top:-26px}
+      .authorityGrid,
+      .servicesGrid,
+      .aboutStats,
+      .partnersGrid,
+      .curiosityGrid,
+      .testimonialsGrid,
+      .footerTop,
+      .footerLinks{
+        grid-template-columns:1fr;
+      }
+      .section{padding:78px 0}
+      .sectionHead{margin-bottom:32px}
+      .sectionHead h2{font-size:34px}
+      .serviceBigCard{min-height:360px}
+      .partnerCard{min-height:300px}
+      .footerBottomInner{
+        flex-direction:column;
+        justify-content:center;
+        padding:14px 0;
+        text-align:center;
+      }
+    }
+  </style>
 
   <script type="application/ld+json">
   {
@@ -74,7 +1366,6 @@
       <div class="wrap navInner">
         <a href="#inicio" class="brandMark" aria-label="Alumnorte">
           <div class="brandBadge" aria-hidden="true"></div>
-
           <div class="brandName">
             <strong>ALUMNORTE</strong>
             <small>Alumínio e vidro com padrão premium</small>
@@ -117,30 +1408,41 @@
   <main>
     <section class="heroSection" id="inicio" aria-label="Destaque principal">
       <div class="heroSlider" id="heroSlider">
-        <div class="heroTrack" id="heroTrack"></div>
+        <div class="heroTrack" id="heroTrack">
+          <div class="heroSlide active">
+            <img src="img/hero-1.jpg" alt="Esquadrias de alumínio premium em Janaúba MG" />
+          </div>
+          <div class="heroSlide">
+            <img src="img/hero-2.jpg" alt="Projetos modernos em alumínio e vidro" />
+          </div>
+          <div class="heroSlide">
+            <img src="img/hero-3.jpg" alt="Portas, janelas e fachadas em alumínio" />
+          </div>
+        </div>
+
         <div class="heroOverlay"></div>
 
         <div class="heroContent wrap">
-          <div class="heroBrandBox">
-            <span></span>
-            <strong>ALUMNORTE</strong>
-          </div>
-
           <div class="heroText">
+            <div class="heroBrandBox">
+              <span></span>
+              <strong>ALUMNORTE</strong>
+            </div>
+
             <div class="sectionKicker light">Esquadrias de alumínio • Vidraçaria • Janaúba MG</div>
 
             <h1 id="heroTitle">
-              Soluções em alumínio e vidro com presença institucional e acabamento premium
+              Alumínio e vidro com presença arquitetônica, acabamento preciso e padrão institucional.
             </h1>
 
             <p id="heroDesc">
-              Portas, janelas, portões, fachadas e projetos sob medida para residências e empresas que exigem elegância, resistência e padrão profissional.
+              Desenvolvemos portas, janelas, portões, fachadas e projetos sob medida para residências e empresas que buscam elegância visual, durabilidade e execução profissional.
             </p>
 
             <ul class="heroBenefits">
-              <li>Execução sob medida com leitura arquitetônica moderna</li>
-              <li>Acabamento limpo, sofisticado e valorização visual do imóvel</li>
-              <li>Atendimento rápido para orçamento direto no WhatsApp</li>
+              <li>Projetos com leitura mais nobre, limpa e valorizada para residências e negócios.</li>
+              <li>Execução sob medida em alumínio e vidro com atenção ao acabamento e à estética final.</li>
+              <li>Atendimento comercial ágil em Janaúba e região, com orçamento direto pelo WhatsApp.</li>
             </ul>
 
             <div class="heroButtons">
@@ -160,23 +1462,23 @@
       <div class="wrap">
         <div class="authorityGrid">
           <article class="authorityCard">
-            <strong>100+</strong>
-            <span>Projetos com foco em acabamento, durabilidade e presença visual</span>
+            <strong>Acabamento premium</strong>
+            <span>Soluções com leitura visual mais refinada para fachadas, esquadrias e ambientes valorizados.</span>
           </article>
 
           <article class="authorityCard">
-            <strong>Janaúba</strong>
-            <span>Atendimento local com proximidade, rapidez e organização comercial</span>
+            <strong>Residencial e comercial</strong>
+            <span>Atendimento para casas, empresas, lojas, fachadas e ambientes que exigem presença arquitetônica.</span>
           </article>
 
           <article class="authorityCard">
-            <strong>Residencial + Comercial</strong>
-            <span>Soluções para casas, fachadas, lojas e ambientes corporativos</span>
+            <strong>Janaúba e região</strong>
+            <span>Operação com proximidade, agilidade comercial e atendimento objetivo no Norte de Minas.</span>
           </article>
 
           <article class="authorityCard">
-            <strong>Padrão premium</strong>
-            <span>Alumínio e vidro aplicados com leitura mais elegante e institucional</span>
+            <strong>Alumínio + vidro</strong>
+            <span>Combinação de durabilidade, leveza, luminosidade e sofisticação para projetos modernos.</span>
           </article>
         </div>
       </div>
@@ -190,21 +1492,21 @@
             <h2>Quem somos</h2>
           </div>
           <p>
-            A Alumnorte desenvolve soluções em alumínio e vidro com foco em técnica, estética e acabamento profissional para projetos residenciais e comerciais.
+            A Alumnorte atua com soluções em alumínio e vidro voltadas para projetos que exigem mais presença visual, durabilidade e acabamento profissional.
           </p>
         </div>
 
         <div class="aboutGrid">
           <div class="aboutText">
-            <h3>Projetos sob medida com padrão visual forte e acabamento confiável</h3>
+            <h3>Execução sob medida com padrão visual forte e acabamento confiável.</h3>
             <p>
-              Trabalhamos com esquadrias em alumínio, vidraçaria, portas, janelas, portões, pele de vidro e vidro temperado, sempre buscando um resultado final mais limpo, sofisticado e valorizado.
+              Trabalhamos com esquadrias em alumínio, vidraçaria, portas, janelas, portões, pele de vidro e vidro temperado, sempre buscando um resultado final mais limpo, elegante e valorizado.
             </p>
             <p>
-              Nossa proposta é unir funcionalidade, resistência e presença arquitetônica para entregar soluções que elevam o nível do ambiente e fortalecem a imagem do imóvel.
+              Nossa proposta é unir técnica, funcionalidade e sofisticação para entregar soluções que elevam o nível do imóvel e reforçam a percepção de qualidade do ambiente.
             </p>
             <p>
-              Em Janaúba e região, atendemos de forma direta, organizada e comercialmente objetiva, com orçamento rápido e execução responsável.
+              Em Janaúba e região, atendemos de forma direta, organizada e comercialmente objetiva, com foco em confiança, apresentação e execução responsável.
             </p>
           </div>
 
@@ -222,22 +1524,22 @@
         <div class="aboutStats">
           <article class="statBox">
             <strong>Portas e janelas</strong>
-            <span>Soluções sob medida para residências modernas e funcionais.</span>
+            <span>Soluções sob medida para imóveis com proposta contemporânea e acabamento limpo.</span>
           </article>
 
           <article class="statBox">
             <strong>Portões</strong>
-            <span>Estruturas resistentes com leitura estética mais elegante.</span>
+            <span>Estruturas resistentes com linguagem visual mais elegante e presença marcante.</span>
           </article>
 
           <article class="statBox">
             <strong>Fachadas e vidro</strong>
-            <span>Visual contemporâneo para valorizar imóveis e negócios.</span>
+            <span>Projetos que ampliam luminosidade e valorizam a estética do imóvel ou do negócio.</span>
           </article>
 
           <article class="statBox">
             <strong>Atendimento regional</strong>
-            <span>Janaúba, Norte de Minas e entorno.</span>
+            <span>Janaúba, Norte de Minas e cidades do entorno com foco em agilidade comercial.</span>
           </article>
         </div>
       </div>
@@ -251,7 +1553,7 @@
             <h2>Serviços</h2>
           </div>
           <p>
-            Soluções em alumínio e vidro para entregar mais beleza, resistência e valorização visual ao seu projeto.
+            Soluções em alumínio e vidro desenhadas para entregar mais beleza, resistência, funcionalidade e valorização visual ao seu projeto.
           </p>
         </div>
 
@@ -261,7 +1563,7 @@
             <div class="serviceBigOverlay"></div>
             <div class="serviceBigContent">
               <h3>Portas em alumínio</h3>
-              <p>Modelos sob medida com presença visual forte, acabamento limpo e excelente durabilidade.</p>
+              <p>Modelos sob medida com acabamento limpo, linguagem visual sofisticada e excelente durabilidade.</p>
             </div>
           </article>
 
@@ -270,7 +1572,7 @@
             <div class="serviceBigOverlay"></div>
             <div class="serviceBigContent">
               <h3>Janelas em alumínio</h3>
-              <p>Ventilação, iluminação e valorização estética para ambientes residenciais e comerciais.</p>
+              <p>Mais ventilação, iluminação e presença estética para ambientes residenciais e comerciais.</p>
             </div>
           </article>
 
@@ -279,7 +1581,7 @@
             <div class="serviceBigOverlay"></div>
             <div class="serviceBigContent">
               <h3>Portões</h3>
-              <p>Soluções elegantes e resistentes para acessos com leitura moderna e segura.</p>
+              <p>Soluções elegantes e resistentes para acessos com leitura moderna, segura e valorizada.</p>
             </div>
           </article>
 
@@ -288,7 +1590,7 @@
             <div class="serviceBigOverlay"></div>
             <div class="serviceBigContent">
               <h3>Fachada pele de vidro</h3>
-              <p>Imponência arquitetônica, sofisticação e presença comercial para fachadas.</p>
+              <p>Imponência arquitetônica, luminosidade e presença comercial para projetos com mais impacto.</p>
             </div>
           </article>
 
@@ -297,7 +1599,7 @@
             <div class="serviceBigOverlay"></div>
             <div class="serviceBigContent">
               <h3>Vidro temperado</h3>
-              <p>Segurança, elegância e excelente resultado visual em diferentes aplicações.</p>
+              <p>Segurança, elegância e desempenho visual para aplicações residenciais e corporativas.</p>
             </div>
           </article>
 
@@ -306,7 +1608,7 @@
             <div class="serviceBigOverlay"></div>
             <div class="serviceBigContent">
               <h3>Projetos personalizados</h3>
-              <p>Soluções em alumínio e vidro conforme a necessidade, o espaço e o objetivo do cliente.</p>
+              <p>Soluções em alumínio e vidro conforme o espaço, a necessidade e o objetivo do cliente.</p>
             </div>
           </article>
         </div>
@@ -321,13 +1623,53 @@
             <h2>Projetos realizados</h2>
           </div>
           <p>
-            Uma seleção de projetos com leitura moderna, acabamento premium e presença visual mais forte.
+            Uma vitrine com soluções de alumínio e vidro que traduzem sofisticação, técnica e valorização visual do imóvel.
           </p>
         </div>
 
         <div class="projectSlider" id="projectSlider">
           <div class="projectViewport">
-            <div class="projectTrack" id="projectTrack"></div>
+            <div class="projectTrack" id="projectTrack">
+              <article class="projectCard">
+                <div class="projectMedia">
+                  <img class="previewable" src="img/projeto-1.jpg" alt="Projeto Alumnorte 1" loading="lazy" decoding="async" />
+                </div>
+                <div class="projectBody">
+                  <h3>Portas e esquadrias</h3>
+                  <p>Soluções sob medida com acabamento limpo e integração elegante com a arquitetura do ambiente.</p>
+                </div>
+              </article>
+
+              <article class="projectCard">
+                <div class="projectMedia">
+                  <img class="previewable" src="img/projeto-2.jpg" alt="Projeto Alumnorte 2" loading="lazy" decoding="async" />
+                </div>
+                <div class="projectBody">
+                  <h3>Janelas e vidro</h3>
+                  <p>Projetos que ampliam luminosidade, valorizam o imóvel e reforçam uma estética contemporânea.</p>
+                </div>
+              </article>
+
+              <article class="projectCard">
+                <div class="projectMedia">
+                  <img class="previewable" src="img/projeto-3.jpg" alt="Projeto Alumnorte 3" loading="lazy" decoding="async" />
+                </div>
+                <div class="projectBody">
+                  <h3>Fachadas e presença</h3>
+                  <p>Aplicações voltadas para impacto visual, sofisticação comercial e linguagem arquitetônica mais nobre.</p>
+                </div>
+              </article>
+
+              <article class="projectCard">
+                <div class="projectMedia">
+                  <img class="previewable" src="img/projeto-4.jpg" alt="Projeto Alumnorte 4" loading="lazy" decoding="async" />
+                </div>
+                <div class="projectBody">
+                  <h3>Portões e acessos</h3>
+                  <p>Estruturas robustas, bem apresentadas e desenvolvidas para unir segurança com estética refinada.</p>
+                </div>
+              </article>
+            </div>
           </div>
         </div>
 
@@ -339,11 +1681,11 @@
       <div class="wrap">
         <div class="sectionHead">
           <div>
-            <div class="sectionKicker">Rede de parcerias</div>
+            <div class="sectionKicker">Rede de relacionamento</div>
             <h2>Parceiros</h2>
           </div>
           <p>
-            Relações estratégicas que fortalecem a operação, a comunicação e a presença comercial da Alumnorte.
+            Relações estratégicas que fortalecem operação, fornecimento, comunicação visual e presença comercial da Alumnorte.
           </p>
         </div>
 
@@ -353,7 +1695,7 @@
             <div class="partnerOverlay"></div>
             <div class="partnerContent">
               <h3>LP Grill</h3>
-              <p>Operação organizada, padrão de atendimento e conexão comercial local.</p>
+              <p>Operação organizada, presença local e conexão comercial com negócios em crescimento.</p>
             </div>
           </article>
 
@@ -362,25 +1704,25 @@
             <div class="partnerOverlay"></div>
             <div class="partnerContent">
               <h3>PL Digital</h3>
-              <p>Presença digital, comunicação visual e posicionamento institucional de marca.</p>
+              <p>Posicionamento institucional, presença digital e valorização da marca no ambiente online.</p>
             </div>
           </article>
 
           <article class="partnerCard">
-            <img class="previewable" src="img/parceiro-1.jpg" alt="Parceiro Transporte e Entrega" loading="lazy" decoding="async" />
+            <img class="previewable" src="img/parceiro-1.jpg" alt="Parceiro Logística" loading="lazy" decoding="async" />
             <div class="partnerOverlay"></div>
             <div class="partnerContent">
-              <h3>Transporte e Entrega</h3>
-              <p>Apoio logístico com rapidez, compromisso e cobertura regional.</p>
+              <h3>Logística</h3>
+              <p>Apoio à operação com mais agilidade, continuidade de atendimento e organização comercial.</p>
             </div>
           </article>
 
           <article class="partnerCard">
-            <img class="previewable" src="img/parceiro-2.jpg" alt="Parceiro Alumínio" loading="lazy" decoding="async" />
+            <img class="previewable" src="img/parceiro-2.jpg" alt="Parceiro Fornecimento" loading="lazy" decoding="async" />
             <div class="partnerOverlay"></div>
             <div class="partnerContent">
               <h3>Fornecimento estratégico</h3>
-              <p>Base operacional para ampliar capacidade, qualidade e continuidade de atendimento.</p>
+              <p>Base de apoio para manter padrão, ritmo de produção e confiabilidade na entrega.</p>
             </div>
           </article>
         </div>
@@ -395,16 +1737,16 @@
             <h2>Curiosidades sobre o alumínio</h2>
           </div>
           <p>
-            Leve, sofisticado e altamente durável, o alumínio ganhou espaço na arquitetura moderna por unir desempenho técnico e elegância visual.
+            Leve, sofisticado e altamente durável, o alumínio conquistou a arquitetura moderna por unir desempenho técnico, elegância e valorização visual.
           </p>
         </div>
 
         <div class="curiosityGrid">
           <article class="curiosityCard">
             <div class="curiosityNumber">01</div>
-            <h3>Do material raro ao essencial</h3>
+            <h3>De material raro a protagonista</h3>
             <p>
-              Houve um tempo em que o alumínio era considerado um material valioso. Hoje ele se tornou indispensável em soluções arquitetônicas modernas.
+              Houve um tempo em que o alumínio era considerado raro e valioso. Hoje ele ocupa posição central em projetos arquitetônicos modernos e sofisticados.
             </p>
           </article>
 
@@ -412,39 +1754,39 @@
             <div class="curiosityNumber">02</div>
             <h3>Leveza com resistência</h3>
             <p>
-              Uma das maiores forças do alumínio está na combinação entre leveza estrutural e excelente resistência, favorecendo projetos elegantes e funcionais.
+              Uma das maiores qualidades do alumínio está no equilíbrio entre baixo peso estrutural e excelente resistência, favorecendo soluções elegantes e funcionais.
             </p>
           </article>
 
           <article class="curiosityCard">
             <div class="curiosityNumber">03</div>
-            <h3>Visual sofisticado</h3>
+            <h3>Visual mais limpo e nobre</h3>
             <p>
-              Em portas, janelas, portões e fachadas, o alumínio entrega linhas limpas, acabamento nobre e leitura contemporânea para o imóvel.
+              Em portas, janelas, portões e fachadas, o alumínio contribui para linhas mais discretas, modernas e visualmente sofisticadas.
             </p>
           </article>
 
           <article class="curiosityCard">
             <div class="curiosityNumber">04</div>
-            <h3>Alta durabilidade</h3>
+            <h3>Durabilidade para áreas externas</h3>
             <p>
-              É um material muito utilizado em áreas externas por oferecer excelente resistência ao tempo, baixa manutenção e longa vida útil.
+              É um material muito valorizado pela resistência ao tempo, pela baixa manutenção e pela longa vida útil em aplicações externas.
             </p>
           </article>
 
           <article class="curiosityCard">
             <div class="curiosityNumber">05</div>
-            <h3>Aliado do vidro</h3>
+            <h3>Integração perfeita com o vidro</h3>
             <p>
-              A combinação entre alumínio e vidro amplia a entrada de luz, fortalece o visual arquitetônico e valoriza ambientes residenciais e comerciais.
+              A combinação entre alumínio e vidro amplia luz natural, reforça o design do ambiente e eleva a percepção de qualidade do projeto.
             </p>
           </article>
 
           <article class="curiosityCard">
             <div class="curiosityNumber">06</div>
-            <h3>Presença na arquitetura atual</h3>
+            <h3>Sofisticação na arquitetura atual</h3>
             <p>
-              Em projetos modernos, o alumínio se destaca como símbolo de sofisticação, leveza visual e padrão estético elevado.
+              No cenário contemporâneo, o alumínio se consolidou como símbolo de leveza visual, sofisticação e acabamento arquitetônico premium.
             </p>
           </article>
         </div>
@@ -459,26 +1801,26 @@
             <h2>Depoimentos</h2>
           </div>
           <p>
-            A confiança dos clientes confirma o padrão de acabamento, o compromisso e a qualidade da Alumnorte.
+            A confiança dos clientes confirma a qualidade percebida, o cuidado com o acabamento e o compromisso da Alumnorte em cada projeto.
           </p>
         </div>
 
         <div class="testimonialsGrid">
           <article class="testimonialCard">
             <div class="stars">★★★★★</div>
-            <p>“Atendimento excelente, acabamento impecável e resultado muito elegante.”</p>
+            <p>“Atendimento excelente, acabamento impecável e resultado final muito acima da expectativa.”</p>
             <strong>Cliente Alumnorte</strong>
           </article>
 
           <article class="testimonialCard">
             <div class="stars">★★★★★</div>
-            <p>“Empresa séria, caprichosa e muito profissional na instalação.”</p>
+            <p>“Empresa séria, organizada e muito profissional. O visual ficou elegante e valorizou bastante o imóvel.”</p>
             <strong>Cliente residencial</strong>
           </article>
 
           <article class="testimonialCard">
             <div class="stars">★★★★★</div>
-            <p>“Material bonito, ótimo atendimento e serviço de alta qualidade.”</p>
+            <p>“Ótima experiência do começo ao fim. Material bonito, instalação segura e apresentação de alto nível.”</p>
             <strong>Cliente comercial</strong>
           </article>
         </div>
@@ -493,29 +1835,31 @@
             <h2>Faça seu orçamento</h2>
           </div>
           <p>
-            Solicite seu orçamento para portas, janelas, portões, vidro temperado, esquadrias e fachada pele de vidro.
+            Solicite atendimento para portas, janelas, portões, vidro temperado, esquadrias e fachada pele de vidro com retorno rápido e objetivo.
           </p>
         </div>
 
         <div class="contactGrid">
           <div class="contactInfoPanel">
-            <h3>Atendimento direto e orçamento rápido</h3>
-            <p>
-              Envie medidas, localização e detalhes do projeto para receber uma análise inicial mais objetiva pelo WhatsApp.
-            </p>
+            <div>
+              <h3>Atendimento direto com resposta comercial mais rápida.</h3>
+              <p>
+                Envie medidas, localização e detalhes do projeto para receber uma análise inicial mais objetiva pelo WhatsApp.
+              </p>
 
-            <div class="contactInfoList">
-              <div class="contactInfoItem">
-                <strong>WhatsApp</strong>
-                <span>(38) 99658-0215</span>
-              </div>
-              <div class="contactInfoItem">
-                <strong>Instagram</strong>
-                <span>@alumnortesquadrias_de_aluminio</span>
-              </div>
-              <div class="contactInfoItem">
-                <strong>Atendimento</strong>
-                <span>Janaúba e região</span>
+              <div class="contactInfoList">
+                <div class="contactInfoItem">
+                  <strong>WhatsApp</strong>
+                  <span>(38) 99658-0215</span>
+                </div>
+                <div class="contactInfoItem">
+                  <strong>Instagram</strong>
+                  <span>@alumnortesquadrias_de_aluminio</span>
+                </div>
+                <div class="contactInfoItem">
+                  <strong>Atendimento</strong>
+                  <span>Janaúba, Norte de Minas e região</span>
+                </div>
               </div>
             </div>
 
@@ -545,7 +1889,7 @@
           <div class="contactMapCard">
             <h3>Localização e área de atendimento</h3>
             <p>
-              Atendimento em Janaúba MG, Norte de Minas e região.
+              Atendimento em Janaúba MG, Norte de Minas e região, com foco em rapidez comercial e execução organizada.
             </p>
             <iframe
               class="mapFrame"
@@ -560,7 +1904,7 @@
           <div class="contactSeoCard">
             <h3>Onde a Alumnorte atende</h3>
             <p>
-              Esquadrias de alumínio, vidraçaria, portas, janelas, portões e fachadas em Janaúba e região.
+              Esquadrias de alumínio, vidraçaria, portas, janelas, portões e fachadas para clientes que procuram acabamento premium em Janaúba e região.
             </p>
             <ul class="seoList">
               <li>Esquadrias de alumínio em Janaúba MG</li>
@@ -666,7 +2010,7 @@
         </div>
 
         <p class="footerBrandText">
-          Esquadrias de alumínio, vidraçaria e soluções sob medida com leitura premium para residências e empresas.
+          Esquadrias de alumínio, vidraçaria e soluções sob medida com leitura premium para residências e empresas que valorizam apresentação, durabilidade e acabamento.
         </p>
 
         <div class="footerSocials">
@@ -677,7 +2021,7 @@
       </div>
 
       <div class="footerSearch">
-        <span>Fale com a Alumnorte e encontre a melhor solução para seu projeto</span>
+        <span>Fale com a Alumnorte e encontre a solução ideal para o seu projeto.</span>
         <div class="footerSearchBox">
           <input type="text" placeholder="Buscar serviço ou projeto" />
           <button type="button">⌕</button>
@@ -735,5 +2079,232 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    (function(){
+      const topbar = document.getElementById('topbar');
+      const menuToggle = document.getElementById('menuToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const backToTop = document.getElementById('backToTop');
+      const year = document.getElementById('year');
+
+      if (year) year.textContent = new Date().getFullYear();
+
+      function updateHeader(){
+        if(window.scrollY > 24){
+          topbar && topbar.classList.add('scrolled');
+        }else{
+          topbar && topbar.classList.remove('scrolled');
+        }
+
+        if(window.scrollY > 500){
+          backToTop && backToTop.classList.add('show');
+        }else{
+          backToTop && backToTop.classList.remove('show');
+        }
+      }
+      updateHeader();
+      window.addEventListener('scroll', updateHeader);
+
+      if(menuToggle && mobileMenu){
+        menuToggle.addEventListener('click', function(){
+          const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+          menuToggle.setAttribute('aria-expanded', String(!expanded));
+          mobileMenu.classList.toggle('show');
+        });
+        mobileMenu.querySelectorAll('a').forEach(a=>{
+          a.addEventListener('click', ()=>{
+            mobileMenu.classList.remove('show');
+            menuToggle.setAttribute('aria-expanded','false');
+          });
+        });
+      }
+
+      if(backToTop){
+        backToTop.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+      }
+
+      const heroSlider = document.getElementById('heroSlider');
+      const heroSlides = heroSlider ? Array.from(heroSlider.querySelectorAll('.heroSlide')) : [];
+      const heroDots = document.getElementById('heroDots');
+      let heroIndex = 0;
+      let heroTimer = null;
+
+      function renderHeroDots(){
+        if(!heroDots || !heroSlides.length) return;
+        heroDots.innerHTML = heroSlides.map((_,i)=>`<button class="heroDot ${i===heroIndex?'active':''}" aria-label="Ir para slide ${i+1}" type="button"></button>`).join('');
+        Array.from(heroDots.children).forEach((dot,i)=>{
+          dot.addEventListener('click', ()=>{
+            heroIndex = i;
+            updateHero();
+            restartHero();
+          });
+        });
+      }
+
+      function updateHero(){
+        heroSlides.forEach((slide,i)=>slide.classList.toggle('active', i===heroIndex));
+        if(heroDots){
+          Array.from(heroDots.children).forEach((dot,i)=>dot.classList.toggle('active', i===heroIndex));
+        }
+      }
+
+      function restartHero(){
+        clearInterval(heroTimer);
+        heroTimer = setInterval(()=>{
+          heroIndex = (heroIndex + 1) % heroSlides.length;
+          updateHero();
+        }, 5000);
+      }
+
+      if(heroSlides.length){
+        renderHeroDots();
+        updateHero();
+        restartHero();
+      }
+
+      const projectTrack = document.getElementById('projectTrack');
+      const projectIndicators = document.getElementById('projectIndicators');
+      const projectCards = projectTrack ? Array.from(projectTrack.children) : [];
+      let projectIndex = 0;
+
+      function getProjectStep(){
+        return window.innerWidth <= 920 ? 1 : window.innerWidth <= 1180 ? 2 : 3;
+      }
+
+      function maxProjectIndex(){
+        return Math.max(0, projectCards.length - getProjectStep());
+      }
+
+      function renderProjectIndicators(){
+        if(!projectIndicators || !projectCards.length) return;
+        const total = maxProjectIndex() + 1;
+        projectIndicators.innerHTML = Array.from({length: total}, (_,i)=>
+          `<button class="${i===projectIndex?'active':''}" aria-label="Ir para conjunto ${i+1}" type="button"></button>`
+        ).join('');
+
+        Array.from(projectIndicators.children).forEach((btn,i)=>{
+          btn.addEventListener('click', ()=>{
+            projectIndex = i;
+            updateProjectSlider();
+          });
+        });
+      }
+
+      function updateProjectSlider(){
+        if(!projectTrack || !projectCards.length) return;
+        const cardWidth = projectCards[0].getBoundingClientRect().width;
+        const gap = 22;
+        projectTrack.style.transform = `translateX(-${projectIndex * (cardWidth + gap)}px)`;
+        if(projectIndicators){
+          Array.from(projectIndicators.children).forEach((btn,i)=>btn.classList.toggle('active', i===projectIndex));
+        }
+      }
+
+      if(projectCards.length){
+        renderProjectIndicators();
+        updateProjectSlider();
+        window.addEventListener('resize', ()=>{
+          projectIndex = Math.min(projectIndex, maxProjectIndex());
+          renderProjectIndicators();
+          updateProjectSlider();
+        });
+      }
+
+      const budgetModal = document.getElementById('budgetModal');
+      const openModalIds = ['openBudgetModalTop','openBudgetModalHero','openBudgetModal','openBudgetModalInline'];
+      const closeBudgetModal = document.getElementById('closeBudgetModal');
+
+      function openModal(){
+        budgetModal && budgetModal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeModal(){
+        budgetModal && budgetModal.classList.remove('show');
+        document.body.style.overflow = '';
+      }
+
+      openModalIds.forEach(id=>{
+        const btn = document.getElementById(id);
+        if(btn) btn.addEventListener('click', openModal);
+      });
+
+      if(closeBudgetModal) closeBudgetModal.addEventListener('click', closeModal);
+      if(budgetModal){
+        budgetModal.addEventListener('click', (e)=>{
+          if(e.target === budgetModal) closeModal();
+        });
+      }
+
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape'){
+          closeModal();
+          closePreview();
+        }
+      });
+
+      const whatsappBtn = document.getElementById('modalWhatsapp');
+      if(whatsappBtn){
+        whatsappBtn.addEventListener('click', ()=>{
+          const name = document.getElementById('mName')?.value.trim() || '';
+          const phone = document.getElementById('mPhone')?.value.trim() || '';
+          const email = document.getElementById('mEmail')?.value.trim() || '';
+          const place = document.getElementById('mPlace')?.value.trim() || '';
+          const service = document.getElementById('mService')?.value.trim() || '';
+          const message = document.getElementById('mMessage')?.value.trim() || '';
+
+          const text =
+`Olá Alumnorte, quero solicitar um orçamento.
+
+Nome: ${name}
+WhatsApp: ${phone}
+E-mail: ${email}
+Local: ${place}
+Serviço desejado: ${service}
+
+Detalhes:
+${message}`;
+
+          const url = `https://api.whatsapp.com/send/?phone=553899658215&text=${encodeURIComponent(text)}&type=phone_number&app_absent=0`;
+          window.open(url, '_blank');
+        });
+      }
+
+      const previewables = Array.from(document.querySelectorAll('.previewable'));
+      const imagePreviewOverlay = document.getElementById('imagePreviewOverlay');
+      const imagePreviewImg = document.getElementById('imagePreviewImg');
+      const imagePreviewClose = document.getElementById('imagePreviewClose');
+
+      function openPreview(src, alt){
+        if(!imagePreviewOverlay || !imagePreviewImg) return;
+        imagePreviewImg.src = src;
+        imagePreviewImg.alt = alt || 'Visualização ampliada';
+        imagePreviewOverlay.classList.add('show');
+        imagePreviewOverlay.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+      function closePreview(){
+        if(!imagePreviewOverlay || !imagePreviewImg) return;
+        imagePreviewOverlay.classList.remove('show');
+        imagePreviewOverlay.setAttribute('aria-hidden', 'true');
+        imagePreviewImg.src = '';
+        document.body.style.overflow = budgetModal && budgetModal.classList.contains('show') ? 'hidden' : '';
+      }
+
+      previewables.forEach(img=>{
+        img.style.cursor = 'zoom-in';
+        img.addEventListener('click', ()=> openPreview(img.src, img.alt));
+      });
+
+      if(imagePreviewClose) imagePreviewClose.addEventListener('click', closePreview);
+      if(imagePreviewOverlay){
+        imagePreviewOverlay.addEventListener('click', (e)=>{
+          if(e.target === imagePreviewOverlay) closePreview();
+        });
+      }
+    })();
+  </script>
+
+  <script src="js/app.js"></script>
 </body>
 </html>
