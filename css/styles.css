@@ -3376,3 +3376,319 @@ html, body{
     bottom:18px !important;
   }
 }
+/* ===== RESPONSIVIDADE REAL / SITE ACOMPANHA A TELA ===== */
+
+html, body{
+  overflow-x: hidden !important;
+}
+
+*,
+*::before,
+*::after{
+  box-sizing: border-box !important;
+}
+
+img,
+video,
+iframe{
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+.wrap{
+  width: min(1280px, calc(100% - 32px)) !important;
+  margin-inline: auto !important;
+}
+
+/* TIPOGRAFIA FLUIDA */
+#heroTitle{
+  font-size: clamp(34px, 5vw, 78px) !important;
+  line-height: .96 !important;
+}
+
+#heroDesc{
+  font-size: clamp(14px, 1.45vw, 18px) !important;
+  line-height: 1.7 !important;
+}
+
+.sectionHead h2{
+  font-size: clamp(28px, 3.5vw, 56px) !important;
+}
+
+.aboutText h3,
+.contactInfoPanel h3,
+.contactMapCard h3,
+.contactSeoCard h3{
+  font-size: clamp(22px, 2.4vw, 34px) !important;
+}
+
+/* HERO MAIS FLEXÍVEL */
+.heroSection{
+  min-height: 100svh !important;
+  height: auto !important;
+}
+
+.heroSlider{
+  min-height: 100svh !important;
+  height: auto !important;
+}
+
+.heroContent{
+  min-height: calc(100svh - 122px) !important;
+  height: auto !important;
+  padding: clamp(48px, 7vw, 90px) 0 clamp(90px, 10vw, 130px) !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.heroText{
+  width: min(760px, 100%) !important;
+  max-width: 100% !important;
+}
+
+/* imagem do hero continua premium, mas mais adaptável */
+.heroSlide img{
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+}
+
+/* GRIDS MAIS ELÁSTICOS */
+.authorityGrid{
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+}
+
+.aboutGrid{
+  display: grid !important;
+  grid-template-columns: minmax(320px, .9fr) minmax(320px, 1.1fr) !important;
+  gap: 24px !important;
+}
+
+.servicesGrid{
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 24px !important;
+}
+
+.partnersGrid{
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 22px !important;
+}
+
+.curiosityGrid{
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 22px !important;
+}
+
+.testimonialsGrid{
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 22px !important;
+}
+
+.contactGrid{
+  display: grid !important;
+  grid-template-columns: minmax(320px, .9fr) minmax(320px, 1.1fr) !important;
+  gap: 28px !important;
+}
+
+.contactExtraGrid{
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 28px !important;
+}
+
+.footerTop{
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr !important;
+  gap: 24px !important;
+}
+
+.footerLinks{
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 24px !important;
+}
+
+/* TIRAR ALTURAS MUITO FIXAS */
+.serviceBigCard{
+  min-height: 420px !important;
+  height: clamp(340px, 36vw, 500px) !important;
+}
+
+.partnerCard{
+  min-height: 340px !important;
+  height: clamp(300px, 30vw, 420px) !important;
+}
+
+.projectCard{
+  min-height: 340px !important;
+  height: clamp(300px, 34vw, 470px) !important;
+}
+
+.aboutImage{
+  min-height: 380px !important;
+  height: auto !important;
+}
+
+.aboutImage img{
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 380px !important;
+  object-fit: cover !important;
+}
+
+.mapFrame{
+  width: 100% !important;
+  height: clamp(260px, 32vw, 340px) !important;
+}
+
+/* MENU NÃO QUEBRAR FEIO */
+.navInner{
+  gap: 16px !important;
+}
+
+.navMenu{
+  flex-wrap: nowrap !important;
+  gap: 16px !important;
+}
+
+.navMenu a{
+  white-space: nowrap !important;
+  font-size: 13px !important;
+}
+
+/* NOTEBOOK / TABLET GRANDE */
+@media (max-width: 1180px){
+  .wrap{
+    width: min(1280px, calc(100% - 26px)) !important;
+  }
+
+  .authorityGrid,
+  .servicesGrid,
+  .partnersGrid,
+  .curiosityGrid,
+  .testimonialsGrid{
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .aboutGrid,
+  .contactGrid,
+  .contactExtraGrid,
+  .footerTop,
+  .footerLinks,
+  .sectionHead{
+    grid-template-columns: 1fr !important;
+  }
+
+  .aboutStats{
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .heroContent{
+    min-height: calc(100svh - 112px) !important;
+  }
+
+  .navMenu{
+    gap: 12px !important;
+  }
+
+  .navMenu a{
+    font-size: 12px !important;
+  }
+}
+
+/* TABLET / CELULAR GRANDE */
+@media (max-width: 900px){
+  .servicesGrid,
+  .partnersGrid,
+  .curiosityGrid,
+  .testimonialsGrid,
+  .authorityGrid,
+  .aboutStats{
+    grid-template-columns: 1fr !important;
+  }
+
+  .projectCard{
+    height: clamp(280px, 52vw, 420px) !important;
+  }
+
+  .serviceBigCard,
+  .partnerCard{
+    height: clamp(300px, 58vw, 420px) !important;
+  }
+}
+
+/* CELULAR */
+@media (max-width: 720px){
+  .wrap{
+    width: min(100%, calc(100% - 20px)) !important;
+  }
+
+  .heroSection{
+    min-height: auto !important;
+  }
+
+  .heroSlider{
+    min-height: auto !important;
+  }
+
+  .heroContent{
+    min-height: calc(100svh - 74px) !important;
+    padding: 56px 0 90px !important;
+  }
+
+  #heroTitle{
+    max-width: 11ch !important;
+  }
+
+  #heroDesc{
+    max-width: 34ch !important;
+  }
+
+  .heroButtons{
+    width: 100% !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .ctaPrimary,
+  .ctaSecondary{
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .aboutText,
+  .contactForm,
+  .contactInfoPanel,
+  .contactMapCard,
+  .contactSeoCard,
+  .footerCol{
+    padding: 20px !important;
+  }
+
+  .aboutImage{
+    min-height: 300px !important;
+  }
+
+  .aboutImage img{
+    min-height: 300px !important;
+  }
+
+  .serviceBigCard,
+  .partnerCard,
+  .projectCard{
+    height: auto !important;
+    min-height: 300px !important;
+  }
+
+  .footerBottomInner{
+    flex-direction: column !important;
+    text-align: center !important;
+  }
+}
