@@ -5,23 +5,790 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Alumnorte | Esquadrias de Alumínio e Vidraçaria em Janaúba MG</title>
-  <meta name="description" content="Alumnorte - Esquadrias de Alumínio e Vidraçaria em Janaúba MG." />
+  <meta
+    name="description"
+    content="Alumnorte - Esquadrias de Alumínio e Vidraçaria em Janaúba MG. Portas, janelas, portões, pele de vidro, vidro temperado e projetos sob medida com acabamento profissional."
+  />
 
-  <!-- FONTE -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
 
-  <!-- CSS CORRIGIDO (FORÇA CAMINHO) -->
-  <link rel="stylesheet" href="./style.css?v=1.0">
+  <link rel="stylesheet" href="style.css?v=3.0" />
 
+  <style>
+    :root{
+      --primary:#0f4c81;
+      --primary-2:#1c6aa7;
+      --navy:#071b2f;
+      --navy-2:#0b2743;
+      --steel:#8ea3b5;
+      --soft:#f4f7fa;
+      --white:#ffffff;
+      --gold:#d9a441;
+      --text:#163047;
+      --text-soft:#5d7387;
+      --line:rgba(11,39,67,.12);
+      --shadow:0 18px 60px rgba(7,27,47,.14);
+      --shadow-soft:0 12px 35px rgba(8,30,53,.10);
+      --radius:22px;
+      --radius-sm:16px;
+      --container:1240px;
+      --header-h:88px;
+      --grad-hero:linear-gradient(115deg, rgba(4,15,28,.84), rgba(10,37,64,.62) 45%, rgba(15,76,129,.28));
+      --grad-premium:linear-gradient(135deg, #0b2743, #0f4c81 55%, #1c6aa7);
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:"Barlow",sans-serif;
+      color:var(--text);
+      background:#eef3f7;
+      overflow-x:hidden;
+    }
+    img{max-width:100%;display:block}
+    a{text-decoration:none;color:inherit}
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer;border:none;background:none}
+    ul{list-style:none}
+    .container{width:min(calc(100% - 32px),var(--container));margin:0 auto}
+
+    .topbar{
+      background:linear-gradient(90deg,#08192a,#123a61);
+      color:#dfeaf4;
+      font-size:.92rem;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .topbar .container{
+      display:flex;justify-content:space-between;gap:18px;align-items:center;
+      min-height:42px;flex-wrap:wrap;padding:8px 0;
+    }
+    .topbar-left,.topbar-right{display:flex;gap:18px;flex-wrap:wrap}
+    .topbar strong{color:#fff;font-weight:700}
+
+    .site-header{
+      position:sticky;top:0;z-index:1000;
+      backdrop-filter:blur(18px);
+      background:rgba(255,255,255,.88);
+      border-bottom:1px solid rgba(9,33,58,.08);
+      transition:.3s ease;
+    }
+    .site-header.scrolled{
+      background:rgba(255,255,255,.96);
+      box-shadow:0 10px 35px rgba(7,27,47,.08);
+    }
+    .header-inner{
+      min-height:var(--header-h);
+      display:flex;align-items:center;justify-content:space-between;gap:20px;
+    }
+    .brand{
+      display:flex;align-items:center;gap:14px;min-width:0;
+    }
+    .brand-logo{
+      width:64px;height:64px;object-fit:contain;
+      filter:drop-shadow(0 8px 20px rgba(15,76,129,.18));
+      flex-shrink:0;
+    }
+    .brand-text h1{
+      font-size:1.32rem;line-height:1;font-weight:800;letter-spacing:.08em;color:var(--navy);
+    }
+    .brand-text p{
+      font-size:.92rem;color:var(--text-soft);margin-top:4px;font-weight:600;
+    }
+
+    .desktop-nav{
+      display:flex;align-items:center;gap:10px;flex:1;justify-content:center;
+    }
+    .nav-link,.nav-drop-btn{
+      position:relative;
+      padding:12px 14px;
+      border-radius:999px;
+      color:var(--navy);
+      font-weight:700;
+      font-size:.97rem;
+      transition:.25s ease;
+      background:transparent;
+    }
+    .nav-link:hover,.nav-drop-btn:hover,.nav-link.active{
+      background:rgba(15,76,129,.08);
+      color:var(--primary);
+    }
+    .nav-dropdown{position:relative}
+    .nav-drop-btn{
+      display:flex;align-items:center;gap:8px;
+    }
+    .nav-dropdown-menu{
+      position:absolute;left:0;top:calc(100% + 12px);
+      min-width:240px;
+      background:#fff;
+      border:1px solid rgba(12,34,58,.08);
+      border-radius:18px;
+      box-shadow:var(--shadow-soft);
+      padding:10px;
+      opacity:0;visibility:hidden;transform:translateY(8px);
+      transition:.25s ease;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu{
+      opacity:1;visibility:visible;transform:translateY(0);
+    }
+    .nav-dropdown-menu a{
+      display:flex;padding:12px 14px;border-radius:12px;color:var(--text);font-weight:600;
+    }
+    .nav-dropdown-menu a:hover{
+      background:rgba(15,76,129,.08);color:var(--primary);
+    }
+
+    .header-actions{display:flex;align-items:center;gap:12px}
+    .btn-orcamento,.btn-primary,.btn-secondary{
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      min-height:50px;padding:0 22px;border-radius:999px;font-weight:800;
+      transition:.25s ease;
+    }
+    .btn-orcamento,.btn-primary{
+      background:var(--grad-premium);color:#fff;
+      box-shadow:0 14px 34px rgba(15,76,129,.24);
+    }
+    .btn-orcamento:hover,.btn-primary:hover{
+      transform:translateY(-2px);box-shadow:0 18px 38px rgba(15,76,129,.28);
+    }
+    .btn-secondary{
+      border:1px solid rgba(255,255,255,.24);
+      color:#fff;background:rgba(255,255,255,.08);
+      backdrop-filter:blur(10px);
+    }
+    .btn-secondary:hover{background:rgba(255,255,255,.16)}
+    .btn-secondary-light{
+      background:#fff;color:var(--primary);border:1px solid rgba(12,34,58,.08);
+    }
+    .btn-secondary-light:hover{background:#f8fbff}
+    .menu-toggle{
+      display:none;
+      width:50px;height:50px;border-radius:14px;
+      background:#f2f7fb;color:var(--navy);font-size:1.1rem;
+      border:1px solid rgba(12,34,58,.08);
+    }
+
+    .mobile-menu{
+      display:none;
+      border-top:1px solid rgba(12,34,58,.08);
+      background:#fff;
+    }
+    .mobile-menu nav{
+      display:flex;flex-direction:column;padding:16px;
+    }
+    .mobile-menu a,.mobile-menu button{
+      padding:14px 12px;border-radius:14px;font-weight:700;text-align:left;
+    }
+    .mobile-menu a:hover,.mobile-menu button:hover{background:#f2f7fb}
+    .mobile-menu.active{display:block}
+
+    .hero{
+      position:relative;
+      min-height:calc(100vh - 42px);
+      overflow:hidden;
+      background:#071b2f;
+    }
+    .hero-slide{
+      position:absolute;inset:0;
+      opacity:0;transition:opacity 1s ease, transform 7s ease;
+      transform:scale(1.05);
+    }
+    .hero-slide.active{
+      opacity:1;transform:scale(1);
+    }
+    .hero-slide img{
+      width:100%;height:100%;object-fit:cover;object-position:center;
+    }
+    .hero-overlay{
+      position:absolute;inset:0;background:var(--grad-hero);
+    }
+    .hero-grid-lines{
+      position:absolute;inset:0;pointer-events:none;
+      background:
+        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size:90px 90px;
+      mask-image:linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.9));
+      opacity:.26;
+    }
+    .hero-content{
+      position:relative;z-index:2;
+      min-height:calc(100vh - 42px);
+      display:flex;align-items:center;
+      padding:110px 0 90px;
+    }
+    .hero-layout{
+      display:grid;grid-template-columns:1.25fr .75fr;gap:34px;align-items:end;
+    }
+    .hero-copy{
+      color:#fff;max-width:780px;
+    }
+    .hero-kicker{
+      display:inline-flex;align-items:center;gap:8px;
+      min-height:38px;padding:0 16px;border-radius:999px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.12);
+      font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+      font-size:.84rem;margin-bottom:20px;
+    }
+    .hero-copy h2{
+      font-size:clamp(2.3rem,5vw,4.75rem);
+      line-height:.95;
+      font-weight:800;
+      letter-spacing:-.04em;
+      margin-bottom:18px;
+      max-width:920px;
+    }
+    .hero-copy p{
+      font-size:1.14rem;line-height:1.7;color:rgba(255,255,255,.86);
+      max-width:690px;
+    }
+    .hero-actions{
+      display:flex;gap:14px;flex-wrap:wrap;margin-top:28px;
+    }
+    .hero-highlights{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px;
+    }
+    .hero-highlight{
+      padding:18px;border-radius:20px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.10);
+      backdrop-filter:blur(10px);
+    }
+    .hero-highlight strong{
+      display:block;font-size:1rem;font-weight:800;color:#fff;margin-bottom:6px;
+    }
+    .hero-highlight span{
+      display:block;color:rgba(255,255,255,.76);line-height:1.45;
+    }
+    .hero-panel{
+      color:#fff;
+      background:linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.07));
+      border:1px solid rgba(255,255,255,.15);
+      box-shadow:0 18px 50px rgba(0,0,0,.18);
+      backdrop-filter:blur(18px);
+      border-radius:28px;
+      padding:28px;
+      max-width:420px;
+      justify-self:end;
+    }
+    .hero-panel small{
+      display:inline-block;color:#b8d8f6;font-weight:800;text-transform:uppercase;letter-spacing:.08em;
+      margin-bottom:10px;
+    }
+    .hero-panel h3{font-size:1.8rem;line-height:1.1;margin-bottom:12px}
+    .hero-panel p{color:rgba(255,255,255,.84);line-height:1.7}
+    .hero-panel ul{margin-top:18px;display:grid;gap:12px}
+    .hero-panel li{
+      display:flex;align-items:flex-start;gap:12px;color:#fff;font-weight:600;
+    }
+    .hero-panel li::before{
+      content:"";width:10px;height:10px;border-radius:50%;background:var(--gold);margin-top:8px;flex-shrink:0;
+      box-shadow:0 0 0 5px rgba(217,164,65,.16);
+    }
+
+    .hero-controls{
+      position:absolute;left:0;right:0;bottom:26px;z-index:5;
+    }
+    .hero-controls .container{
+      display:flex;justify-content:flex-start;gap:10px;
+    }
+    .hero-dot{
+      width:14px;height:14px;border-radius:999px;
+      background:rgba(255,255,255,.36);
+      border:2px solid rgba(255,255,255,.28);
+      transition:.25s ease;
+    }
+    .hero-dot.active{
+      width:44px;background:#fff;
+    }
+
+    section{position:relative}
+    .metrics-band{margin-top:-52px;z-index:4}
+    .metrics-grid{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:18px;
+    }
+    .metric-card{
+      background:#fff;border:1px solid rgba(12,34,58,.08);border-radius:24px;
+      padding:28px 24px;box-shadow:var(--shadow-soft);
+    }
+    .metric-card strong{
+      display:block;font-size:2.45rem;font-weight:800;color:var(--primary);line-height:1;margin-bottom:10px;
+    }
+    .metric-card span{
+      display:block;color:var(--text-soft);line-height:1.6;font-weight:600;
+    }
+
+    .logo-strip{padding:38px 0 24px}
+    .logo-strip-head{
+      display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;
+    }
+    .logo-strip-head span{
+      color:var(--navy);font-size:1rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    }
+    .logo-strip-track{
+      overflow:hidden;border-radius:24px;
+      background:linear-gradient(180deg,#fff,#f7fbff);
+      border:1px solid rgba(12,34,58,.06);
+      box-shadow:var(--shadow-soft);
+      padding:14px 0;
+    }
+    .logo-strip-row{
+      display:flex;gap:16px;align-items:center;
+      animation:logoMarquee 22s linear infinite;
+      width:max-content;
+    }
+    .logo-chip{
+      min-width:190px;height:82px;background:#fff;border:1px solid rgba(12,34,58,.08);
+      border-radius:18px;display:flex;align-items:center;justify-content:center;padding:14px 18px;
+      box-shadow:0 8px 22px rgba(8,30,53,.06);
+    }
+    .logo-chip img{max-height:48px;object-fit:contain}
+
+    @keyframes logoMarquee{
+      from{transform:translateX(0)}
+      to{transform:translateX(-50%)}
+    }
+
+    .section-head{
+      max-width:780px;margin:0 auto 34px;text-align:center;
+    }
+    .section-kicker{
+      color:var(--primary);font-size:.92rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;
+    }
+    .section-head h3{
+      font-size:clamp(2rem,4vw,3.2rem);line-height:1.02;color:var(--navy);font-weight:800;letter-spacing:-.03em;
+      margin-bottom:14px;
+    }
+    .section-head p{
+      color:var(--text-soft);font-size:1.08rem;line-height:1.75;
+    }
+
+    .quem-somos,.servicos,.diferenciais,.projetos,.timeline-section,.parceiros,.curiosidades,.depoimentos-contato,.cta-final{
+      padding:84px 0;
+    }
+
+    .about-grid{
+      display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:stretch;
+    }
+    .about-photo,.about-card{
+      border-radius:28px;overflow:hidden;
+      background:#fff;border:1px solid rgba(12,34,58,.08);box-shadow:var(--shadow-soft);
+    }
+    .about-photo img{width:100%;height:100%;object-fit:cover;min-height:620px}
+    .about-card{padding:34px}
+    .about-card h3{
+      font-size:2.5rem;line-height:1.04;font-weight:800;color:var(--navy);margin-bottom:16px;
+      letter-spacing:-.03em;
+    }
+    .about-card p{
+      color:var(--text-soft);line-height:1.8;margin-bottom:14px;font-size:1.03rem;
+    }
+    .about-points{
+      display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:22px;
+    }
+    .about-point{
+      background:#f5f9fc;border:1px solid rgba(12,34,58,.06);border-radius:18px;padding:18px;
+    }
+    .about-point strong{
+      display:block;font-weight:800;color:var(--navy);margin-bottom:6px
+    }
+    .about-point span{display:block;color:var(--text-soft);line-height:1.55}
+
+    .services-grid{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:22px;
+    }
+    .service-card{
+      background:#fff;border-radius:24px;overflow:hidden;border:1px solid rgba(12,34,58,.08);
+      box-shadow:var(--shadow-soft);transition:.25s ease;
+    }
+    .service-card:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+    .service-image{
+      height:280px;overflow:hidden;position:relative;
+    }
+    .service-image::after{
+      content:"";position:absolute;inset:0;
+      background:linear-gradient(to top, rgba(7,27,47,.24), transparent 58%);
+    }
+    .service-image img{
+      width:100%;height:100%;object-fit:cover;transition:.5s ease;
+    }
+    .service-card:hover .service-image img{transform:scale(1.06)}
+    .service-body{padding:24px}
+    .service-body h4{
+      font-size:1.35rem;color:var(--navy);font-weight:800;margin-bottom:10px;
+    }
+    .service-body p{color:var(--text-soft);line-height:1.7;margin-bottom:18px}
+    .service-link{
+      color:var(--primary);font-weight:800;display:inline-flex;align-items:center;gap:8px;
+    }
+    .service-link::after{
+      content:"→";transition:.2s ease;
+    }
+    .service-link:hover::after{transform:translateX(4px)}
+
+    .diferenciais{
+      background:linear-gradient(180deg,#f5f9fc,#edf4f9);
+    }
+    .diferenciais-grid{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:18px;
+    }
+    .diferencial-card{
+      background:#fff;border:1px solid rgba(12,34,58,.08);border-radius:22px;padding:26px;
+      box-shadow:var(--shadow-soft);
+    }
+    .diferencial-icon{
+      width:58px;height:58px;border-radius:18px;background:linear-gradient(135deg,#dfeefc,#f3f8fd);
+      color:var(--primary);display:flex;align-items:center;justify-content:center;
+      font-size:1.3rem;font-weight:800;margin-bottom:18px;border:1px solid rgba(15,76,129,.1);
+    }
+    .diferencial-card h4{
+      font-size:1.25rem;color:var(--navy);font-weight:800;margin-bottom:10px;
+    }
+    .diferencial-card p{color:var(--text-soft);line-height:1.7}
+
+    .projects-grid{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:22px;
+    }
+    .project-card{
+      background:#fff;border-radius:24px;overflow:hidden;border:1px solid rgba(12,34,58,.08);
+      box-shadow:var(--shadow-soft);transition:.25s ease;
+    }
+    .project-card:hover{transform:translateY(-6px)}
+    .project-image{
+      width:100%;height:290px;overflow:hidden;display:block;position:relative;
+    }
+    .project-image::after{
+      content:"Ampliar";
+      position:absolute;right:16px;bottom:16px;
+      min-height:36px;padding:0 14px;border-radius:999px;
+      display:inline-flex;align-items:center;justify-content:center;
+      background:rgba(255,255,255,.88);color:var(--navy);font-weight:800;
+      box-shadow:0 10px 22px rgba(6,24,43,.16);
+    }
+    .project-image img{
+      width:100%;height:100%;object-fit:cover;transition:.45s ease;
+    }
+    .project-card:hover .project-image img{transform:scale(1.06)}
+    .project-body{padding:22px}
+    .project-body h4{
+      font-size:1.22rem;color:var(--navy);font-weight:800;margin-bottom:8px;
+    }
+    .project-body p{color:var(--text-soft);line-height:1.7}
+
+    .timeline-section{
+      background:linear-gradient(180deg,#081c31,#0e365d);
+    }
+    .timeline-section .section-kicker,
+    .timeline-section .section-head h3{
+      color:#fff;
+    }
+    .timeline-section .section-head p{color:rgba(255,255,255,.76)}
+    .timeline-grid{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:18px;
+    }
+    .timeline-card{
+      position:relative;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:24px;padding:26px;color:#fff;
+      backdrop-filter:blur(12px);
+    }
+    .timeline-card::before{
+      content:"";position:absolute;top:0;left:0;right:0;height:4px;
+      background:linear-gradient(90deg,var(--gold),#ffe7b5);
+      border-radius:24px 24px 0 0;
+    }
+    .timeline-year{
+      display:inline-flex;min-height:34px;padding:0 14px;align-items:center;
+      background:rgba(255,255,255,.1);border-radius:999px;
+      color:#d7ebff;font-weight:800;font-size:.86rem;text-transform:uppercase;
+      letter-spacing:.08em;margin-bottom:14px;
+    }
+    .timeline-card h4{font-size:1.26rem;font-weight:800;margin-bottom:10px}
+    .timeline-card p{line-height:1.7;color:rgba(255,255,255,.82)}
+
+    .partners-grid{
+      display:grid;grid-template-columns:repeat(2,1fr);gap:22px;max-width:860px;margin:0 auto;
+    }
+    .partner-card{
+      background:#fff;border-radius:24px;padding:28px;border:1px solid rgba(12,34,58,.08);
+      box-shadow:var(--shadow-soft);display:flex;align-items:center;justify-content:center;
+      min-height:180px;
+    }
+    .partner-card img{max-height:94px;object-fit:contain}
+
+    .curiosidades-layout{
+      display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:stretch;
+    }
+    .curiosidades-copy{
+      padding:34px;border-radius:28px;background:var(--grad-premium);color:#fff;box-shadow:var(--shadow);
+    }
+    .curiosidades-copy .section-kicker{color:#dcecff}
+    .curiosidades-copy h3{
+      font-size:2.3rem;line-height:1.06;font-weight:800;letter-spacing:-.03em;margin-bottom:16px;
+    }
+    .curiosidades-copy p{
+      color:rgba(255,255,255,.82);line-height:1.82;font-size:1.04rem;margin-bottom:12px;
+    }
+    .curiosidades-tags{
+      display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;
+    }
+    .curiosidades-tags span{
+      min-height:38px;padding:0 16px;border-radius:999px;
+      display:inline-flex;align-items:center;
+      background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);
+      font-weight:700;color:#fff;
+    }
+    .curiosidades-editorial{
+      display:grid;gap:18px;
+    }
+    .editorial-card{
+      background:#fff;border:1px solid rgba(12,34,58,.08);border-radius:24px;padding:26px;
+      box-shadow:var(--shadow-soft);
+    }
+    .editorial-card small{
+      display:inline-flex;align-items:center;justify-content:center;
+      width:42px;height:42px;border-radius:14px;background:#edf6ff;color:var(--primary);
+      font-weight:800;margin-bottom:14px;
+    }
+    .editorial-card h4{
+      font-size:1.34rem;color:var(--navy);font-weight:800;margin-bottom:10px;
+    }
+    .editorial-card p{color:var(--text-soft);line-height:1.7}
+
+    .bottom-grid{
+      display:grid;grid-template-columns:1fr 1fr;gap:24px;
+    }
+    .panel{
+      background:#fff;border-radius:28px;padding:30px;border:1px solid rgba(12,34,58,.08);
+      box-shadow:var(--shadow-soft);
+    }
+    .panel h4{
+      font-size:2rem;line-height:1.05;color:var(--navy);font-weight:800;margin-bottom:22px;
+      letter-spacing:-.03em;
+    }
+    .testimonial{
+      padding:18px 0;border-top:1px solid rgba(12,34,58,.08);
+    }
+    .testimonial:first-of-type{border-top:none;padding-top:0}
+    .testimonial strong{
+      display:block;color:var(--navy);font-size:1.08rem;font-weight:800;margin-bottom:8px;
+    }
+    .testimonial p{color:var(--text-soft);line-height:1.8}
+    .contact-list{display:grid;gap:14px}
+    .contact-item{
+      padding:16px 18px;background:#f6f9fc;border:1px solid rgba(12,34,58,.06);border-radius:18px;
+    }
+    .contact-item strong{
+      display:block;color:var(--navy);font-weight:800;margin-bottom:6px;
+    }
+    .contact-item span{display:block;color:var(--text-soft);line-height:1.65}
+    .contact-actions{
+      display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;
+    }
+
+    .cta-final{
+      padding-top:0;
+    }
+    .cta-final-box{
+      background:var(--grad-premium);border-radius:34px;padding:38px;
+      color:#fff;box-shadow:var(--shadow);
+      display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;
+    }
+    .cta-final-copy small{
+      display:inline-block;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:#d9eafa;margin-bottom:10px;
+    }
+    .cta-final-copy h3{
+      font-size:clamp(2rem,4vw,3.2rem);line-height:.98;font-weight:800;letter-spacing:-.03em;margin-bottom:12px;
+    }
+    .cta-final-copy p{color:rgba(255,255,255,.82);line-height:1.8;max-width:760px}
+    .cta-final-actions{
+      display:flex;gap:12px;flex-wrap:wrap;
+    }
+
+    footer{
+      background:#071b2f;color:#fff;padding-top:28px;
+      margin-top:84px;
+    }
+    .footer-map{
+      width:min(calc(100% - 32px),var(--container));margin:0 auto 28px;
+      border-radius:28px;overflow:hidden;border:1px solid rgba(255,255,255,.08);
+      box-shadow:0 18px 50px rgba(0,0,0,.2);
+    }
+    .footer-map iframe{
+      width:100%;height:300px;border:0;display:block;
+    }
+    .footer-inner{
+      display:grid;grid-template-columns:1fr auto auto;gap:20px;align-items:center;
+      padding:0 0 28px;
+    }
+    .footer-brand{
+      display:flex;align-items:center;gap:14px;
+    }
+    .footer-brand img{
+      width:64px;height:64px;object-fit:contain;background:#fff;border-radius:16px;padding:8px;
+    }
+    .footer-brand strong{
+      display:block;font-size:1.2rem;font-weight:800;margin-bottom:4px;
+    }
+    .footer-brand p{color:rgba(255,255,255,.72)}
+    .footer-center p{color:rgba(255,255,255,.72);font-weight:600}
+    .footer-social{
+      display:flex;align-items:center;gap:12px;
+    }
+    .footer-social a{
+      width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.08);
+      display:flex;align-items:center;justify-content:center;
+      color:#fff;font-size:1.1rem;border:1px solid rgba(255,255,255,.08);
+      transition:.25s ease;
+    }
+    .footer-social a:hover{
+      transform:translateY(-2px);
+      background:#fff;color:var(--primary);
+    }
+
+    .whatsapp-float{
+      position:fixed;right:18px;bottom:18px;z-index:998;
+      width:64px;height:64px;border-radius:50%;
+      background:linear-gradient(135deg,#14b85b,#0db24f);
+      color:#fff;display:flex;align-items:center;justify-content:center;
+      box-shadow:0 18px 38px rgba(17,160,76,.34);
+      font-size:1.45rem;
+    }
+
+    .lightbox,.contact-modal{
+      position:fixed;inset:0;z-index:1200;display:none;
+    }
+    .lightbox.active,.contact-modal.active{display:block}
+    .lightbox-backdrop,.contact-modal-backdrop{
+      position:absolute;inset:0;background:rgba(5,18,30,.72);backdrop-filter:blur(8px);
+    }
+    .lightbox-content{
+      position:relative;z-index:2;
+      width:min(calc(100% - 32px),1100px);
+      margin:50px auto 0;
+      background:#fff;border-radius:24px;padding:18px;box-shadow:var(--shadow);
+    }
+    .lightbox-content img{
+      width:100%;max-height:78vh;object-fit:contain;border-radius:18px;background:#f4f7fa;
+    }
+    .lightbox-caption{
+      color:var(--navy);font-weight:800;padding:14px 8px 4px;
+    }
+    .lightbox-close,.contact-modal-close{
+      position:absolute;top:16px;right:16px;width:46px;height:46px;border-radius:14px;
+      background:#fff;color:var(--navy);font-size:1.3rem;box-shadow:0 10px 25px rgba(0,0,0,.12);
+      z-index:2;
+    }
+
+    .contact-modal-box{
+      position:relative;z-index:2;
+      width:min(calc(100% - 32px),700px);
+      margin:60px auto 0;
+      background:#fff;border-radius:28px;padding:34px;box-shadow:var(--shadow);
+    }
+    .contact-modal-kicker{
+      display:inline-block;color:var(--primary);font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;
+    }
+    .contact-modal-box h3{
+      font-size:2.1rem;color:var(--navy);line-height:1.05;font-weight:800;margin-bottom:10px;
+    }
+    .contact-modal-box p{
+      color:var(--text-soft);line-height:1.7;margin-bottom:22px;
+    }
+    .contact-form{display:grid;gap:16px}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .form-field{display:grid;gap:8px}
+    .form-field label{
+      color:var(--navy);font-weight:800;
+    }
+    .form-field input,.form-field select,.form-field textarea{
+      width:100%;background:#f7fafc;border:1px solid rgba(12,34,58,.10);
+      min-height:54px;border-radius:16px;padding:0 16px;color:var(--navy);outline:none;
+      transition:.2s ease;
+    }
+    .form-field textarea{padding:14px 16px;min-height:150px;resize:vertical}
+    .form-field input:focus,.form-field select:focus,.form-field textarea:focus{
+      border-color:rgba(15,76,129,.28);box-shadow:0 0 0 4px rgba(15,76,129,.08);background:#fff;
+    }
+    .contact-submit{width:100%}
+
+    .reveal{
+      opacity:0;transform:translateY(28px);transition:.7s ease;
+    }
+    .reveal.show{
+      opacity:1;transform:translateY(0);
+    }
+
+    @media (max-width: 1180px){
+      .desktop-nav{display:none}
+      .menu-toggle{display:inline-flex;align-items:center;justify-content:center}
+      .desktop-only{display:none}
+      .hero-layout,
+      .about-grid,
+      .curiosidades-layout,
+      .bottom-grid,
+      .cta-final-box{
+        grid-template-columns:1fr;
+      }
+      .hero-panel{justify-self:start;max-width:100%}
+      .metrics-grid{grid-template-columns:repeat(2,1fr)}
+      .services-grid,
+      .projects-grid{grid-template-columns:repeat(2,1fr)}
+      .diferenciais-grid,
+      .timeline-grid{grid-template-columns:repeat(2,1fr)}
+      .footer-inner{grid-template-columns:1fr;justify-items:start}
+    }
+
+    @media (max-width: 768px){
+      :root{--header-h:78px}
+      .topbar{display:none}
+      .hero,.hero-content{min-height:auto}
+      .hero-content{padding:120px 0 96px}
+      .hero-copy h2{font-size:2.4rem}
+      .hero-copy p{font-size:1rem}
+      .hero-highlights,
+      .about-points,
+      .form-grid,
+      .metrics-grid,
+      .services-grid,
+      .projects-grid,
+      .diferenciais-grid,
+      .timeline-grid,
+      .partners-grid{
+        grid-template-columns:1fr;
+      }
+      .hero-actions,.contact-actions,.cta-final-actions{flex-direction:column}
+      .btn-primary,.btn-secondary,.btn-orcamento{width:100%}
+      .about-photo img{min-height:360px}
+      .service-image,.project-image{height:240px}
+      .about-card,.curiosidades-copy,.panel,.contact-modal-box,.cta-final-box{padding:24px}
+      .section-head h3,.cta-final-copy h3,.about-card h3,.curiosidades-copy h3,.panel h4{
+        font-size:2rem;
+      }
+      .hero-controls .container{justify-content:center}
+      .brand-text h1{font-size:1.1rem}
+      .brand-text p{font-size:.8rem}
+      .brand-logo{width:54px;height:54px}
+      .whatsapp-float{width:58px;height:58px;font-size:1.3rem}
+    }
+  </style>
 </head>
 <body>
 
   <div class="topbar">
     <div class="container">
       <div class="topbar-left">
-        <span><strong>Você está em:</strong> SITE ALUMNORTE</span>
+        <span><strong>Você está em:</strong> ALUMNORTE</span>
         <span><strong>Atendimento:</strong> Janaúba e Norte de Minas</span>
       </div>
       <div class="topbar-right">
@@ -48,12 +815,11 @@
 
         <div class="nav-dropdown">
           <button class="nav-drop-btn" type="button">
-            Soluções
-            <span>▾</span>
+            Soluções <i class="fa-solid fa-angle-down"></i>
           </button>
           <div class="nav-dropdown-menu">
             <a href="#servicos">Portas e janelas</a>
-            <a href="#servicos">Portões</a>
+            <a href="#servicos">Portões em alumínio</a>
             <a href="#servicos">Vidraçaria</a>
             <a href="#servicos">Pele de vidro</a>
           </div>
@@ -69,9 +835,12 @@
 
       <div class="header-actions">
         <button class="btn-orcamento desktop-only open-contact-modal" type="button">
+          <i class="fa-brands fa-whatsapp"></i>
           Solicitar orçamento
         </button>
-        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">☰</button>
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
       </div>
     </div>
 
@@ -87,6 +856,7 @@
         <a href="#curiosidades">Curiosidades</a>
         <a href="#contato">Contato</a>
         <button class="btn-orcamento open-contact-modal" type="button">
+          <i class="fa-brands fa-whatsapp"></i>
           Solicitar orçamento
         </button>
       </nav>
@@ -108,36 +878,44 @@
         <div class="hero-layout">
           <div class="hero-copy reveal show">
             <div class="hero-kicker">Esquadrias de alumínio com padrão institucional</div>
-            <h2>Vidro com presença arquitetônica, precisão e acabamento premium.</h2>
+            <h2>Presença arquitetônica, acabamento premium e soluções sob medida.</h2>
             <p>
-              Desenvolvemos portas, janelas, portões, pele de vidro e soluções sob medida para residências, fachadas comerciais e projetos que exigem elegância, resistência e execução profissional.
+              A Alumnorte entrega portas, janelas, portões, vidro temperado, vidraçaria e pele de vidro com leitura visual forte, acabamento refinado e execução profissional para imóveis residenciais e comerciais.
             </p>
 
             <div class="hero-actions">
-              <a href="#projetos" class="btn-primary">Ver projetos</a>
-              <button class="btn-secondary open-contact-modal" type="button">Solicitar orçamento</button>
+              <a href="#projetos" class="btn-primary">
+                <i class="fa-regular fa-images"></i>
+                Ver projetos
+              </a>
+              <button class="btn-secondary open-contact-modal" type="button">
+                <i class="fa-brands fa-whatsapp"></i>
+                Solicitar orçamento
+              </button>
             </div>
 
             <div class="hero-highlights">
               <div class="hero-highlight">
                 <strong>Projetos sob medida</strong>
-                <span>Soluções pensadas para cada ambiente.</span>
+                <span>Soluções alinhadas ao estilo e à necessidade de cada ambiente.</span>
               </div>
               <div class="hero-highlight">
-                <strong>Visual moderno</strong>
-                <span>Linhas limpas e leitura arquitetônica forte.</span>
+                <strong>Estética valorizada</strong>
+                <span>Mais leveza visual, modernidade e valorização do imóvel.</span>
               </div>
               <div class="hero-highlight">
                 <strong>Atendimento regional</strong>
-                <span>Janaúba e Norte de Minas.</span>
+                <span>Janaúba, Norte de Minas e atendimento consultivo.</span>
               </div>
             </div>
           </div>
 
           <aside class="hero-panel reveal show">
             <small>Destaques Alumnorte</small>
-            <h3>Padrão visual que valoriza o imóvel.</h3>
-            <p>Execução orientada por estética, durabilidade e acabamento profissional.</p>
+            <h3>Soluções elegantes para fachadas e ambientes modernos.</h3>
+            <p>
+              Do projeto residencial ao comercial, a proposta é unir durabilidade, presença visual e acabamento mais limpo.
+            </p>
             <ul>
               <li>Portas e janelas sob medida</li>
               <li>Portões em alumínio</li>
@@ -165,28 +943,28 @@
       <div class="metrics-grid">
         <div class="metric-card reveal">
           <strong class="counter" data-target="12">0</strong>
-          <span>Anos de experiência visual somada em projetos e execução</span>
+          <span>Anos de experiência visual somada em execução, atendimento e soluções sob medida.</span>
         </div>
 
         <div class="metric-card reveal">
           <strong class="counter" data-target="350">0</strong>
-          <span>Atendimentos e composições executadas com padrão profissional</span>
+          <span>Projetos e composições com foco em acabamento profissional e boa leitura arquitetônica.</span>
         </div>
 
         <div class="metric-card reveal">
           <strong class="counter" data-target="100">0</strong>
-          <span>Foco em acabamento, estética e valorização do imóvel</span>
+          <span>Compromisso com estética, durabilidade, valorização visual e padrão de entrega.</span>
         </div>
 
         <div class="metric-card reveal">
           <strong class="counter" data-target="24">0</strong>
-          <span>Atendimento consultivo para obras, reformas e projetos sob medida</span>
+          <span>Atendimento consultivo para reformas, fachadas, obras residenciais e comerciais.</span>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="logo-strip">
+  <section class="logo-strip" id="logos">
     <div class="container">
       <div class="logo-strip-head reveal">
         <span>Parceiros e clientes</span>
@@ -194,6 +972,9 @@
 
       <div class="logo-strip-track">
         <div class="logo-strip-row">
+          <div class="logo-chip"><img src="img/parceiro-1.jpg" alt="Parceiro 1"></div>
+          <div class="logo-chip"><img src="img/parceiro-2.jpg" alt="Parceiro 2"></div>
+          <div class="logo-chip"><img src="img/logo.png" alt="Alumnorte"></div>
           <div class="logo-chip"><img src="img/parceiro-1.jpg" alt="Parceiro 1"></div>
           <div class="logo-chip"><img src="img/parceiro-2.jpg" alt="Parceiro 2"></div>
           <div class="logo-chip"><img src="img/logo.png" alt="Alumnorte"></div>
@@ -214,33 +995,33 @@
 
         <div class="about-card reveal">
           <div class="section-kicker">Quem somos</div>
-          <h3>Precisão, estética e compromisso em cada projeto.</h3>
+          <h3>Precisão, estética e compromisso em cada entrega.</h3>
           <p>
-            A Alumnorte atua com foco em esquadrias de alumínio e vidraçaria, entregando soluções que unem desempenho técnico, durabilidade e leitura arquitetônica moderna.
+            A Alumnorte atua com foco em esquadrias de alumínio e vidraçaria, entregando soluções que unem desempenho, durabilidade e leitura arquitetônica moderna.
           </p>
           <p>
-            Nosso trabalho atende clientes que buscam portas, janelas, portões, vidro temperado, guarda-corpo, pele de vidro e composições sob medida para valorizar imóveis residenciais e comerciais.
+            Desenvolvemos portas, janelas, portões, guarda-corpos, vidro temperado, pele de vidro e projetos sob medida para clientes que buscam sofisticação visual e funcionalidade real.
           </p>
           <p>
-            Mais do que instalar peças, buscamos entregar um resultado final limpo, elegante e bem resolvido, com atenção ao acabamento, alinhamento visual e funcionalidade do ambiente.
+            Mais do que instalar peças, buscamos um resultado final limpo, alinhado e bem resolvido, valorizando o imóvel e fortalecendo a presença estética do projeto.
           </p>
 
           <div class="about-points">
             <div class="about-point">
               <strong>Acabamento profissional</strong>
-              <span>Detalhes que elevam o padrão do projeto.</span>
+              <span>Detalhes que elevam o padrão visual da entrega.</span>
             </div>
             <div class="about-point">
               <strong>Soluções sob medida</strong>
-              <span>Formatos personalizados para cada necessidade.</span>
+              <span>Cada composição pensada para o espaço real do cliente.</span>
             </div>
             <div class="about-point">
               <strong>Visual valorizado</strong>
-              <span>Esquadrias que somam estética e desempenho.</span>
+              <span>Linhas modernas e leitura premium para o imóvel.</span>
             </div>
             <div class="about-point">
               <strong>Atendimento confiável</strong>
-              <span>Organização e compromisso na execução.</span>
+              <span>Organização, clareza e compromisso na execução.</span>
             </div>
           </div>
         </div>
@@ -252,9 +1033,9 @@
     <div class="container">
       <div class="section-head reveal">
         <div class="section-kicker">O que fazemos</div>
-        <h3>Serviços com presença visual forte e acabamento técnico.</h3>
+        <h3>Serviços com presença visual forte e acabamento técnico refinado.</h3>
         <p>
-          Cada entrega da Alumnorte é pensada para unir funcionalidade, resistência e valorização estética, mantendo um padrão visual limpo e sofisticado.
+          Cada entrega da Alumnorte é pensada para unir funcionalidade, resistência e valorização estética, mantendo um padrão institucional limpo e sofisticado.
         </p>
       </div>
 
@@ -272,7 +1053,7 @@
           <div class="service-image"><img src="img/servico-janelas.jpg" alt="Janelas em alumínio"></div>
           <div class="service-body">
             <h4>Janelas sob medida</h4>
-            <p>Soluções funcionais e elegantes para ventilação, iluminação natural e melhor leitura da fachada.</p>
+            <p>Soluções elegantes para ventilação, iluminação natural e melhor composição da fachada.</p>
             <button class="service-link open-contact-modal" type="button">Solicitar avaliação</button>
           </div>
         </article>
@@ -281,7 +1062,7 @@
           <div class="service-image"><img src="img/servico-portoes.jpg" alt="Portões em alumínio"></div>
           <div class="service-body">
             <h4>Portões em alumínio</h4>
-            <p>Modelos com visual robusto, linhas modernas e excelente durabilidade para áreas externas.</p>
+            <p>Modelos de leitura robusta, linhas modernas e excelente durabilidade para áreas externas.</p>
             <button class="service-link open-contact-modal" type="button">Solicitar avaliação</button>
           </div>
         </article>
@@ -308,7 +1089,7 @@
           <div class="service-image"><img src="img/servico-pele-de-vidro.jpg" alt="Pele de vidro"></div>
           <div class="service-body">
             <h4>Pele de vidro</h4>
-            <p>Fachadas com presença institucional, leitura premium e valorização estética do imóvel.</p>
+            <p>Fachadas com linguagem institucional forte, leitura premium e valorização do imóvel.</p>
             <button class="service-link open-contact-modal" type="button">Solicitar avaliação</button>
           </div>
         </article>
@@ -322,33 +1103,33 @@
         <div class="section-kicker">Diferenciais Alumnorte</div>
         <h3>Uma entrega pensada para unir presença visual, técnica e confiança.</h3>
         <p>
-          Nosso diferencial está na combinação entre leitura estética, cuidado com acabamento e soluções sob medida que conversam com o projeto do cliente.
+          Nosso diferencial está na combinação entre leitura estética, acabamento mais limpo e soluções sob medida que conversam com o projeto do cliente.
         </p>
       </div>
 
       <div class="diferenciais-grid">
         <article class="diferencial-card reveal">
-          <div class="diferencial-icon">◆</div>
+          <div class="diferencial-icon"><i class="fa-solid fa-building"></i></div>
           <h4>Leitura arquitetônica</h4>
           <p>Projetos pensados para valorizar fachada, iluminação, amplitude e composição visual do ambiente.</p>
         </article>
 
         <article class="diferencial-card reveal">
-          <div class="diferencial-icon">◆</div>
+          <div class="diferencial-icon"><i class="fa-solid fa-gem"></i></div>
           <h4>Acabamento mais limpo</h4>
-          <p>Execução com atenção aos detalhes para entregar um resultado elegante, alinhado e mais premium.</p>
+          <p>Execução com atenção aos detalhes para entregar um resultado mais elegante, alinhado e premium.</p>
         </article>
 
         <article class="diferencial-card reveal">
-          <div class="diferencial-icon">◆</div>
+          <div class="diferencial-icon"><i class="fa-solid fa-ruler-combined"></i></div>
           <h4>Soluções sob medida</h4>
           <p>Cada peça é pensada conforme necessidade real do espaço, do uso e da estética desejada.</p>
         </article>
 
         <article class="diferencial-card reveal">
-          <div class="diferencial-icon">◆</div>
+          <div class="diferencial-icon"><i class="fa-solid fa-handshake-angle"></i></div>
           <h4>Atendimento consultivo</h4>
-          <p>Orientação mais clara para ajudar o cliente a escolher a melhor composição para sua obra ou reforma.</p>
+          <p>Orientação clara para ajudar o cliente a escolher a melhor composição para sua obra ou reforma.</p>
         </article>
       </div>
     </div>
@@ -358,9 +1139,9 @@
     <div class="container">
       <div class="section-head reveal">
         <div class="section-kicker">Projetos realizados</div>
-        <h3>Peças organizadas, separadas e valorizadas visualmente.</h3>
+        <h3>Portfólio mais limpo, sofisticado e valorizado visualmente.</h3>
         <p>
-          Aqui o portfólio fica mais limpo, com cada projeto respirando melhor na tela e com foco no impacto das imagens.
+          Cada projeto respira melhor na tela, com foco no impacto da imagem, leitura premium e experiência mais profissional.
         </p>
       </div>
 
@@ -434,7 +1215,7 @@
         <div class="section-kicker">Trajetória</div>
         <h3>Uma evolução construída com atendimento, acabamento e confiança.</h3>
         <p>
-          A história da Alumnorte pode ser apresentada de forma clara e institucional, reforçando crescimento, aprendizado e consolidação no mercado.
+          A história da Alumnorte pode ser apresentada de forma clara, forte e institucional, reforçando crescimento, aprendizado e consolidação no mercado.
         </p>
       </div>
 
@@ -488,12 +1269,12 @@
       <div class="curiosidades-layout">
         <div class="curiosidades-copy reveal">
           <div class="section-kicker">Curiosidades</div>
-          <h3>O alumínio se tornou símbolo de projeto moderno por um motivo simples: ele resolve estética e desempenho ao mesmo tempo.</h3>
+          <h3>O alumínio virou símbolo de projeto moderno porque resolve estética, leveza e desempenho ao mesmo tempo.</h3>
           <p>
             Ao longo do tempo, o alumínio ganhou espaço em residências e fachadas comerciais porque permite criar composições mais leves, limpas e sofisticadas, mantendo excelente durabilidade.
           </p>
           <p>
-            Quando combinado com vidro, o resultado é ainda mais valorizado: entra mais luz, o ambiente parece maior e a fachada ganha uma leitura muito mais atual.
+            Quando combinado com vidro, o resultado se valoriza ainda mais: entra mais luz, o ambiente parece maior e a fachada ganha uma leitura muito mais atual e premium.
           </p>
 
           <div class="curiosidades-tags">
@@ -568,8 +1349,14 @@
           </div>
 
           <div class="contact-actions">
-            <button class="btn-primary open-contact-modal" type="button">Chamar no WhatsApp</button>
-            <a href="#projetos" class="btn-secondary btn-secondary-light">Ver portfólio</a>
+            <button class="btn-primary open-contact-modal" type="button">
+              <i class="fa-brands fa-whatsapp"></i>
+              Chamar no WhatsApp
+            </button>
+            <a href="#projetos" class="btn-secondary-light btn-secondary">
+              <i class="fa-regular fa-images"></i>
+              Ver portfólio
+            </a>
           </div>
         </div>
       </div>
@@ -588,8 +1375,14 @@
         </div>
 
         <div class="cta-final-actions">
-          <button class="btn-primary open-contact-modal" type="button">Solicitar orçamento</button>
-          <a href="#projetos" class="btn-secondary">Ver projetos</a>
+          <button class="btn-primary open-contact-modal" type="button">
+            <i class="fa-brands fa-whatsapp"></i>
+            Solicitar orçamento
+          </button>
+          <a href="#projetos" class="btn-secondary">
+            <i class="fa-regular fa-images"></i>
+            Ver projetos
+          </a>
         </div>
       </div>
     </div>
@@ -620,31 +1413,15 @@
       </div>
 
       <div class="footer-social">
-        <a href="#" aria-label="Instagram" title="Instagram">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2.2A2.8 2.8 0 0 0 4.2 7v10A2.8 2.8 0 0 0 7 19.8h10a2.8 2.8 0 0 0 2.8-2.8V7A2.8 2.8 0 0 0 17 4.2Zm10.15 1.65a1.05 1.05 0 1 1-1.05 1.05 1.05 1.05 0 0 1 1.05-1.05ZM12 7a5 5 0 1 1-5 5 5 5 0 0 1 5-5Zm0 2.2A2.8 2.8 0 1 0 14.8 12 2.8 2.8 0 0 0 12 9.2Z"/>
-          </svg>
-        </a>
-
-        <a href="#" aria-label="Facebook" title="Facebook">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M13.5 22v-8h2.7l.4-3h-3.1V9.1c0-.9.3-1.6 1.6-1.6h1.7V4.8c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.2V11H8v3h2.4v8Z"/>
-          </svg>
-        </a>
-
-        <a href="https://wa.me/5538999999999" target="_blank" aria-label="WhatsApp" title="WhatsApp">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M20.52 3.48A11.86 11.86 0 0 0 12.07 0 11.93 11.93 0 0 0 1.74 17.9L0 24l6.28-1.65A11.93 11.93 0 1 0 20.52 3.48ZM12.07 21.7a9.8 9.8 0 0 1-4.98-1.36l-.36-.21-3.73.98 1-3.63-.24-.37a9.8 9.8 0 1 1 8.31 4.59Zm5.38-7.35c-.29-.14-1.72-.85-1.98-.95s-.46-.14-.66.15-.75.95-.92 1.15-.34.22-.63.07a8.05 8.05 0 0 1-2.37-1.46 8.82 8.82 0 0 1-1.64-2.04c-.17-.29 0-.45.13-.59s.29-.34.44-.51a2 2 0 0 0 .29-.48.53.53 0 0 0 0-.52c-.07-.15-.66-1.59-.9-2.18s-.48-.49-.66-.5h-.56a1.08 1.08 0 0 0-.78.37A3.31 3.31 0 0 0 6.36 9a5.76 5.76 0 0 0 1.2 3.05A13.16 13.16 0 0 0 12.64 17a16.62 16.62 0 0 0 1.68.62 4 4 0 0 0 1.84.12 3 3 0 0 0 1.95-1.37 2.42 2.42 0 0 0 .17-1.37c-.08-.11-.27-.18-.56-.32Z"/>
-          </svg>
-        </a>
+        <a href="#" aria-label="Instagram" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" aria-label="Facebook" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="https://wa.me/5538999999999" target="_blank" aria-label="WhatsApp" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
       </div>
     </div>
   </footer>
 
-  <a class="whatsapp-float open-contact-modal" href="#" aria-label="WhatsApp">
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M20.52 3.48A11.86 11.86 0 0 0 12.07 0 11.93 11.93 0 0 0 1.74 17.9L0 24l6.28-1.65A11.93 11.93 0 1 0 20.52 3.48ZM12.07 21.7a9.8 9.8 0 0 1-4.98-1.36l-.36-.21-3.73.98 1-3.63-.24-.37a9.8 9.8 0 1 1 8.31 4.59Zm5.38-7.35c-.29-.14-1.72-.85-1.98-.95s-.46-.14-.66.15-.75.95-.92 1.15-.34.22-.63.07a8.05 8.05 0 0 1-2.37-1.46 8.82 8.82 0 0 1-1.64-2.04c-.17-.29 0-.45.13-.59s.29-.34.44-.51a2 2 0 0 0 .29-.48.53.53 0 0 0 0-.52c-.07-.15-.66-1.59-.9-2.18s-.48-.49-.66-.5h-.56a1.08 1.08 0 0 0-.78.37A3.31 3.31 0 0 0 6.36 9a5.76 5.76 0 0 0 1.2 3.05A13.16 13.16 0 0 0 12.64 17a16.62 16.62 0 0 0 1.68.62 4 4 0 0 0 1.84.12 3 3 0 0 0 1.95-1.37 2.42 2.42 0 0 0 .17-1.37c-.08-.11-.27-.18-.56-.32Z"/>
-    </svg>
+  <a class="whatsapp-float open-contact-modal" href="javascript:void(0)" aria-label="WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
   </a>
 
   <div class="lightbox" id="lightbox">
@@ -698,10 +1475,184 @@
           <textarea id="mensagem" rows="5" placeholder="Descreva seu projeto"></textarea>
         </div>
 
-        <button type="submit" class="btn-primary contact-submit">Enviar para WhatsApp</button>
+        <button type="submit" class="btn-primary contact-submit">
+          <i class="fa-brands fa-whatsapp"></i>
+          Enviar para WhatsApp
+        </button>
       </form>
     </div>
   </div>
-<script src="./app.js?v=1.0"></script>
+
+  <script src="app.js?v=3.0"></script>
+
+  <script>
+    const siteHeader = document.getElementById('siteHeader');
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) siteHeader.classList.add('scrolled');
+      else siteHeader.classList.remove('scrolled');
+    });
+
+    menuToggle?.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+    });
+
+    document.querySelectorAll('.mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.remove('active'));
+    });
+
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.hero-dot');
+    let currentSlide = 0;
+    let heroInterval;
+
+    function showSlide(index){
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+      currentSlide = index;
+    }
+
+    function nextSlide(){
+      const next = (currentSlide + 1) % slides.length;
+      showSlide(next);
+    }
+
+    function startHero(){
+      heroInterval = setInterval(nextSlide, 5000);
+    }
+
+    function resetHero(){
+      clearInterval(heroInterval);
+      startHero();
+    }
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        showSlide(index);
+        resetHero();
+      });
+    });
+
+    startHero();
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    const counters = document.querySelectorAll('.counter');
+    let countersStarted = false;
+
+    function animateCounter(counter){
+      const target = Number(counter.dataset.target || 0);
+      const duration = 1600;
+      const startTime = performance.now();
+
+      function update(now){
+        const progress = Math.min((now - startTime) / duration, 1);
+        const value = Math.floor(progress * target);
+        counter.textContent = value;
+        if(progress < 1){
+          requestAnimationFrame(update);
+        } else {
+          counter.textContent = target;
+        }
+      }
+
+      requestAnimationFrame(update);
+    }
+
+    const metricsSection = document.querySelector('.metrics-band');
+    const metricsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting && !countersStarted){
+          countersStarted = true;
+          counters.forEach(animateCounter);
+        }
+      });
+    }, { threshold: 0.35 });
+
+    if(metricsSection) metricsObserver.observe(metricsSection);
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const lightboxBackdrop = document.getElementById('lightboxBackdrop');
+    const lightboxClose = document.getElementById('lightboxClose');
+
+    document.querySelectorAll('.lightbox-trigger').forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        const image = trigger.getAttribute('data-image');
+        const title = trigger.getAttribute('data-title');
+        lightboxImage.src = image;
+        lightboxCaption.textContent = title;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closeLightbox(){
+      lightbox.classList.remove('active');
+      lightboxImage.src = '';
+      document.body.style.overflow = '';
+    }
+
+    lightboxBackdrop?.addEventListener('click', closeLightbox);
+    lightboxClose?.addEventListener('click', closeLightbox);
+
+    const contactModal = document.getElementById('contactModal');
+    const contactModalBackdrop = document.getElementById('contactModalBackdrop');
+    const contactModalClose = document.getElementById('contactModalClose');
+
+    document.querySelectorAll('.open-contact-modal').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        contactModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closeContactModal(){
+      contactModal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    contactModalBackdrop?.addEventListener('click', closeContactModal);
+    contactModalClose?.addEventListener('click', closeContactModal);
+
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape'){
+        closeLightbox();
+        closeContactModal();
+      }
+    });
+
+    const contactForm = document.getElementById('contactForm');
+    contactForm?.addEventListener('submit', function(e){
+      e.preventDefault();
+
+      const nome = document.getElementById('nome').value.trim();
+      const telefone = document.getElementById('telefone').value.trim();
+      const servico = document.getElementById('servico').value.trim();
+      const mensagem = document.getElementById('mensagem').value.trim();
+
+      const texto =
+`Olá, vim pelo site da Alumnorte.
+Nome: ${nome}
+WhatsApp: ${telefone}
+Serviço: ${servico}
+Detalhes: ${mensagem || 'Não informado'}`;
+
+      const url = `https://wa.me/5538999999999?text=${encodeURIComponent(texto)}`;
+      window.open(url, '_blank');
+    });
+  </script>
 </body>
 </html>
