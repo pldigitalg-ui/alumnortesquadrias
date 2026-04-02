@@ -2727,3 +2727,561 @@ img{
     bottom:62px !important;
   }
 }
+/* =========================================
+   ALUMNORTE — CSS FINAL PATCH
+   Cole este arquivo NO FINAL do seu style.css atual.
+   Objetivos:
+   1) impedir controles/botões invadindo os slides
+   2) aumentar em ~20% a presença visual das fotos em Serviços
+   3) reduzir corte ruim das imagens
+   4) eliminar duplicidade visual de logo
+   5) refinar header, hero, projetos, footer e responsivo
+========================================= */
+
+html,body{
+  overflow-x:hidden;
+}
+
+img{
+  image-rendering:auto;
+}
+
+.wrap{
+  width:min(1280px, calc(100% - 48px));
+}
+
+/* =========================
+   LOGOS / BRAND
+========================= */
+.brandMark,
+.footerBrandLine,
+.heroBrandBox{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.siteLogo{
+  display:block;
+  height:52px;
+  width:auto;
+  object-fit:contain;
+  position:relative;
+  z-index:3;
+}
+
+.heroLogo{
+  display:block;
+  height:56px;
+  width:auto;
+  object-fit:contain;
+  position:relative;
+  z-index:3;
+}
+
+.footerLogo{
+  display:block;
+  height:46px;
+  width:auto;
+  object-fit:contain;
+  position:relative;
+  z-index:3;
+}
+
+/* some com badge/pseudo-logo quando existir logo real */
+.brandMark:has(.siteLogo) .brandBadge,
+.heroBrandBox:has(.heroLogo) span,
+.footerBrandLine:has(.footerLogo) .brandBadge,
+.footerBrandLine:has(.footerLogo) .brandBadge.small{
+  display:none !important;
+}
+
+.brandMark:has(.siteLogo) .brandBadge::before,
+.heroBrandBox:has(.heroLogo) span::before,
+.footerBrandLine:has(.footerLogo) .brandBadge::before,
+.footerBrandLine:has(.footerLogo) .brandBadge.small::before{
+  display:none !important;
+  content:none !important;
+}
+
+/* fallback visual caso o navegador ignore :has */
+.brandBadge + .siteLogo,
+.heroBrandBox span + .heroLogo,
+.footerBrandLine .brandBadge + .footerLogo{
+  margin-left:0;
+}
+
+/* =========================
+   BOTÕES
+========================= */
+.navBtn,
+.ctaPrimary,
+.ctaSecondary,
+.openModalBtn{
+  position:relative;
+  overflow:hidden;
+  white-space:nowrap;
+  flex:0 0 auto;
+}
+
+.heroButtons{
+  position:relative;
+  z-index:9;
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+  max-width:760px;
+  align-items:center;
+}
+
+/* =========================
+   HERO
+========================= */
+.heroSection,
+.heroSlider{
+  min-height:780px;
+}
+
+.heroContent{
+  min-height:780px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:18px;
+  padding:128px 0 210px;
+}
+
+.heroText{
+  max-width:760px;
+}
+
+.heroText h1{
+  max-width:12ch;
+  line-height:.98;
+}
+
+.heroText p{
+  max-width:48ch;
+}
+
+.heroBenefits{
+  max-width:720px;
+}
+
+/* controles do slide reposicionados para não encostar nos botões */
+.heroControls{
+  position:absolute;
+  right:28px;
+  left:auto;
+  bottom:28px;
+  z-index:9;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 14px;
+  border-radius:20px;
+  background:rgba(10,27,45,.28);
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 18px 34px rgba(0,0,0,.18);
+  backdrop-filter:blur(8px);
+}
+
+.heroArrow{
+  width:56px;
+  height:56px;
+  font-size:24px;
+  display:grid;
+  place-items:center;
+}
+
+.heroDots{
+  min-width:max-content;
+}
+
+.heroDots button,
+.heroDots .dot{
+  flex:0 0 auto;
+}
+
+/* evita texto e botões sobre o bloco de controle */
+.heroContent,
+.heroText,
+.heroButtons,
+.heroBenefits{
+  position:relative;
+  z-index:3;
+}
+
+/* =========================
+   SERVIÇOS
+========================= */
+.servicesGrid{
+  gap:26px;
+  align-items:stretch;
+}
+
+/* aumento aproximado de 20% */
+.serviceBigCard{
+  min-height:504px;
+  height:504px;
+  border:1px solid rgba(31,78,121,.10);
+  background:linear-gradient(180deg, #dfe8f1 0%, #eef4f9 100%);
+  overflow:hidden;
+}
+
+.serviceBigCard img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center center;
+  transform:scale(1.03);
+  transition:transform .32s ease, filter .28s ease;
+}
+
+.serviceBigCard:hover img{
+  transform:scale(1.08);
+  filter:contrast(1.06) saturate(1.04) brightness(.99);
+}
+
+.serviceBigOverlay{
+  background:linear-gradient(
+    180deg,
+    rgba(18,56,94,.02) 18%,
+    rgba(8,22,38,.40) 58%,
+    rgba(8,22,38,.86) 100%
+  );
+}
+
+.serviceBigContent{
+  left:22px;
+  right:22px;
+  bottom:22px;
+}
+
+.serviceBigContent h3{
+  font-size:28px;
+  line-height:1.08;
+}
+
+.serviceBigContent p{
+  font-size:14px;
+  line-height:1.65;
+  max-width:34ch;
+}
+
+/* opção extra para catálogo caso ainda corte demais
+   troque cover por contain se quiser mostrar 100% da foto */
+.serviceBigCard.is-catalog img{
+  object-fit:contain;
+  background:#eef4f9;
+  padding:18px;
+  transform:none;
+}
+
+/* =========================
+   PROJETOS / SLIDER
+========================= */
+.projectSlider{
+  padding:0 86px;
+}
+
+.projectViewport{
+  border-radius:34px;
+}
+
+.projectArrow{
+  width:58px;
+  height:58px;
+  z-index:15;
+}
+
+.projectArrow.left{
+  left:8px;
+}
+
+.projectArrow.right{
+  right:8px;
+}
+
+/* =========================
+   ABOUT / IMAGENS GERAIS
+========================= */
+.aboutImage img{
+  object-position:center center;
+}
+
+.projectCard img,
+.partnerCard img{
+  object-position:center center;
+}
+
+/* =========================
+   FOOTER
+========================= */
+.footer{
+  background:linear-gradient(180deg, #fff 0%, #f4f8fc 100%);
+  border-top:1px solid var(--line);
+}
+
+.footerTop{
+  padding:46px 0 34px;
+  display:grid;
+  grid-template-columns:.9fr 1.1fr .9fr;
+  gap:28px;
+  align-items:center;
+}
+
+.footerBrandLine strong{
+  color:var(--blue);
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:.04em;
+  line-height:1;
+}
+
+.footerLinks{
+  padding:34px 0 40px;
+  border-top:1px solid var(--line);
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:28px;
+}
+
+.footerBottomInner{
+  min-height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  color:#415667;
+  font-size:14px;
+}
+
+/* =========================
+   FLOATS
+========================= */
+.floatWhats,
+.backToTop{
+  right:14px;
+}
+
+.backToTop{
+  bottom:74px;
+}
+
+/* =========================
+   RESPONSIVO TABLET
+========================= */
+@media (max-width:1180px){
+  .heroContent{
+    padding:112px 0 190px;
+  }
+
+  .heroText{
+    max-width:680px;
+  }
+
+  .servicesGrid{
+    grid-template-columns:repeat(2, 1fr);
+  }
+
+  .serviceBigCard{
+    min-height:460px;
+    height:460px;
+  }
+
+  .projectSlider{
+    padding:0 28px;
+  }
+
+  .projectArrow.left{
+    left:0;
+  }
+
+  .projectArrow.right{
+    right:0;
+  }
+}
+
+/* =========================
+   RESPONSIVO MOBILE
+========================= */
+@media (max-width:700px){
+  .wrap{
+    width:min(1280px, calc(100% - 20px));
+  }
+
+  .topStrip{
+    display:none !important;
+  }
+
+  .mainNav,
+  .navInner{
+    min-height:74px;
+  }
+
+  .heroSection{
+    height:auto;
+    min-height:600px !important;
+  }
+
+  .heroSlider{
+    min-height:600px !important;
+    height:100% !important;
+  }
+
+  .heroTrack{
+    position:absolute;
+    inset:0;
+  }
+
+  .heroSlide{
+    transform:none;
+  }
+
+  .heroSlide img{
+    object-position:center center;
+  }
+
+  .heroContent{
+    min-height:600px !important;
+    height:auto !important;
+    justify-content:center !important;
+    gap:14px !important;
+    padding:88px 0 34px !important;
+  }
+
+  .heroText{
+    max-width:100%;
+  }
+
+  .heroText h1{
+    font-size:36px !important;
+    line-height:.96 !important;
+    letter-spacing:-.5px !important;
+    max-width:10ch !important;
+  }
+
+  .heroText p{
+    font-size:13.5px !important;
+    line-height:1.6 !important;
+    max-width:30ch !important;
+  }
+
+  .heroBenefits{
+    gap:8px;
+    margin-top:14px;
+  }
+
+  .heroBenefits li{
+    font-size:13px;
+  }
+
+  .heroButtons{
+    width:100%;
+    gap:10px;
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .ctaPrimary,
+  .ctaSecondary,
+  .openModalBtn,
+  .navBtn{
+    min-height:48px;
+    min-width:220px;
+    padding:13px 18px;
+    font-size:13px;
+  }
+
+  /* no celular os controles do hero somem para não embolar */
+  .heroControls{
+    display:none !important;
+  }
+
+  .projectSlider{
+    padding:0;
+  }
+
+  .projectArrow{
+    display:none !important;
+  }
+
+  .projectSlide,
+  .partnersGrid,
+  .servicesGrid,
+  .aboutStats,
+  .footerLinks,
+  .authorityGrid{
+    grid-template-columns:1fr;
+  }
+
+  .partnerCard{
+    min-height:360px;
+  }
+
+  .partnerContent{
+    max-height:none;
+  }
+
+  .serviceBigCard{
+    min-height:408px;
+    height:408px;
+  }
+
+  .serviceBigCard img{
+    object-position:center center;
+  }
+
+  .serviceBigContent{
+    left:18px;
+    right:18px;
+    bottom:18px;
+  }
+
+  .serviceBigContent h3{
+    font-size:24px;
+  }
+
+  .serviceBigContent p{
+    font-size:13px;
+    max-width:100%;
+  }
+
+  .projectCard{
+    min-height:320px;
+    height:320px;
+  }
+
+  .projectCardContent{
+    left:18px;
+    right:18px;
+    bottom:18px;
+    max-width:calc(100% - 36px);
+  }
+
+  .projectCardContent h3{
+    font-size:24px;
+    max-width:100%;
+  }
+
+  .footerTop{
+    grid-template-columns:1fr;
+    align-items:flex-start;
+  }
+
+  .floatWhats,
+  .backToTop{
+    width:44px !important;
+    height:44px !important;
+    right:8px !important;
+  }
+
+  .floatWhats{
+    bottom:10px !important;
+  }
+
+  .backToTop{
+    bottom:62px !important;
+  }
+}
