@@ -1,127 +1,135 @@
 (() => {
-  const $ = (s, r = document) => r.querySelector(s);
-  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  "use strict";
+
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+
+  const CONFIG = {
+    whatsapp: "553899658215",
+    companyName: "Alumnorte",
+    heroInterval: 6000,
+    projectInterval: 5200,
+    headerScrolledAt: 70,
+    backToTopAt: 420
+  };
 
   const HERO_SLIDES = [
     {
       img: "img/hero-1.jpg",
-      title: "Esquadrias de alumínio com sofisticação, resistência e acabamento impecável",
-      desc: "A Alumnorte entrega soluções sob medida em Janaúba MG para residências, comércios e projetos com visual moderno."
+      title: "Alumínio e vidro com presença, técnica e acabamento premium",
+      desc: "Portas, janelas, fachadas, portões e projetos sob medida para residências e comércios."
     },
     {
       img: "img/hero-2.jpg",
-      title: "Portas, janelas e portões em alumínio com padrão premium",
-      desc: "Projetos desenvolvidos para unir elegância, funcionalidade, durabilidade e excelente apresentação final."
+      title: "Esquadrias sob medida para valorizar o seu projeto",
+      desc: "Soluções em alumínio e vidro com leitura técnica, elegância e excelente apresentação final."
     },
     {
       img: "img/hero-3.jpg",
-      title: "Fachada pele de vidro com presença arquitetônica forte",
-      desc: "Aplicações que valorizam o imóvel com design sofisticado, linhas modernas e acabamento profissional."
+      title: "Fachadas e estruturas com identidade visual forte",
+      desc: "Projetos desenvolvidos para unir sofisticação, funcionalidade e resistência."
     },
     {
       img: "img/hero-4.jpg",
-      title: "Vidraçaria e vidro temperado para ambientes modernos",
-      desc: "Soluções que unem segurança, estética e adaptação precisa ao espaço do cliente."
+      title: "Vidraçaria moderna para ambientes residenciais e comerciais",
+      desc: "Aplicações que combinam segurança, estética e adaptação precisa ao espaço."
     },
     {
       img: "img/hero-5.jpg",
-      title: "Projetos sob medida para transformar seu ambiente",
-      desc: "Cada entrega da Alumnorte busca unir técnica, confiança, resistência e leitura visual de alto padrão."
+      title: "Projetos que transformam ambientes com acabamento profissional",
+      desc: "Cada entrega da Alumnorte busca unir confiança, durabilidade e padrão premium."
     }
   ];
 
   const PROJECTS = [
     {
-      img: "img/projetos/porta-vidro-aluminio-sala-moderna.jpg",
-      title: "Porta de vidro em alumínio para área interna",
-      desc: "Projeto moderno com esquadrias de alumínio preto e portas de vidro deslizantes, proporcionando iluminação natural e integração entre ambientes."
+      img: "img/projetos/corredor-esquadrias-alumínio-preto.jpg",
+      title: "Corredor com esquadrias em alumínio preto",
+      desc: "Linhas modernas e excelente aproveitamento estético do ambiente."
     },
     {
-      img: "img/projetos/corredor-esquadrias-aluminio-preto.jpg",
-      title: "Corredor com janelas em alumínio preto",
-      desc: "Instalação de janelas em alumínio com acabamento premium, garantindo ventilação, iluminação e estética contemporânea."
-    },
-    {
-      img: "img/projetos/portao-aluminio-preto-area-externa.jpg",
-      title: "Portão em alumínio preto com design moderno",
-      desc: "Portão resistente em alumínio com pintura eletrostática, ideal para áreas externas com durabilidade e sofisticação."
+      img: "img/projetos/escada-guarda-corpo-vidro-alumínio.jpg",
+      title: "Escada com guarda-corpo em vidro e alumínio",
+      desc: "Segurança, transparência e composição arquitetônica elegante."
     },
     {
       img: "img/projetos/porta-madeira-pivotante-esquadria-vidro.jpg",
-      title: "Porta pivotante com esquadria e vidro lateral",
-      desc: "Entrada principal com porta pivotante em acabamento amadeirado e painel fixo em vidro, trazendo elegância e imponência ao projeto."
+      title: "Porta pivotante com esquadria e vidro",
+      desc: "Entrada marcante com alto padrão visual e presença contemporânea."
     },
     {
-      img: "img/projetos/portao-garagem-aluminio-branco.jpg",
+      img: "img/projetos/porta-vidro-alumínio-sala-moderna.jpg",
+      title: "Porta de vidro e alumínio para sala moderna",
+      desc: "Mais luminosidade, leveza visual e integração entre ambientes."
+    },
+    {
+      img: "img/projetos/portao-alumínio-preto-area-externa.jpg",
+      title: "Portão em alumínio preto para área externa",
+      desc: "Estética imponente, durabilidade e composição elegante."
+    },
+    {
+      img: "img/projetos/portao-garagem-alumínio-branco.jpg",
       title: "Portão de garagem em alumínio branco",
-      desc: "Portão de grande porte em alumínio branco, com design clean e alta resistência para uso residencial."
-    },
-    {
-      img: "img/projetos/escada-guarda-corpo-vidro-aluminio.jpg",
-      title: "Guarda-corpo em vidro com estrutura em alumínio",
-      desc: "Escada interna com guarda-corpo em vidro e estrutura metálica, combinando segurança com visual moderno."
+      desc: "Visual limpo, acabamento refinado e solução sob medida."
     }
   ];
 
-  const WHATSAPP = "553899658215";
-  const COMPANY_NAME = "Alumnorte";
-  const HERO_INTERVAL = 6500;
+  const state = {
+    heroIndex: 0,
+    heroTimer: null,
+    projectIndex: 0,
+    projectTimer: null,
+    touchStartX: 0,
+    touchEndX: 0
+  };
 
-  const year = $("#year");
-  if (year) year.textContent = new Date().getFullYear();
+  const refs = {
+    body: document.body,
+    year: $("#year"),
+    topbar: $("#topbar"),
+    menuToggle: $("#menuToggle"),
+    mobileMenu: $("#mobileMenu"),
+    navLinks: $$(".navMenu a, .mobileMenu a"),
+    heroSlider: $("#heroSlider"),
+    heroTrack: $("#heroTrack"),
+    heroDots: $("#heroDots"),
+    heroTitle: $("#heroTitle"),
+    heroDesc: $("#heroDesc"),
+    projectTrack: $("#projectTrack"),
+    projectIndicators: $("#projectIndicators"),
+    backToTop: $("#backToTop"),
+    floatWhats: $("#floatWhats"),
 
-  const isMobile = () => window.matchMedia("(max-width: 900px)").matches;
+    budgetModal: $("#budgetModal"),
+    openBudgetButtons: [
+      $("#openBudgetModalTop"),
+      $("#openBudgetModalHero"),
+      $("#openBudgetModal"),
+      $("#openBudgetModalInline")
+    ].filter(Boolean),
+    closeBudgetModal: $("#closeBudgetModal"),
+    modalWhatsapp: $("#modalWhatsapp"),
 
-  // HEADER
-  const topbar = $("#topbar");
-  function updateHeader() {
-    if (!topbar) return;
-    topbar.classList.toggle("scrolled", window.scrollY > 80);
+    imagePreviewOverlay: $("#imagePreviewOverlay"),
+    imagePreviewImg: $("#imagePreviewImg"),
+    imagePreviewClose: $("#imagePreviewClose")
+  };
+
+  const sections = [
+    "inicio",
+    "quem-somos",
+    "servicos",
+    "projetos",
+    "parceiros",
+    "depoimentos",
+    "contato"
+  ]
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+
+  function setYear() {
+    if (refs.year) refs.year.textContent = String(new Date().getFullYear());
   }
-  updateHeader();
-  window.addEventListener("scroll", updateHeader, { passive: true });
-
-  // MOBILE MENU
-  const menuToggle = $("#menuToggle");
-  const mobileMenu = $("#mobileMenu");
-
-  if (menuToggle && mobileMenu) {
-    menuToggle.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const isOpen = mobileMenu.classList.toggle("show");
-      menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-    });
-
-    $$("a", mobileMenu).forEach((link) => {
-      link.addEventListener("click", () => {
-        mobileMenu.classList.remove("show");
-        menuToggle.setAttribute("aria-expanded", "false");
-      });
-    });
-
-    document.addEventListener("click", (e) => {
-      if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
-        mobileMenu.classList.remove("show");
-        menuToggle.setAttribute("aria-expanded", "false");
-      }
-    });
-  }
-
-  // HERO
-  const heroSlider = $("#heroSlider");
-  const heroTrack = $("#heroTrack");
-  const heroDots = $("#heroDots");
-  const heroTitle = $("#heroTitle");
-  const heroDesc = $("#heroDesc");
-  const heroPrev = $("#heroPrev");
-  const heroNext = $("#heroNext");
-  const heroControls = $(".heroControls");
-
-  let heroIndex = 0;
-  let heroTimer = null;
-  let heroTouchStartX = 0;
-  let heroTouchEndX = 0;
-  let heroIsPaused = false;
 
   function preloadImage(src) {
     if (!src) return;
@@ -129,104 +137,143 @@
     img.src = src;
   }
 
-  function preloadNearbyHeroImages() {
-    if (!HERO_SLIDES.length) return;
-    const nextIndex = (heroIndex + 1) % HERO_SLIDES.length;
-    const prevIndex = (heroIndex - 1 + HERO_SLIDES.length) % HERO_SLIDES.length;
-
-    preloadImage(HERO_SLIDES[nextIndex]?.img);
-    preloadImage(HERO_SLIDES[prevIndex]?.img);
+  function lockBody() {
+    refs.body.style.overflow = "hidden";
   }
 
-  function renderHero() {
-    if (!heroTrack || !heroDots || !HERO_SLIDES.length) return;
+  function unlockBody() {
+    const modalOpen = refs.budgetModal?.classList.contains("show");
+    const previewOpen = refs.imagePreviewOverlay?.classList.contains("show");
+    if (!modalOpen && !previewOpen) {
+      refs.body.style.overflow = "";
+    }
+  }
 
-    heroIndex = 0;
+  function updateHeader() {
+    if (!refs.topbar) return;
+    refs.topbar.classList.toggle("scrolled", window.scrollY > CONFIG.headerScrolledAt);
+  }
 
-    heroTrack.innerHTML = HERO_SLIDES.map((slide, i) => `
-      <div
-        class="heroSlide ${i === 0 ? "active" : ""}"
-        data-index="${i}"
-        aria-hidden="${i === 0 ? "false" : "true"}"
-      >
-        <img
-          src="${slide.img}"
-          alt="${slide.title}"
-          ${i === 0 ? 'fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"'}
-        >
-      </div>
-    `).join("");
+  function updateBackToTop() {
+    if (!refs.backToTop) return;
+    refs.backToTop.classList.toggle("show", window.scrollY > CONFIG.backToTopAt);
+  }
 
-    heroDots.innerHTML = HERO_SLIDES.map((_, i) => `
-      <button
-        class="heroDot ${i === 0 ? "active" : ""}"
-        data-index="${i}"
-        type="button"
-        aria-label="Ir para slide ${i + 1}"
-        aria-pressed="${i === 0 ? "true" : "false"}"
-      ></button>
-    `).join("");
+  function updateActiveMenu() {
+    let currentId = "inicio";
+    const currentY = window.scrollY + 160;
 
-    $$(".heroDot", heroDots).forEach((dot) => {
-      dot.addEventListener("click", () => {
-        heroIndex = Number(dot.dataset.index);
-        updateHero();
-        restartHeroTimer();
+    sections.forEach((section) => {
+      if (currentY >= section.offsetTop) currentId = section.id;
+    });
+
+    refs.navLinks.forEach((link) => {
+      const href = link.getAttribute("href");
+      link.classList.toggle("active", href === `#${currentId}`);
+    });
+  }
+
+  function setupMobileMenu() {
+    if (!refs.menuToggle || !refs.mobileMenu) return;
+
+    refs.menuToggle.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const opened = refs.mobileMenu.classList.toggle("show");
+      refs.menuToggle.setAttribute("aria-expanded", opened ? "true" : "false");
+    });
+
+    $$("a", refs.mobileMenu).forEach((link) => {
+      link.addEventListener("click", () => {
+        refs.mobileMenu.classList.remove("show");
+        refs.menuToggle.setAttribute("aria-expanded", "false");
       });
     });
 
+    document.addEventListener("click", (event) => {
+      if (
+        !refs.mobileMenu.contains(event.target) &&
+        !refs.menuToggle.contains(event.target)
+      ) {
+        refs.mobileMenu.classList.remove("show");
+        refs.menuToggle.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
+  function renderHero() {
+    if (!refs.heroTrack || !refs.heroDots || !HERO_SLIDES.length) return;
+
+    refs.heroTrack.innerHTML = HERO_SLIDES.map((slide, index) => `
+      <div class="heroSlide ${index === 0 ? "active" : ""}" aria-hidden="${index === 0 ? "false" : "true"}">
+        <img
+          src="${slide.img}"
+          alt="${slide.title}"
+          ${index === 0 ? 'fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"'}
+        />
+      </div>
+    `).join("");
+
+    refs.heroDots.innerHTML = HERO_SLIDES.map((_, index) => `
+      <button
+        class="heroDot ${index === 0 ? "active" : ""}"
+        data-index="${index}"
+        type="button"
+        aria-label="Ir para slide ${index + 1}"
+        aria-pressed="${index === 0 ? "true" : "false"}"
+      ></button>
+    `).join("");
+
+    refs.heroDots.addEventListener("click", (event) => {
+      const dot = event.target.closest(".heroDot");
+      if (!dot) return;
+      state.heroIndex = Number(dot.dataset.index);
+      updateHero();
+      restartHeroTimer();
+    });
+
+    preloadImage(HERO_SLIDES[1]?.img);
     updateHero();
-    preloadNearbyHeroImages();
   }
 
   function updateHero() {
-    if (!heroTrack || !heroDots || !HERO_SLIDES.length) return;
+    const slides = $$(".heroSlide", refs.heroTrack);
+    const dots = $$(".heroDot", refs.heroDots);
+    const current = HERO_SLIDES[state.heroIndex];
 
-    const slides = $$(".heroSlide", heroTrack);
-    const dots = $$(".heroDot", heroDots);
-    const current = HERO_SLIDES[heroIndex];
-
-    slides.forEach((slide, i) => {
-      const isActive = i === heroIndex;
-      slide.classList.toggle("active", isActive);
-      slide.setAttribute("aria-hidden", isActive ? "false" : "true");
+    slides.forEach((slide, index) => {
+      const active = index === state.heroIndex;
+      slide.classList.toggle("active", active);
+      slide.setAttribute("aria-hidden", active ? "false" : "true");
     });
 
-    dots.forEach((dot, i) => {
-      const isActive = i === heroIndex;
-      dot.classList.toggle("active", isActive);
-      dot.setAttribute("aria-pressed", isActive ? "true" : "false");
+    dots.forEach((dot, index) => {
+      const active = index === state.heroIndex;
+      dot.classList.toggle("active", active);
+      dot.setAttribute("aria-pressed", active ? "true" : "false");
     });
 
-    if (heroTitle && current) heroTitle.textContent = current.title;
-    if (heroDesc && current) heroDesc.textContent = current.desc;
+    if (refs.heroTitle) refs.heroTitle.textContent = current.title;
+    if (refs.heroDesc) refs.heroDesc.textContent = current.desc;
 
-    preloadNearbyHeroImages();
+    preloadImage(HERO_SLIDES[(state.heroIndex + 1) % HERO_SLIDES.length]?.img);
   }
 
   function nextHero() {
-    if (!HERO_SLIDES.length) return;
-    heroIndex = (heroIndex + 1) % HERO_SLIDES.length;
-    updateHero();
-  }
-
-  function prevHero() {
-    if (!HERO_SLIDES.length) return;
-    heroIndex = (heroIndex - 1 + HERO_SLIDES.length) % HERO_SLIDES.length;
+    state.heroIndex = (state.heroIndex + 1) % HERO_SLIDES.length;
     updateHero();
   }
 
   function startHeroTimer() {
-    if (!heroTrack || HERO_SLIDES.length <= 1 || heroIsPaused) return;
-    clearInterval(heroTimer);
-    heroTimer = setInterval(() => {
-      nextHero();
-    }, HERO_INTERVAL);
+    stopHeroTimer();
+    if (HERO_SLIDES.length <= 1) return;
+    state.heroTimer = window.setInterval(nextHero, CONFIG.heroInterval);
   }
 
   function stopHeroTimer() {
-    clearInterval(heroTimer);
-    heroTimer = null;
+    if (state.heroTimer) {
+      clearInterval(state.heroTimer);
+      state.heroTimer = null;
+    }
   }
 
   function restartHeroTimer() {
@@ -234,88 +281,60 @@
     startHeroTimer();
   }
 
-  function pauseHero() {
-    heroIsPaused = true;
-    stopHeroTimer();
-  }
+  function setupHeroTouch() {
+    if (!refs.heroSlider) return;
 
-  function resumeHero() {
-    heroIsPaused = false;
-    restartHeroTimer();
-  }
+    refs.heroSlider.addEventListener("mouseenter", stopHeroTimer);
+    refs.heroSlider.addEventListener("mouseleave", startHeroTimer);
 
-  if (heroPrev) {
-    heroPrev.addEventListener("click", () => {
-      prevHero();
-      restartHeroTimer();
-    });
-  }
-
-  if (heroNext) {
-    heroNext.addEventListener("click", () => {
-      nextHero();
-      restartHeroTimer();
-    });
-  }
-
-  if (heroSlider) {
-    heroSlider.addEventListener("mouseenter", () => {
-      pauseHero();
-    });
-
-    heroSlider.addEventListener("mouseleave", () => {
-      resumeHero();
-    });
-
-    heroSlider.addEventListener("touchstart", (e) => {
-      pauseHero();
-      heroTouchStartX = e.changedTouches[0].clientX;
-      heroTouchEndX = heroTouchStartX;
+    refs.heroSlider.addEventListener("touchstart", (event) => {
+      state.touchStartX = event.changedTouches[0].clientX;
+      state.touchEndX = state.touchStartX;
+      stopHeroTimer();
     }, { passive: true });
 
-    heroSlider.addEventListener("touchmove", (e) => {
-      heroTouchEndX = e.changedTouches[0].clientX;
+    refs.heroSlider.addEventListener("touchmove", (event) => {
+      state.touchEndX = event.changedTouches[0].clientX;
     }, { passive: true });
 
-    heroSlider.addEventListener("touchend", () => {
-      const diff = heroTouchStartX - heroTouchEndX;
-      const minSwipe = 40;
-
-      if (Math.abs(diff) > minSwipe) {
-        if (diff > 0) nextHero();
-        else prevHero();
+    refs.heroSlider.addEventListener("touchend", () => {
+      const diff = state.touchStartX - state.touchEndX;
+      if (Math.abs(diff) > 45) {
+        if (diff > 0) {
+          nextHero();
+        } else {
+          state.heroIndex = (state.heroIndex - 1 + HERO_SLIDES.length) % HERO_SLIDES.length;
+          updateHero();
+        }
       }
-
-      resumeHero();
+      startHeroTimer();
     }, { passive: true });
   }
 
-  renderHero();
-  updateHero();
-  startHeroTimer();
-
-  // PROJECTS
-  const projectTrack = $("#projectTrack");
-  const projectIndicators = $("#projectIndicators");
-  const projectPrev = $("#projectPrev");
-  const projectNext = $("#projectNext");
-  const projectSlider = $("#projectSlider");
-
-  let projectIndex = 0;
-  const projectPages = [];
-
-  for (let i = 0; i < PROJECTS.length; i += 2) {
-    projectPages.push(PROJECTS.slice(i, i + 2));
+  function chunkProjects(items, size = 2) {
+    const pages = [];
+    for (let i = 0; i < items.length; i += size) {
+      pages.push(items.slice(i, i + size));
+    }
+    return pages;
   }
 
   function renderProjects() {
-    if (!projectTrack || !projectIndicators || !projectPages.length) return;
+    if (!refs.projectTrack || !refs.projectIndicators || !PROJECTS.length) return;
 
-    projectTrack.innerHTML = projectPages.map((page) => `
+    const pages = chunkProjects(PROJECTS, 2);
+
+    refs.projectTrack.innerHTML = pages.map((page) => `
       <div class="projectSlide">
         ${page.map((item) => `
           <article class="projectCard">
-            <img src="${item.img}" alt="${item.title}" loading="lazy" decoding="async">
+            <img
+              class="previewable"
+              src="${item.img}"
+              alt="${item.title}"
+              loading="lazy"
+              decoding="async"
+            />
             <div class="projectCardContent">
               <h3>${item.title}</h3>
               <p>${item.desc}</p>
@@ -325,106 +344,80 @@
       </div>
     `).join("");
 
-    projectIndicators.innerHTML = projectPages.map((_, i) => `
+    refs.projectIndicators.innerHTML = pages.map((_, index) => `
       <button
-        class="projectIndicator ${i === 0 ? "active" : ""}"
-        data-index="${i}"
+        class="projectIndicator ${index === 0 ? "active" : ""}"
+        data-index="${index}"
         type="button"
-        aria-label="Ir para página ${i + 1}"
-        aria-pressed="${i === 0 ? "true" : "false"}"
+        aria-label="Ir para grupo ${index + 1}"
+        aria-pressed="${index === 0 ? "true" : "false"}"
       ></button>
     `).join("");
 
-    $$(".projectIndicator", projectIndicators).forEach((dot) => {
-      dot.addEventListener("click", () => {
-        projectIndex = Number(dot.dataset.index);
-        updateProjects();
-      });
+    refs.projectIndicators.addEventListener("click", (event) => {
+      const indicator = event.target.closest(".projectIndicator");
+      if (!indicator) return;
+      state.projectIndex = Number(indicator.dataset.index);
+      updateProjects();
+      restartProjectTimer();
     });
 
     updateProjects();
   }
 
   function updateProjects() {
-    if (!projectTrack || !projectIndicators || !projectPages.length) return;
+    const slides = $$(".projectSlide", refs.projectTrack);
+    const indicators = $$(".projectIndicator", refs.projectIndicators);
 
-    projectTrack.style.transform = `translateX(-${projectIndex * 100}%)`;
+    refs.projectTrack.style.transform = `translateX(-${state.projectIndex * 100}%)`;
 
-    $$(".projectIndicator", projectIndicators).forEach((dot, i) => {
-      const isActive = i === projectIndex;
-      dot.classList.toggle("active", isActive);
-      dot.setAttribute("aria-pressed", isActive ? "true" : "false");
-    });
-  }
-
-  if (projectPrev) {
-    projectPrev.addEventListener("click", () => {
-      if (!projectPages.length) return;
-      projectIndex = (projectIndex - 1 + projectPages.length) % projectPages.length;
-      updateProjects();
-    });
-  }
-
-  if (projectNext) {
-    projectNext.addEventListener("click", () => {
-      if (!projectPages.length) return;
-      projectIndex = (projectIndex + 1) % projectPages.length;
-      updateProjects();
-    });
-  }
-
-  renderProjects();
-
-  // ACTIVE MENU
-  const menuLinks = $$(".navMenu a, .mobileMenu a");
-  const sections = ["inicio", "quem-somos", "servicos", "projetos", "parceiros", "depoimentos", "contato"]
-    .map((id) => document.getElementById(id))
-    .filter(Boolean);
-
-  function updateActiveMenu() {
-    let currentId = "inicio";
-    const scrollY = window.scrollY + 160;
-
-    sections.forEach((sec) => {
-      if (scrollY >= sec.offsetTop) currentId = sec.id;
+    indicators.forEach((indicator, index) => {
+      const active = index === state.projectIndex;
+      indicator.classList.toggle("active", active);
+      indicator.setAttribute("aria-pressed", active ? "true" : "false");
     });
 
-    menuLinks.forEach((link) => {
-      const href = link.getAttribute("href");
-      link.classList.toggle("active", href === `#${currentId}`);
-    });
+    const nextSlide = slides[(state.projectIndex + 1) % slides.length];
+    if (nextSlide) {
+      const img = $("img", nextSlide);
+      if (img?.src) preloadImage(img.src);
+    }
   }
 
-  window.addEventListener("scroll", updateActiveMenu, { passive: true });
-  updateActiveMenu();
-
-  // BACK TO TOP
-  const backToTop = $("#backToTop");
-
-  function updateBackToTop() {
-    if (!backToTop) return;
-    backToTop.classList.toggle("show", window.scrollY > 500);
+  function nextProject() {
+    const total = $$(".projectSlide", refs.projectTrack).length;
+    if (!total) return;
+    state.projectIndex = (state.projectIndex + 1) % total;
+    updateProjects();
   }
 
-  window.addEventListener("scroll", updateBackToTop, { passive: true });
-  updateBackToTop();
-
-  if (backToTop) {
-    backToTop.addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
+  function startProjectTimer() {
+    stopProjectTimer();
+    if ($$(".projectSlide", refs.projectTrack).length <= 1) return;
+    state.projectTimer = window.setInterval(nextProject, CONFIG.projectInterval);
   }
 
-  // FLOAT WHATS
-  const floatWhats = $("#floatWhats");
-  if (floatWhats) {
-    const msg = `Olá! Vim pelo site da ${COMPANY_NAME} e quero solicitar um orçamento.`;
-    floatWhats.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+  function stopProjectTimer() {
+    if (state.projectTimer) {
+      clearInterval(state.projectTimer);
+      state.projectTimer = null;
+    }
   }
 
-  // FORM HELPERS
+  function restartProjectTimer() {
+    stopProjectTimer();
+    startProjectTimer();
+  }
+
+  function setupProjectPause() {
+    const projectSlider = $("#projectSlider");
+    if (!projectSlider) return;
+    projectSlider.addEventListener("mouseenter", stopProjectTimer);
+    projectSlider.addEventListener("mouseleave", startProjectTimer);
+  }
+
   function buildWhatsappText(data) {
-    return `Olá! Vim pelo site da ${COMPANY_NAME}.
+    return `Olá! Vim pelo site da ${CONFIG.companyName}.
 
 Nome: ${data.name || "-"}
 E-mail: ${data.email || "-"}
@@ -432,6 +425,11 @@ WhatsApp: ${data.phone || "-"}
 Cidade/Bairro: ${data.place || "-"}
 Serviço: ${data.service || "-"}
 Mensagem: ${data.message || "-"}`;
+  }
+
+  function sendWhatsapp(data) {
+    const url = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(buildWhatsappText(data))}`;
+    window.open(url, "_blank", "noopener,noreferrer");
   }
 
   function getModalFormData() {
@@ -445,360 +443,141 @@ Mensagem: ${data.message || "-"}`;
     };
   }
 
-  function sendWhatsapp(data) {
-    const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(buildWhatsappText(data))}`;
-    window.open(url, "_blank", "noopener,noreferrer");
-  }
+  function setupWhatsappButtons() {
+    if (refs.floatWhats) {
+      const msg = `Olá! Vim pelo site da ${CONFIG.companyName} e quero solicitar um orçamento.`;
+      refs.floatWhats.href = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
+    }
 
-  // MODAL
-  const budgetModal = $("#budgetModal");
-  const openBudgetModal = $("#openBudgetModal");
-  const openBudgetModalTop = $("#openBudgetModalTop");
-  const openBudgetModalHero = $("#openBudgetModalHero");
-  const openBudgetModalInline = $("#openBudgetModalInline");
-  const closeBudgetModal = $("#closeBudgetModal");
-  const modalWhatsapp = $("#modalWhatsapp");
-
-  function lockBody() {
-    document.body.style.overflow = "hidden";
-  }
-
-  function unlockBody() {
-    const previewOverlay = $("#imagePreviewOverlay");
-    const modalOpen = budgetModal?.classList.contains("show");
-    const previewOpen = previewOverlay?.classList.contains("show");
-    if (!modalOpen && !previewOpen) {
-      document.body.style.overflow = "";
+    if (refs.modalWhatsapp) {
+      refs.modalWhatsapp.addEventListener("click", () => {
+        sendWhatsapp(getModalFormData());
+      });
     }
   }
 
   function openModal() {
-    if (!budgetModal) return;
-    budgetModal.classList.add("show");
+    if (!refs.budgetModal) return;
+    refs.budgetModal.classList.add("show");
     lockBody();
   }
 
   function closeModal() {
-    if (!budgetModal) return;
-    budgetModal.classList.remove("show");
+    if (!refs.budgetModal) return;
+    refs.budgetModal.classList.remove("show");
     unlockBody();
   }
 
-  [openBudgetModal, openBudgetModalTop, openBudgetModalHero, openBudgetModalInline]
-    .filter(Boolean)
-    .forEach((btn) => btn.addEventListener("click", openModal));
+  function setupModal() {
+    refs.openBudgetButtons.forEach((button) => {
+      button.addEventListener("click", openModal);
+    });
 
-  if (closeBudgetModal) closeBudgetModal.addEventListener("click", closeModal);
+    refs.closeBudgetModal?.addEventListener("click", closeModal);
 
-  if (budgetModal) {
-    budgetModal.addEventListener("click", (e) => {
-      if (e.target === budgetModal) closeModal();
+    refs.budgetModal?.addEventListener("click", (event) => {
+      if (event.target === refs.budgetModal) closeModal();
     });
   }
 
-  if (modalWhatsapp) {
-    modalWhatsapp.addEventListener("click", () => {
-      sendWhatsapp(getModalFormData());
-    });
+  function openImagePreview(src, alt = "Visualização ampliada") {
+    if (!refs.imagePreviewOverlay || !refs.imagePreviewImg) return;
+    refs.imagePreviewImg.src = src;
+    refs.imagePreviewImg.alt = alt;
+    refs.imagePreviewOverlay.classList.add("show");
+    refs.imagePreviewOverlay.setAttribute("aria-hidden", "false");
+    lockBody();
   }
 
-  // SMALL IMAGE PREVIEW
-  const previewOverlay = $("#imagePreviewOverlay");
-  const previewImg = $("#imagePreviewImg");
-  const previewClose = $("#imagePreviewClose");
-  const previewBox = $(".imagePreviewBox", previewOverlay);
-  const previewSelectors = ".aboutImage, .serviceBigCard, .projectCard, .partnerCard";
-
-  let hoverTimer = null;
-  let activeHoverTarget = null;
-  let pointerX = 0;
-  let pointerY = 0;
-
-  function extractUrl(backgroundImage) {
-    if (!backgroundImage || backgroundImage === "none") return "";
-    const match = backgroundImage.match(/url\(["']?(.*?)["']?\)/);
-    return match ? match[1] : "";
-  }
-
-  function getPreviewSrc(target) {
-    if (!target) return "";
-
-    const innerImg = target.querySelector("img");
-    if (innerImg) {
-      const src = innerImg.getAttribute("src") || innerImg.src || "";
-      if (src) return src;
-    }
-
-    const bg = getComputedStyle(target).backgroundImage;
-    const bgUrl = extractUrl(bg);
-    if (bgUrl) return bgUrl;
-
-    return "";
-  }
-
-  function isInteractiveChild(el) {
-    return !!el.closest(
-      "a, button, input, textarea, select, label, .heroArrow, .projectArrow, .heroDot, .projectIndicator, .menuToggle, .closeModalBtn, .imagePreviewClose"
-    );
-  }
-
-  function setDesktopPreviewPosition(x, y) {
-    if (!previewBox || isMobile()) return;
-
-    const boxW = 320;
-    const boxH = 320;
-    const gap = 18;
-
-    let left = x + gap;
-    let top = y - (boxH / 2);
-
-    if (left + boxW > window.innerWidth - 16) {
-      left = x - boxW - gap;
-    }
-
-    if (left < 16) left = 16;
-    if (top < 16) top = 16;
-    if (top + boxH > window.innerHeight - 16) {
-      top = window.innerHeight - boxH - 16;
-    }
-
-    previewBox.style.left = `${left}px`;
-    previewBox.style.top = `${top}px`;
-  }
-
-  function openHoverPreview(target) {
-    if (!previewOverlay || !previewImg || !previewBox || !target) return;
-    if (isMobile()) return;
-
-    const src = getPreviewSrc(target);
-    if (!src) return;
-
-    activeHoverTarget = target;
-    previewImg.src = src;
-
-    previewOverlay.classList.add("show");
-    previewOverlay.setAttribute("aria-hidden", "false");
-
-    previewOverlay.style.pointerEvents = "none";
-    previewOverlay.style.background = "transparent";
-    previewOverlay.style.backdropFilter = "none";
-    previewOverlay.style.webkitBackdropFilter = "none";
-
-    previewBox.style.position = "fixed";
-    previewBox.style.width = "320px";
-    previewBox.style.height = "320px";
-    previewBox.style.maxWidth = "320px";
-    previewBox.style.maxHeight = "320px";
-    previewBox.style.padding = "0";
-    previewBox.style.borderRadius = "22px";
-    previewBox.style.overflow = "hidden";
-    previewBox.style.background = "#ffffff";
-    previewBox.style.boxShadow = "0 22px 50px rgba(0,0,0,.22)";
-    previewBox.style.zIndex = "9999";
-
-    previewImg.style.width = "100%";
-    previewImg.style.height = "100%";
-    previewImg.style.maxWidth = "100%";
-    previewImg.style.maxHeight = "100%";
-    previewImg.style.objectFit = "cover";
-    previewImg.style.borderRadius = "22px";
-    previewImg.style.background = "#fff";
-
-    if (previewClose) previewClose.style.display = "none";
-
-    setDesktopPreviewPosition(pointerX || window.innerWidth * 0.62, pointerY || window.innerHeight * 0.5);
-  }
-
-  function openTapPreview(target) {
-    if (!previewOverlay || !previewImg || !previewBox || !target) return;
-
-    const src = getPreviewSrc(target);
-    if (!src) return;
-
-    previewImg.src = src;
-    previewOverlay.classList.add("show");
-    previewOverlay.setAttribute("aria-hidden", "false");
-
-    previewOverlay.style.pointerEvents = "auto";
-    previewOverlay.style.background = "rgba(5,12,20,.28)";
-    previewOverlay.style.backdropFilter = "blur(2px)";
-    previewOverlay.style.webkitBackdropFilter = "blur(2px)";
-
-    previewBox.style.position = "fixed";
-    previewBox.style.left = "50%";
-    previewBox.style.top = "50%";
-    previewBox.style.transform = "translate(-50%, -50%)";
-    previewBox.style.width = "min(86vw, 380px)";
-    previewBox.style.height = "min(86vw, 380px)";
-    previewBox.style.maxWidth = "380px";
-    previewBox.style.maxHeight = "380px";
-    previewBox.style.padding = "0";
-    previewBox.style.borderRadius = "22px";
-    previewBox.style.overflow = "hidden";
-    previewBox.style.background = "#fff";
-    previewBox.style.boxShadow = "0 22px 50px rgba(0,0,0,.22)";
-    previewBox.style.zIndex = "9999";
-
-    previewImg.style.width = "100%";
-    previewImg.style.height = "100%";
-    previewImg.style.maxWidth = "100%";
-    previewImg.style.maxHeight = "100%";
-    previewImg.style.objectFit = "cover";
-    previewImg.style.borderRadius = "22px";
-    previewImg.style.background = "#fff";
-
-    if (previewClose) previewClose.style.display = "grid";
-  }
-
-  function closePreview() {
-    if (!previewOverlay || !previewImg || !previewBox) return;
-
-    previewOverlay.classList.remove("show");
-    previewOverlay.setAttribute("aria-hidden", "true");
-
-    previewImg.src = "";
-    activeHoverTarget = null;
-    clearTimeout(hoverTimer);
-
-    previewOverlay.removeAttribute("style");
-    previewBox.removeAttribute("style");
-    previewImg.removeAttribute("style");
-    if (previewClose) previewClose.removeAttribute("style");
-
+  function closeImagePreview() {
+    if (!refs.imagePreviewOverlay || !refs.imagePreviewImg) return;
+    refs.imagePreviewOverlay.classList.remove("show");
+    refs.imagePreviewOverlay.setAttribute("aria-hidden", "true");
+    setTimeout(() => {
+      refs.imagePreviewImg.src = "";
+    }, 160);
     unlockBody();
   }
 
-  function scheduleHoverPreview(target, delay = 120) {
-    clearTimeout(hoverTimer);
-    hoverTimer = setTimeout(() => {
-      openHoverPreview(target);
-    }, delay);
-  }
+  function setupLightbox() {
+    document.addEventListener("click", (event) => {
+      const image = event.target.closest(".previewable");
+      if (!image) return;
+      openImagePreview(image.currentSrc || image.src, image.alt || "Visualização ampliada");
+    });
 
-  document.addEventListener("mousemove", (e) => {
-    pointerX = e.clientX;
-    pointerY = e.clientY;
+    refs.imagePreviewClose?.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      closeImagePreview();
+    });
 
-    if (previewOverlay?.classList.contains("show") && activeHoverTarget && !isMobile()) {
-      setDesktopPreviewPosition(pointerX, pointerY);
-    }
-  }, { passive: true });
+    refs.imagePreviewOverlay?.addEventListener("click", (event) => {
+      if (event.target === refs.imagePreviewOverlay) {
+        closeImagePreview();
+      }
+    });
 
-  document.addEventListener("mouseover", (e) => {
-    if (isMobile()) return;
-
-    const target = e.target.closest(previewSelectors);
-    if (!target) return;
-    if (isInteractiveChild(e.target)) return;
-
-    scheduleHoverPreview(target, 120);
-  });
-
-  document.addEventListener("mouseout", (e) => {
-    if (isMobile()) return;
-
-    const target = e.target.closest(previewSelectors);
-    if (!target) return;
-
-    const related = e.relatedTarget;
-    if (related && target.contains(related)) return;
-
-    clearTimeout(hoverTimer);
-
-    if (activeHoverTarget === target) {
-      closePreview();
-    }
-  });
-
-  document.addEventListener("click", (e) => {
-    const target = e.target.closest(previewSelectors);
-    if (!target) return;
-    if (isInteractiveChild(e.target)) return;
-
-    if (!isMobile()) return;
-
-    e.preventDefault();
-    e.stopPropagation();
-    openTapPreview(target);
-  });
-
-  if (previewClose) {
-    previewClose.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      closePreview();
+    refs.imagePreviewImg?.addEventListener("click", (event) => {
+      event.stopPropagation();
     });
   }
 
-  if (previewOverlay) {
-    previewOverlay.addEventListener("click", (e) => {
-      if (isMobile() && e.target === previewOverlay) {
-        closePreview();
+  function setupKeyboard() {
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeModal();
+        closeImagePreview();
       }
     });
   }
 
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      closeModal();
-      closePreview();
-    }
-  });
+  function setupScrollEvents() {
+    const onScroll = () => {
+      updateHeader();
+      updateBackToTop();
+      updateActiveMenu();
+    };
 
-  function normalizeSliderControls() {
-    if (heroControls) {
-      heroControls.style.left = "24px";
-      heroControls.style.right = "auto";
-      heroControls.style.bottom = isMobile() ? "18px" : "28px";
-      heroControls.style.zIndex = "20";
-    }
-
-    if (heroPrev) {
-      heroPrev.style.position = "relative";
-      heroPrev.style.zIndex = "21";
-    }
-
-    if (heroNext) {
-      heroNext.style.position = "relative";
-      heroNext.style.zIndex = "21";
-    }
-
-    if (projectSlider) {
-      projectSlider.style.position = "relative";
-      projectSlider.style.paddingLeft = isMobile() ? "0px" : "54px";
-      projectSlider.style.paddingRight = isMobile() ? "0px" : "54px";
-    }
-
-    if (projectPrev) {
-      projectPrev.style.position = "absolute";
-      projectPrev.style.left = isMobile() ? "-9999px" : "8px";
-      projectPrev.style.top = "50%";
-      projectPrev.style.transform = "translateY(-50%)";
-      projectPrev.style.zIndex = "30";
-    }
-
-    if (projectNext) {
-      projectNext.style.position = "absolute";
-      projectNext.style.right = isMobile() ? "-9999px" : "8px";
-      projectNext.style.top = "50%";
-      projectNext.style.transform = "translateY(-50%)";
-      projectNext.style.zIndex = "30";
-    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
   }
 
-  normalizeSliderControls();
-  window.addEventListener("resize", normalizeSliderControls);
+  function setupBackToTop() {
+    refs.backToTop?.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
 
-  window.addEventListener("load", () => {
-    document.body.classList.add("site-loaded");
-    normalizeSliderControls();
-  });
+  function setupVisibilityChange() {
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        stopHeroTimer();
+        stopProjectTimer();
+      } else {
+        startHeroTimer();
+        startProjectTimer();
+      }
+    });
+  }
 
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-      stopHeroTimer();
-    } else if (!heroIsPaused) {
-      startHeroTimer();
-    }
-  });
+  function init() {
+    setYear();
+    setupMobileMenu();
+    renderHero();
+    renderProjects();
+    setupHeroTouch();
+    setupProjectPause();
+    setupWhatsappButtons();
+    setupModal();
+    setupLightbox();
+    setupKeyboard();
+    setupScrollEvents();
+    setupBackToTop();
+    setupVisibilityChange();
+    startHeroTimer();
+    startProjectTimer();
+  }
+
+  init();
 })();
