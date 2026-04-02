@@ -16,28 +16,28 @@
   const HERO_SLIDES = [
     {
       img: "img/hero-1.jpg",
-      title: "Alumínio e vidro com presença, técnica e acabamento premium",
-      desc: "Portas, janelas, fachadas, portões e projetos sob medida para residências e comércios."
+      title: "Alumínio e vidro com presença arquitetônica, acabamento preciso e padrão institucional.",
+      desc: "Desenvolvemos portas, janelas, portões, fachadas e projetos sob medida para residências e empresas que buscam elegância visual, durabilidade e execução profissional."
     },
     {
       img: "img/hero-2.jpg",
-      title: "Esquadrias sob medida para valorizar o seu projeto",
-      desc: "Soluções em alumínio e vidro com leitura técnica, elegância e excelente apresentação final."
+      title: "Esquadrias sob medida para valorizar o seu projeto com mais sofisticação.",
+      desc: "Soluções em alumínio e vidro com leitura técnica, linhas modernas e excelente apresentação final para ambientes residenciais e comerciais."
     },
     {
       img: "img/hero-3.jpg",
-      title: "Fachadas e estruturas com identidade visual forte",
-      desc: "Projetos desenvolvidos para unir sofisticação, funcionalidade e resistência."
+      title: "Fachadas, portas e estruturas com identidade visual forte.",
+      desc: "Projetos desenvolvidos para unir funcionalidade, presença arquitetônica e acabamento premium em cada detalhe."
     },
     {
       img: "img/hero-4.jpg",
-      title: "Vidraçaria moderna para ambientes residenciais e comerciais",
-      desc: "Aplicações que combinam segurança, estética e adaptação precisa ao espaço."
+      title: "Vidraçaria moderna para ambientes que exigem elegância e desempenho.",
+      desc: "Aplicações que combinam segurança, estética, luminosidade e adaptação precisa ao espaço."
     },
     {
       img: "img/hero-5.jpg",
-      title: "Projetos que transformam ambientes com acabamento profissional",
-      desc: "Cada entrega da Alumnorte busca unir confiança, durabilidade e padrão premium."
+      title: "Projetos que transformam ambientes com acabamento profissional.",
+      desc: "Cada entrega da Alumnorte busca unir confiança, durabilidade e uma percepção visual mais nobre."
     }
   ];
 
@@ -45,12 +45,12 @@
     {
       img: "img/projetos/corredor-esquadrias-alumínio-preto.jpg",
       title: "Corredor com esquadrias em alumínio preto",
-      desc: "Linhas modernas e excelente aproveitamento estético do ambiente."
+      desc: "Linhas modernas, acabamento limpo e excelente aproveitamento estético do ambiente."
     },
     {
       img: "img/projetos/escada-guarda-corpo-vidro-alumínio.jpg",
       title: "Escada com guarda-corpo em vidro e alumínio",
-      desc: "Segurança, transparência e composição arquitetônica elegante."
+      desc: "Segurança, transparência e composição arquitetônica elegante para ambientes valorizados."
     },
     {
       img: "img/projetos/porta-madeira-pivotante-esquadria-vidro.jpg",
@@ -60,17 +60,17 @@
     {
       img: "img/projetos/porta-vidro-alumínio-sala-moderna.jpg",
       title: "Porta de vidro e alumínio para sala moderna",
-      desc: "Mais luminosidade, leveza visual e integração entre ambientes."
+      desc: "Mais luminosidade, leveza visual e integração refinada entre ambientes."
     },
     {
       img: "img/projetos/portao-alumínio-preto-area-externa.jpg",
       title: "Portão em alumínio preto para área externa",
-      desc: "Estética imponente, durabilidade e composição elegante."
+      desc: "Estética imponente, durabilidade e composição elegante para acessos residenciais e comerciais."
     },
     {
       img: "img/projetos/portao-garagem-alumínio-branco.jpg",
       title: "Portão de garagem em alumínio branco",
-      desc: "Visual limpo, acabamento refinado e solução sob medida."
+      desc: "Visual limpo, acabamento refinado e solução sob medida para valorizar a fachada."
     }
   ];
 
@@ -95,6 +95,7 @@
     heroDots: $("#heroDots"),
     heroTitle: $("#heroTitle"),
     heroDesc: $("#heroDesc"),
+    projectSlider: $("#projectSlider"),
     projectTrack: $("#projectTrack"),
     projectIndicators: $("#projectIndicators"),
     backToTop: $("#backToTop"),
@@ -121,6 +122,7 @@
     "servicos",
     "projetos",
     "parceiros",
+    "curiosidades",
     "depoimentos",
     "contato"
   ]
@@ -160,11 +162,15 @@
   }
 
   function updateActiveMenu() {
-    let currentId = "inicio";
-    const currentY = window.scrollY + 160;
+    if (!refs.navLinks.length || !sections.length) return;
+
+    let currentId = sections[0]?.id || "inicio";
+    const currentY = window.scrollY + 180;
 
     sections.forEach((section) => {
-      if (currentY >= section.offsetTop) currentId = section.id;
+      if (currentY >= section.offsetTop) {
+        currentId = section.id;
+      }
     });
 
     refs.navLinks.forEach((link) => {
@@ -252,14 +258,19 @@
       dot.setAttribute("aria-pressed", active ? "true" : "false");
     });
 
-    if (refs.heroTitle) refs.heroTitle.textContent = current.title;
-    if (refs.heroDesc) refs.heroDesc.textContent = current.desc;
+    if (refs.heroTitle && current?.title) refs.heroTitle.textContent = current.title;
+    if (refs.heroDesc && current?.desc) refs.heroDesc.textContent = current.desc;
 
     preloadImage(HERO_SLIDES[(state.heroIndex + 1) % HERO_SLIDES.length]?.img);
   }
 
   function nextHero() {
     state.heroIndex = (state.heroIndex + 1) % HERO_SLIDES.length;
+    updateHero();
+  }
+
+  function prevHero() {
+    state.heroIndex = (state.heroIndex - 1 + HERO_SLIDES.length) % HERO_SLIDES.length;
     updateHero();
   }
 
@@ -299,19 +310,26 @@
 
     refs.heroSlider.addEventListener("touchend", () => {
       const diff = state.touchStartX - state.touchEndX;
+
       if (Math.abs(diff) > 45) {
         if (diff > 0) {
           nextHero();
         } else {
-          state.heroIndex = (state.heroIndex - 1 + HERO_SLIDES.length) % HERO_SLIDES.length;
-          updateHero();
+          prevHero();
         }
       }
+
       startHeroTimer();
     }, { passive: true });
   }
 
-  function chunkProjects(items, size = 2) {
+  function getProjectsPerPage() {
+    if (window.innerWidth <= 700) return 1;
+    if (window.innerWidth <= 1180) return 2;
+    return 3;
+  }
+
+  function chunkProjects(items, size) {
     const pages = [];
     for (let i = 0; i < items.length; i += size) {
       pages.push(items.slice(i, i + size));
@@ -322,20 +340,24 @@
   function renderProjects() {
     if (!refs.projectTrack || !refs.projectIndicators || !PROJECTS.length) return;
 
-    const pages = chunkProjects(PROJECTS, 2);
+    const perPage = getProjectsPerPage();
+    const pages = chunkProjects(PROJECTS, perPage);
 
     refs.projectTrack.innerHTML = pages.map((page) => `
-      <div class="projectSlide">
+      <div class="projectSlide" style="min-width:100%;display:grid;grid-template-columns:repeat(${page.length},1fr);gap:24px;">
         ${page.map((item) => `
           <article class="projectCard">
-            <img
-              class="previewable"
-              src="${item.img}"
-              alt="${item.title}"
-              loading="lazy"
-              decoding="async"
-            />
-            <div class="projectCardContent">
+            <div class="projectMedia">
+              <img
+                class="previewable"
+                src="${item.img}"
+                alt="${item.title}"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="projectBody">
+              <div class="projectMiniTag">Projeto Alumnorte</div>
               <h3>${item.title}</h3>
               <p>${item.desc}</p>
             </div>
@@ -346,7 +368,7 @@
 
     refs.projectIndicators.innerHTML = pages.map((_, index) => `
       <button
-        class="projectIndicator ${index === 0 ? "active" : ""}"
+        class="${index === 0 ? "active" : ""}"
         data-index="${index}"
         type="button"
         aria-label="Ir para grupo ${index + 1}"
@@ -354,20 +376,25 @@
       ></button>
     `).join("");
 
-    refs.projectIndicators.addEventListener("click", (event) => {
-      const indicator = event.target.closest(".projectIndicator");
+    refs.projectIndicators.onclick = (event) => {
+      const indicator = event.target.closest("button");
       if (!indicator) return;
       state.projectIndex = Number(indicator.dataset.index);
       updateProjects();
       restartProjectTimer();
-    });
+    };
 
+    state.projectIndex = Math.min(state.projectIndex, pages.length - 1);
     updateProjects();
   }
 
   function updateProjects() {
+    if (!refs.projectTrack || !refs.projectIndicators) return;
+
     const slides = $$(".projectSlide", refs.projectTrack);
-    const indicators = $$(".projectIndicator", refs.projectIndicators);
+    const indicators = $$("button", refs.projectIndicators);
+
+    if (!slides.length) return;
 
     refs.projectTrack.style.transform = `translateX(-${state.projectIndex * 100}%)`;
 
@@ -391,6 +418,13 @@
     updateProjects();
   }
 
+  function prevProject() {
+    const total = $$(".projectSlide", refs.projectTrack).length;
+    if (!total) return;
+    state.projectIndex = (state.projectIndex - 1 + total) % total;
+    updateProjects();
+  }
+
   function startProjectTimer() {
     stopProjectTimer();
     if ($$(".projectSlide", refs.projectTrack).length <= 1) return;
@@ -410,10 +444,35 @@
   }
 
   function setupProjectPause() {
-    const projectSlider = $("#projectSlider");
-    if (!projectSlider) return;
-    projectSlider.addEventListener("mouseenter", stopProjectTimer);
-    projectSlider.addEventListener("mouseleave", startProjectTimer);
+    if (!refs.projectSlider) return;
+
+    refs.projectSlider.addEventListener("mouseenter", stopProjectTimer);
+    refs.projectSlider.addEventListener("mouseleave", startProjectTimer);
+
+    let startX = 0;
+    let endX = 0;
+
+    refs.projectSlider.addEventListener("touchstart", (event) => {
+      startX = event.changedTouches[0].clientX;
+      endX = startX;
+      stopProjectTimer();
+    }, { passive: true });
+
+    refs.projectSlider.addEventListener("touchmove", (event) => {
+      endX = event.changedTouches[0].clientX;
+    }, { passive: true });
+
+    refs.projectSlider.addEventListener("touchend", () => {
+      const diff = startX - endX;
+      if (Math.abs(diff) > 45) {
+        if (diff > 0) {
+          nextProject();
+        } else {
+          prevProject();
+        }
+      }
+      startProjectTimer();
+    }, { passive: true });
   }
 
   function buildWhatsappText(data) {
@@ -493,9 +552,11 @@ Mensagem: ${data.message || "-"}`;
     if (!refs.imagePreviewOverlay || !refs.imagePreviewImg) return;
     refs.imagePreviewOverlay.classList.remove("show");
     refs.imagePreviewOverlay.setAttribute("aria-hidden", "true");
+
     setTimeout(() => {
       refs.imagePreviewImg.src = "";
     }, 160);
+
     unlockBody();
   }
 
@@ -561,6 +622,18 @@ Mensagem: ${data.message || "-"}`;
     });
   }
 
+  function setupResizeRebuild() {
+    let resizeTimeout = null;
+
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        renderProjects();
+        updateProjects();
+      }, 160);
+    });
+  }
+
   function init() {
     setYear();
     setupMobileMenu();
@@ -575,6 +648,7 @@ Mensagem: ${data.message || "-"}`;
     setupScrollEvents();
     setupBackToTop();
     setupVisibilityChange();
+    setupResizeRebuild();
     startHeroTimer();
     startProjectTimer();
   }
