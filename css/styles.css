@@ -2908,3 +2908,127 @@ html, body{
     text-align:center !important;
   }
 }
+/* ===== CORREÇÃO: MENU INICIAL NÃO PODE CORTAR O HERO ===== */
+
+:root{
+  --header-total-desktop: 130px;
+  --header-total-mobile: 78px;
+}
+
+/* garante espaço real para o topo */
+.heroSection{
+  padding-top: var(--header-total-desktop) !important;
+  min-height: 100vh !important;
+}
+
+.heroSlider{
+  min-height: calc(100vh - 0px) !important;
+}
+
+.heroContent{
+  min-height: calc(100vh - var(--header-total-desktop)) !important;
+  padding-top: 90px !important;
+  padding-bottom: 120px !important;
+  justify-content: center !important;
+}
+
+/* desce mais o bloco do texto */
+.heroText{
+  margin-top: 34px !important;
+  position: relative !important;
+  z-index: 6 !important;
+}
+
+/* afasta o selo pequeno do topo */
+.heroBrandBox{
+  margin-bottom: 18px !important;
+}
+
+/* afasta o kicker do topo */
+.heroText .sectionKicker,
+.sectionKicker.light{
+  margin-bottom: 18px !important;
+}
+
+/* limita melhor a largura para não subir em área ruim da imagem */
+#heroTitle{
+  max-width: 10.5ch !important;
+}
+
+#heroDesc{
+  max-width: 40ch !important;
+}
+
+/* os dots não podem subir demais */
+.heroDotsWrap{
+  bottom: 22px !important;
+}
+
+/* header continua acima, mas sem “engolir” leitura */
+.topbar{
+  z-index: 1000 !important;
+}
+
+.heroOverlay{
+  z-index: 3 !important;
+}
+
+.heroContent{
+  z-index: 5 !important;
+}
+
+/* tablet */
+@media (max-width: 1180px){
+  .heroSection{
+    padding-top: 118px !important;
+  }
+
+  .heroContent{
+    min-height: calc(100vh - 118px) !important;
+    padding-top: 78px !important;
+  }
+
+  .heroText{
+    margin-top: 22px !important;
+  }
+}
+
+/* celular */
+@media (max-width: 720px){
+  .heroSection{
+    padding-top: var(--header-total-mobile) !important;
+  }
+
+  .heroSlider{
+    min-height: auto !important;
+  }
+
+  .heroContent{
+    min-height: calc(100vh - var(--header-total-mobile)) !important;
+    padding-top: 70px !important;
+    padding-bottom: 90px !important;
+  }
+
+  .heroText{
+    margin-top: 18px !important;
+  }
+
+  #heroTitle{
+    max-width: 11ch !important;
+  }
+
+  #heroDesc{
+    max-width: 32ch !important;
+  }
+}
+#heroTitle{
+  margin-top: 8px !important;
+}
+
+#heroDesc{
+  margin-top: 20px !important;
+}
+
+.heroBenefits{
+  margin-top: 18px !important;
+}
