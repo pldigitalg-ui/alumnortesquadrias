@@ -86,7 +86,9 @@ dots.forEach((dot, index) => {
   });
 });
 
-startSlider();
+if (slides.length && dots.length) {
+  startSlider();
+}
 
 /* REVEAL */
 const reveals = document.querySelectorAll('.reveal');
@@ -109,6 +111,7 @@ const lightboxBackdrop = document.getElementById('lightboxBackdrop');
 const lightboxTriggers = document.querySelectorAll('.lightbox-trigger');
 
 function openLightbox(imageSrc, title) {
+  if (!lightbox || !lightboxImage || !lightboxCaption) return;
   lightboxImage.src = imageSrc;
   lightboxCaption.textContent = title || '';
   lightbox.classList.add('show');
@@ -116,6 +119,7 @@ function openLightbox(imageSrc, title) {
 }
 
 function closeLightbox() {
+  if (!lightbox || !lightboxImage) return;
   lightbox.classList.remove('show');
   lightboxImage.src = '';
   body.classList.remove('modal-open');
@@ -140,11 +144,13 @@ const openContactButtons = document.querySelectorAll('.open-contact-modal');
 const contactForm = document.getElementById('contactForm');
 
 function openContactModal() {
+  if (!contactModal) return;
   contactModal.classList.add('show');
   body.classList.add('modal-open');
 }
 
 function closeContactModal() {
+  if (!contactModal) return;
   contactModal.classList.remove('show');
   body.classList.remove('modal-open');
 }
