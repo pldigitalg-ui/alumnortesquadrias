@@ -31,14 +31,36 @@
   ];
 
   const PROJECTS = [
-    { img: "img/projeto-1.jpg", title: "Porta em alumínio sob medida", desc: "Solução elegante e resistente para entrada principal com acabamento premium." },
-    { img: "img/projeto-2.jpg", title: "Janela em alumínio moderna", desc: "Projeto pensado para ventilação, iluminação e valorização estética do ambiente." },
-    { img: "img/projeto-3.jpg", title: "Portão com acabamento refinado", desc: "Execução com presença visual forte, resistência e adaptação ao imóvel do cliente." },
-    { img: "img/projeto-4.jpg", title: "Fachada pele de vidro", desc: "Aplicação com leitura arquitetônica sofisticada e forte impacto visual." },
-    { img: "img/projeto-5.jpg", title: "Vidro temperado em área interna", desc: "Projeto com visual limpo, segurança e acabamento de alto padrão." },
-    { img: "img/projeto-6.jpg", title: "Fechamento em alumínio e vidro", desc: "Solução moderna para ambientes residenciais e comerciais com ótima apresentação." },
-    { img: "img/projeto-7.jpg", title: "Esquadria personalizada", desc: "Projeto desenvolvido conforme medidas, necessidade e estilo do cliente." },
-    { img: "img/projeto-8.jpg", title: "Projeto completo em alumínio", desc: "Entrega pensada para unir técnica, sofisticação e durabilidade em cada detalhe." }
+    {
+      img: "img/projetos/porta-vidro-aluminio-sala-moderna.jpg",
+      title: "Porta de vidro em alumínio para área interna",
+      desc: "Projeto moderno com esquadrias de alumínio preto e portas de vidro deslizantes, proporcionando iluminação natural e integração entre ambientes."
+    },
+    {
+      img: "img/projetos/corredor-esquadrias-aluminio-preto.jpg",
+      title: "Corredor com janelas em alumínio preto",
+      desc: "Instalação de janelas em alumínio com acabamento premium, garantindo ventilação, iluminação e estética contemporânea."
+    },
+    {
+      img: "img/projetos/portao-aluminio-preto-area-externa.jpg",
+      title: "Portão em alumínio preto com design moderno",
+      desc: "Portão resistente em alumínio com pintura eletrostática, ideal para áreas externas com durabilidade e sofisticação."
+    },
+    {
+      img: "img/projetos/porta-madeira-pivotante-esquadria-vidro.jpg",
+      title: "Porta pivotante com esquadria e vidro lateral",
+      desc: "Entrada principal com porta pivotante em acabamento amadeirado e painel fixo em vidro, trazendo elegância e imponência ao projeto."
+    },
+    {
+      img: "img/projetos/portao-garagem-aluminio-branco.jpg",
+      title: "Portão de garagem em alumínio branco",
+      desc: "Portão de grande porte em alumínio branco, com design clean e alta resistência para uso residencial."
+    },
+    {
+      img: "img/projetos/escada-guarda-corpo-vidro-aluminio.jpg",
+      title: "Guarda-corpo em vidro com estrutura em alumínio",
+      desc: "Escada interna com guarda-corpo em vidro e estrutura metálica, combinando segurança com visual moderno."
+    }
   ];
 
   const WHATSAPP = "553899658215";
