@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initLightbox();
   initContactModal();
   initScrollTop();
-  initActiveNavOnScroll();
 });
 
 /* =========================
@@ -21,23 +20,27 @@ function initMenu() {
   if (!menuToggle || !navMenu || !menuBackdrop) return;
 
   function openMenu() {
-    navMenu.classList.add('active');
-    menuBackdrop.classList.add('active');
-    menuToggle.classList.add('active');
+    navMenu.classList.add('is-open');
+    menuBackdrop.classList.add('is-active');
+    menuToggle.classList.add('is-active');
     menuToggle.setAttribute('aria-expanded', 'true');
     document.body.classList.add('menu-open');
   }
 
   function closeMenu() {
-    navMenu.classList.remove('active');
-    menuBackdrop.classList.remove('active');
-    menuToggle.classList.remove('active');
+    navMenu.classList.remove('is-open');
+    menuBackdrop.classList.remove('is-active');
+    menuToggle.classList.remove('is-active');
     menuToggle.setAttribute('aria-expanded', 'false');
     document.body.classList.remove('menu-open');
   }
 
   menuToggle.addEventListener('click', () => {
-    navMenu.classList.contains('active') ? closeMenu() : openMenu();
+    if (navMenu.classList.contains('is-open')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
   });
 
   menuBackdrop.addEventListener('click', closeMenu);
@@ -46,12 +49,14 @@ function initMenu() {
     link.addEventListener('click', closeMenu);
   });
 
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeMenu();
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 991) {
+      closeMenu();
+    }
   });
 
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 991) closeMenu();
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
   });
 }
 
@@ -66,7 +71,6 @@ function initHeroSlider() {
   if (!slides.length) return;
 
   let current = 0;
-  let intervalId = null;
 
   function showSlide(index) {
     slides.forEach((slide, i) => {
@@ -74,59 +78,35 @@ function initHeroSlider() {
     });
   }
 
-  function startSlider() {
-    if (slides.length <= 1) return;
+  showSlide(current);
 
-    stopSlider();
-    intervalId = setInterval(() => {
+  if (slides.length > 1) {
+    setInterval(() => {
       current = (current + 1) % slides.length;
       showSlide(current);
     }, 5000);
   }
-
-  function stopSlider() {
-    if (intervalId) {
-      clearInterval(intervalId);
-      intervalId = null;
-    }
-  }
-
-  showSlide(current);
-  startSlider();
-
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      stopSlider();
-    } else {
-      startSlider();
-    }
-  });
 }
 
 /* =========================
-   REVEAL
+   REVEAL ON SCROLL
 ========================= */
 function initReveal() {
   const items = document.querySelectorAll('.reveal');
   if (!items.length) return;
 
-  items.forEach(item => {
-    item.style.opacity = '0';
-    item.style.transform = 'translateY(28px)';
-    item.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
-  });
-
   const observer = new IntersectionObserver(
-    entries => {
+    (entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
+          entry.target.classList.add('is-visible');
           observer.unobserve(entry.target);
         }
       });
     },
-    { threshold: 0.15 }
+    {
+      threshold: 0.15
+    }
   );
 
   items.forEach(item => observer.observe(item));
@@ -139,28 +119,28 @@ function initCounter() {
   const counters = document.querySelectorAll('.stats__number');
   if (!counters.length) return;
 
-  function animateCounter(el) {
-    const target = parseInt(el.dataset.target || '0', 10);
+  const animateCounter = (el) => {
+    const target = Number(el.dataset.target || 0);
     const duration = 1600;
     const startTime = performance.now();
 
     function update(now) {
       const progress = Math.min((now - startTime) / duration, 1);
       const value = Math.floor(progress * target);
-      el.textContent = value.toLocaleString('pt-BR');
+      el.textContent = value;
 
       if (progress < 1) {
         requestAnimationFrame(update);
       } else {
-        el.textContent = target.toLocaleString('pt-BR');
+        el.textContent = target;
       }
     }
 
     requestAnimationFrame(update);
-  }
+  };
 
   const observer = new IntersectionObserver(
-    entries => {
+    (entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting && !entry.target.dataset.counted) {
           entry.target.dataset.counted = 'true';
@@ -194,20 +174,20 @@ function initLightbox() {
     lightboxImage.alt = alt || title || 'Imagem ampliada';
     lightboxTitle.textContent = title || 'Projeto';
     lightboxDescription.textContent = description || '';
-    lightbox.classList.add('active');
+    lightbox.classList.add('is-active');
     lightbox.setAttribute('aria-hidden', 'false');
     document.body.classList.add('lightbox-open');
   }
 
   function closeLightbox() {
-    lightbox.classList.remove('active');
+    lightbox.classList.remove('is-active');
     lightbox.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('lightbox-open');
 
     setTimeout(() => {
       lightboxImage.src = '';
       lightboxImage.alt = '';
-    }, 180);
+    }, 200);
   }
 
   triggers.forEach(trigger => {
@@ -215,8 +195,8 @@ function initLightbox() {
 
     trigger.addEventListener('click', () => {
       const image = trigger.dataset.lightboxImage;
-      const title = trigger.dataset.lightboxTitle || '';
-      const description = trigger.dataset.lightboxDescription || '';
+      const title = trigger.dataset.lightboxTitle;
+      const description = trigger.dataset.lightboxDescription;
       const alt =
         trigger.querySelector('img')?.alt ||
         trigger.dataset.lightboxTitle ||
@@ -236,29 +216,33 @@ function initLightbox() {
     lightboxClose.addEventListener('click', closeLightbox);
   }
 
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightbox.classList.contains('is-active')) {
       closeLightbox();
     }
   });
 }
 
 /* =========================
-   MODAL + WHATSAPP
+   MODAL DE CONTATO + WHATSAPP
 ========================= */
 function initContactModal() {
   const modal = document.getElementById('contactModal');
   const form = document.getElementById('contactForm');
   const serviceField = document.getElementById('servico');
-  const closeBtn = document.getElementById('contactModalClose');
 
   if (!modal || !form) return;
 
   const openButtons = document.querySelectorAll('[data-open-contact]');
   const closeButtons = modal.querySelectorAll('[data-modal-close]');
+  const modalClose = document.getElementById('contactModalClose');
 
   function openModal(service = '') {
-    modal.classList.add('active');
+    modal.classList.add('is-active');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
 
@@ -268,7 +252,7 @@ function initContactModal() {
   }
 
   function closeModal() {
-    modal.classList.remove('active');
+    modal.classList.remove('is-active');
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('modal-open');
   }
@@ -284,17 +268,21 @@ function initContactModal() {
     button.addEventListener('click', closeModal);
   });
 
-  if (closeBtn) {
-    closeBtn.addEventListener('click', closeModal);
+  if (modalClose) {
+    modalClose.addEventListener('click', closeModal);
   }
 
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) {
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('is-active')) {
       closeModal();
     }
   });
 
-  form.addEventListener('submit', e => {
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const nome = form.querySelector('#nome')?.value.trim() || '';
@@ -305,7 +293,8 @@ function initContactModal() {
     const bairro = form.querySelector('#bairro')?.value.trim() || '';
     const mensagem = form.querySelector('#mensagem')?.value.trim() || '';
 
-    const texto = `Olá, vim pelo site da ALUMNORT e gostaria de solicitar um orçamento.
+    const texto =
+`Olá, vim pelo site da ALUMNORT e gostaria de solicitar um orçamento.
 
 *RELATÓRIO DO CLIENTE*
 *Nome:* ${nome}
@@ -320,19 +309,20 @@ ${mensagem || 'Não informado'}`;
 
     const url = `https://wa.me/553899658215?text=${encodeURIComponent(texto)}`;
     window.open(url, '_blank');
+
     closeModal();
   });
 }
 
 /* =========================
-   BOTÃO TOPO
+   BOTÃO VOLTAR AO TOPO
 ========================= */
 function initScrollTop() {
   const button = document.getElementById('scrollTopBtn');
   if (!button) return;
 
   function toggleButton() {
-    if (window.scrollY > 280) {
+    if (window.scrollY > 300) {
       button.classList.add('is-visible');
     } else {
       button.classList.remove('is-visible');
@@ -348,40 +338,4 @@ function initScrollTop() {
       behavior: 'smooth'
     });
   });
-}
-
-/* =========================
-   LINK ATIVO NO MENU
-========================= */
-function initActiveNavOnScroll() {
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-link');
-
-  if (!sections.length || !navLinks.length) return;
-
-  function updateActiveLink() {
-    const scrollY = window.scrollY + 140;
-    let currentId = '';
-
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.offsetHeight;
-
-      if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
-        currentId = section.getAttribute('id');
-      }
-    });
-
-    navLinks.forEach(link => {
-      const href = link.getAttribute('href') || '';
-      link.classList.remove('active');
-
-      if (href === `#${currentId}`) {
-        link.classList.add('active');
-      }
-    });
-  }
-
-  window.addEventListener('scroll', updateActiveLink);
-  updateActiveLink();
 }
