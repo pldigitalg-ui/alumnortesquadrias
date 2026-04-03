@@ -1,63 +1,29 @@
-export function initLightbox() {
-  const lightbox = document.getElementById("lightbox");
-  const lightboxImage = document.getElementById("lightboxImage");
-  const lightboxTitle = document.getElementById("lightboxTitle");
-  const lightboxDescription = document.getElementById("lightboxDescription");
-  const lightboxClose = document.getElementById("lightboxClose");
-  const projectCards = document.querySelectorAll(".project-card");
-  const closeTriggers = document.querySelectorAll("[data-lightbox-close]");
+export default function initLightbox() {
+  const cards = document.querySelectorAll('.project-card');
+  const modal = document.getElementById('lightbox');
+  const img = document.getElementById('lightboxImage');
+  const title = document.getElementById('lightboxTitle');
+  const desc = document.getElementById('lightboxDescription');
 
-  if (!lightbox || !lightboxImage || !lightboxTitle || !lightboxDescription || !projectCards.length) return;
+  if (!cards.length) return;
 
-  const openLightbox = (image, title, description) => {
-    lightboxImage.src = image;
-    lightboxImage.alt = title;
-    lightboxTitle.textContent = title;
-    lightboxDescription.textContent = description;
-    lightbox.classList.add("is-active");
-    lightbox.setAttribute("aria-hidden", "false");
-    document.body.classList.add("lightbox-open");
-  };
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      img.src = card.dataset.lightboxImage;
+      title.textContent = card.dataset.lightboxTitle;
+      desc.textContent = card.dataset.lightboxDescription;
 
-  const closeLightbox = () => {
-    lightbox.classList.remove("is-active");
-    lightbox.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("lightbox-open");
-
-    setTimeout(() => {
-      lightboxImage.src = "";
-      lightboxImage.alt = "";
-      lightboxTitle.textContent = "";
-      lightboxDescription.textContent = "";
-    }, 250);
-  };
-
-  projectCards.forEach((card) => {
-    card.addEventListener("click", () => {
-      const image = card.dataset.lightboxImage || "";
-      const title = card.dataset.lightboxTitle || "";
-      const description = card.dataset.lightboxDescription || "";
-      openLightbox(image, title, description);
+      modal.classList.add('active');
     });
   });
 
-  if (lightboxClose) {
-    lightboxClose.addEventListener("click", closeLightbox);
-  }
-
-  closeTriggers.forEach((trigger) => {
-    trigger.addEventListener("click", closeLightbox);
-  });
-
-  lightbox.addEventListener("click", (event) => {
-    if (event.target === lightbox) {
-      closeLightbox();
+  modal.addEventListener('click', (e) => {
+    if (e.target.dataset.lightboxClose !== undefined || e.target.id === 'lightbox') {
+      modal.classList.remove('active');
     }
   });
 
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && lightbox.classList.contains("is-active")) {
-      closeLightbox();
-    }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') modal.classList.remove('active');
   });
 }
