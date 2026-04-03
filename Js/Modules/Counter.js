@@ -1,31 +1,42 @@
 export default function initCounter() {
   const counters = document.querySelectorAll('.stats__number');
 
-  const run = (el) => {
-    const target = +el.dataset.target;
-    let count = 0;
-    const speed = target / 100;
+  if (!counters.length) return;
 
-    const update = () => {
-      count += speed;
-      if (count < target) {
-        el.innerText = Math.floor(count);
+  const animateCounter = (counter) => {
+    const target = Number(counter.dataset.target || 0);
+    const duration = 1600;
+    const startTime = performance.now();
+
+    const update = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const value = Math.floor(eased * target);
+
+      counter.textContent = value;
+
+      if (progress < 1) {
         requestAnimationFrame(update);
       } else {
-        el.innerText = target;
+        counter.textContent = target;
       }
     };
 
-    update();
+    requestAnimationFrame(update);
   };
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        run(entry.target);
-      }
-    });
-  }, { threshold: 0.5 });
+  const observer = new IntersectionObserver(
+    (entries, obs) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          obs.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.5 }
+  );
 
-  counters.forEach(c => observer.observe(c));
+  counters.forEach((counter) => observer.observe(counter));
 }
