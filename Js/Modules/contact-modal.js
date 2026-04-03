@@ -1,17 +1,37 @@
-const modal = document.getElementById('modal');
+export default function initContactModal() {
+  const modal = document.getElementById('contactModal');
+  const openBtns = document.querySelectorAll('[data-open-contact]');
+  const closeBtns = document.querySelectorAll('[data-modal-close]');
+  const form = document.getElementById('contactForm');
 
-document.querySelectorAll('[data-open-modal]').forEach(btn=>{
-  btn.onclick = ()=> modal.style.display = 'flex';
-});
+  openBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      modal.classList.add('active');
+    });
+  });
 
-modal.onclick = e=>{
-  if(e.target === modal) modal.style.display='none';
-};
+  closeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
+  });
 
-document.getElementById('enviar').onclick = ()=>{
-  let nome = document.getElementById('nome').value;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-  let msg = `Olá, sou ${nome} e quero orçamento`;
+    const nome = form.nome.value;
+    const telefone = form.telefone.value;
+    const email = form.email.value;
+    const servico = form.servico.value;
+    const mensagem = form.mensagem.value;
 
-  window.open(`https://wa.me/553899658215?text=${encodeURIComponent(msg)}`);
-};
+    const text = `Olá! Vim pelo site da Alumnort e gostaria de um orçamento.%0A
+Nome: ${nome}%0A
+Telefone: ${telefone}%0A
+Email: ${email}%0A
+Serviço: ${servico}%0A
+Mensagem: ${mensagem}`;
+
+    window.open(`https://wa.me/553899658215?text=${text}`, '_blank');
+  });
+}
