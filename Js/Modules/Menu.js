@@ -1,23 +1,86 @@
 export function initMenu() {
-  const siteHeader = document.getElementById("siteHeader");
+  const body = document.body;
+  const navbar = document.getElementById("navbar");
   const menuToggle = document.getElementById("menuToggle");
-  const mobileMenu = document.getElementById("mobileMenu");
+  const navMenu = document.getElementById("navMenu");
+  const navLinks = document.querySelectorAll(".nav-link");
 
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 20) {
-      siteHeader?.classList.add("scrolled");
+  if (!navbar || !menuToggle || !navMenu) return;
+
+  const openMenu = () => {
+    navMenu.classList.add("is-open");
+    menuToggle.setAttribute("aria-expanded", "true");
+    body.classList.add("menu-open");
+  };
+
+  const closeMenu = () => {
+    navMenu.classList.remove("is-open");
+    menuToggle.setAttribute("aria-expanded", "false");
+    body.classList.remove("menu-open");
+  };
+
+  menuToggle.addEventListener("click", () => {
+    const isOpen = navMenu.classList.contains("is-open");
+    if (isOpen) {
+      closeMenu();
     } else {
-      siteHeader?.classList.remove("scrolled");
+      openMenu();
     }
   });
 
-  menuToggle?.addEventListener("click", () => {
-    mobileMenu?.classList.toggle("active");
-  });
-
-  document.querySelectorAll(".mobile-menu a").forEach(link => {
+  navLinks.forEach((link) => {
     link.addEventListener("click", () => {
-      mobileMenu?.classList.remove("active");
+      closeMenu();
     });
   });
+
+  document.addEventListener("click", (event) => {
+    const clickedInsideMenu = navMenu.contains(event.target);
+    const clickedToggle = menuToggle.contains(event.target);
+
+    if (!clickedInsideMenu && !clickedToggle && navMenu.classList.contains("is-open")) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && navMenu.classList.contains("is-open")) {
+      closeMenu();
+    }
+  });
+
+  const setScrolledHeader = () => {
+    if (window.scrollY > 24) {
+      navbar.classList.add("is-scrolled");
+    } else {
+      navbar.classList.remove("is-scrolled");
+    }
+  };
+
+  setScrolledHeader();
+  window.addEventListener("scroll", setScrolledHeader, { passive: true });
+
+  const sections = [...document.querySelectorAll("main section[id]")];
+
+  const activateLinkOnScroll = () => {
+    let currentSectionId = "";
+
+    sections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= 140 && rect.bottom >= 140) {
+        currentSectionId = section.id;
+      }
+    });
+
+    navLinks.forEach((link) => {
+      const href = link.getAttribute("href");
+      if (!href || !href.startsWith("#")) return;
+
+      const linkTarget = href.replace("#", "");
+      link.classList.toggle("active", linkTarget === currentSectionId);
+    });
+  };
+
+  activateLinkOnScroll();
+  window.addEventListener("scroll", activateLinkOnScroll, { passive: true });
 }
