@@ -1,7 +1,18 @@
-const btn = document.getElementById('top');
+export default function initScrollTop() {
+  const btn = document.getElementById('scrollTopBtn');
 
-window.addEventListener('scroll', ()=>{
-  btn.style.display = window.scrollY > 300 ? 'block' : 'none';
-});
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 400) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
 
-btn.onclick = ()=> window.scrollTo({top:0, behavior:'smooth'});
+  btn.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+}
