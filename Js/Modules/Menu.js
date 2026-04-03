@@ -1,24 +1,59 @@
 export default function initMenu() {
-  const toggle = document.getElementById('menuToggle');
-  const menu = document.getElementById('navMenu');
-  const backdrop = document.getElementById('menuBackdrop');
+  const menuToggle = document.getElementById('menuToggle');
+  const navMenu = document.getElementById('navMenu');
+  const menuBackdrop = document.getElementById('menuBackdrop');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const navbar = document.getElementById('navbar');
 
-  if (!toggle || !menu) return;
+  if (!menuToggle || !navMenu || !menuBackdrop) return;
 
-  const closeMenu = () => {
-    menu.classList.remove('active');
-    backdrop.classList.remove('active');
-    toggle.setAttribute('aria-expanded', false);
+  const openMenu = () => {
+    navMenu.classList.add('is-open');
+    menuBackdrop.classList.add('is-active');
+    menuToggle.classList.add('is-active');
+    menuToggle.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('menu-open');
   };
 
-  toggle.addEventListener('click', () => {
-    menu.classList.toggle('active');
-    backdrop.classList.toggle('active');
+  const closeMenu = () => {
+    navMenu.classList.remove('is-open');
+    menuBackdrop.classList.remove('is-active');
+    menuToggle.classList.remove('is-active');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('menu-open');
+  };
+
+  menuToggle.addEventListener('click', () => {
+    const isOpen = navMenu.classList.contains('is-open');
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
   });
 
-  backdrop.addEventListener('click', closeMenu);
+  menuBackdrop.addEventListener('click', closeMenu);
 
-  document.querySelectorAll('.nav-link').forEach(link => {
+  navLinks.forEach((link) => {
     link.addEventListener('click', closeMenu);
   });
+
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeMenu();
+    }
+  });
+
+  const handleNavbarScroll = () => {
+    if (!navbar) return;
+
+    if (window.scrollY > 20) {
+      navbar.classList.add('is-scrolled');
+    } else {
+      navbar.classList.remove('is-scrolled');
+    }
+  };
+
+  handleNavbarScroll();
+  window.addEventListener('scroll', handleNavbarScroll);
 }
