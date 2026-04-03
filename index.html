@@ -12,13 +12,13 @@
   />
   <meta
     name="keywords"
-    content="ALUMNORT, esquadrias de alumínio, vidraçaria, Janaúba, Norte de Minas, portas em alumínio, janelas sob medida, portões, vidro temperado, fachada em vidro"
+    content="ALUMNORT, esquadrias de alumínio, vidraçaria, Janaúba, Norte de Minas, portas em alumínio, janelas sob medida, portões, vidro temperado, pele de vidro"
   />
   <meta name="author" content="ALUMNORT" />
   <meta name="robots" content="index, follow" />
 
   <meta property="og:title" content="ALUMNORT | Esquadrias de Alumínio e Vidraçaria em Janaúba - MG" />
-  <meta property="og:description" content="Empresa com mais de 2 anos no mercado, atendendo Janaúba e todo o Norte de Minas com soluções em alumínio e vidro sob medida." />
+  <meta property="og:description" content="Empresa regional em Janaúba e Norte de Minas com foco em acabamento, presença visual e soluções sob medida em alumínio e vidro." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="img/hero-1.jpg" />
   <meta property="og:locale" content="pt_BR" />
@@ -37,6 +37,7 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <!-- WhatsApp flutuante -->
   <a
     href="https://wa.me/553899658215?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ALUMNORT%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento."
     class="whatsapp-float"
@@ -45,16 +46,21 @@
     aria-label="Falar no WhatsApp"
   >
     <i class="fa-brands fa-whatsapp"></i>
+    <span>Chame no WhatsApp</span>
   </a>
 
+  <!-- Voltar ao topo -->
   <button class="scroll-top" id="scrollTopBtn" aria-label="Voltar ao topo">
     <i class="fa-solid fa-arrow-up"></i>
   </button>
 
+  <!-- Backdrop do menu mobile -->
   <div class="menu-backdrop" id="menuBackdrop"></div>
 
+  <!-- Lightbox -->
   <div class="lightbox" id="lightbox" aria-hidden="true">
     <div class="lightbox__backdrop" data-lightbox-close></div>
+
     <div class="lightbox__dialog" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
       <button class="lightbox__close" id="lightboxClose" aria-label="Fechar imagem">
         <i class="fa-solid fa-xmark"></i>
@@ -66,14 +72,16 @@
 
       <div class="lightbox__content">
         <span class="section-tag">ALUMNORT</span>
-        <h3 id="lightboxTitle"></h3>
-        <p id="lightboxDescription"></p>
+        <h3 id="lightboxTitle">Projeto</h3>
+        <p id="lightboxDescription">Descrição do projeto.</p>
       </div>
     </div>
   </div>
 
+  <!-- Modal de orçamento -->
   <div class="contact-modal" id="contactModal" aria-hidden="true">
     <div class="contact-modal__overlay" data-modal-close></div>
+
     <div class="contact-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle">
       <button class="contact-modal__close" id="contactModalClose" aria-label="Fechar formulário">
         <i class="fa-solid fa-xmark"></i>
@@ -83,7 +91,7 @@
         <span class="section-tag">Atendimento comercial</span>
         <h2 id="contactModalTitle">Solicite seu orçamento com a ALUMNORT</h2>
         <p>
-          Preencha os dados abaixo para enviar sua solicitação direto para nosso WhatsApp de forma organizada.
+          Preencha os dados abaixo para enviar sua solicitação de forma organizada direto para o WhatsApp.
         </p>
       </div>
 
@@ -115,7 +123,6 @@
               <option value="Vidro Temperado">Vidro Temperado</option>
               <option value="Pele de Vidro">Pele de Vidro</option>
               <option value="Projeto Sob Medida">Projeto Sob Medida</option>
-              <option value="Fachada / Reforma">Fachada / Reforma</option>
               <option value="Outro">Outro</option>
             </select>
           </div>
@@ -139,7 +146,7 @@
             id="mensagem"
             name="mensagem"
             rows="5"
-            placeholder="Descreva o que você precisa. Ex.: porta, janela, portão, fachada, medida aproximada, cidade e prazo."
+            placeholder="Descreva o que você precisa. Ex.: box, janela, portão, fachada, medidas aproximadas e prazo."
           ></textarea>
         </div>
 
@@ -157,9 +164,7 @@
   <header class="site-header">
     <div class="topbar">
       <div class="container topbar__inner">
-        <p class="topbar__text">
-          Atendimento em Janaúba e todo o Norte de Minas
-        </p>
+        <p class="topbar__text">Atendimento em Janaúba e todo o Norte de Minas</p>
 
         <div class="topbar__actions">
           <a href="tel:+553899658215">
@@ -179,15 +184,6 @@
             aria-label="Instagram da ALUMNORT"
           >
             <i class="fa-brands fa-instagram"></i>
-          </a>
-
-          <a
-            href="https://wa.me/553899658215?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ALUMNORT%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento."
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="WhatsApp da ALUMNORT"
-          >
-            <i class="fa-brands fa-whatsapp"></i>
           </a>
         </div>
       </div>
@@ -242,19 +238,9 @@
         <nav class="nav-menu" id="navMenu" aria-label="Menu principal">
           <a href="#home" class="nav-link">Home</a>
           <a href="#quem-somos" class="nav-link">Quem Somos</a>
-          <a href="#servicos" class="nav-link">Serviços</a>
+          <a href="#servicos" class="nav-link">Nossos Serviços</a>
           <a href="#projetos" class="nav-link">Projetos</a>
-          <a href="#contato" class="nav-link">Contato</a>
-
-          <a
-            href="https://wa.me/553899658215?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ALUMNORT%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento."
-            class="btn btn--secondary nav-menu__whatsapp"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <i class="fa-brands fa-whatsapp"></i>
-            WhatsApp
-          </a>
+          <a href="#contato" class="nav-link">Fale Conosco</a>
 
           <button class="btn btn--primary nav-menu__cta" data-open-contact>
             Pedir orçamento
@@ -265,67 +251,86 @@
   </header>
 
   <main>
+    <!-- HERO -->
     <section class="hero" id="home">
       <div class="hero__slider" id="heroSlider">
         <div class="hero__slide active" style="background-image: url('img/hero-1.jpg');"></div>
         <div class="hero__slide" style="background-image: url('img/hero-2.jpg');"></div>
         <div class="hero__slide" style="background-image: url('img/hero-3.jpg');"></div>
         <div class="hero__slide" style="background-image: url('img/hero-4.jpg');"></div>
-        <div class="hero__slide" style="background-image: url('img/hero-5.jpg');"></div>
       </div>
 
       <div class="hero__overlay"></div>
 
       <div class="container hero__content">
-        <div class="hero__text reveal">
-          <span class="section-tag section-tag--light">ALUMNORT • Janaúba - MG</span>
+        <div class="hero__grid">
+          <div class="hero__text reveal">
+            <span class="section-tag section-tag--light">ALUMNORT • Janaúba - MG</span>
 
-          <h1>
-            Esquadrias de alumínio e vidraçaria com acabamento que valoriza seu imóvel
-          </h1>
+            <h1>
+              Esquadrias de alumínio e vidro com acabamento que valoriza seu imóvel
+            </h1>
 
-          <p>
-            Mais de 2 anos no mercado, atendendo Janaúba e todo o Norte de Minas com portas, janelas, portões, vidro temperado e projetos sob medida.
-          </p>
+            <p>
+              Soluções sob medida para residências, comércios e fachadas com mais presença visual, funcionalidade e padrão profissional.
+            </p>
 
-          <div class="hero__actions">
-            <button class="btn btn--primary btn--large" data-open-contact>
-              Solicite um orçamento
-            </button>
+            <div class="hero__actions">
+              <button class="btn btn--primary btn--large" data-open-contact>
+                Pedir orçamento
+              </button>
 
-            <a href="#projetos" class="btn btn--secondary btn--large">
-              Ver projetos
-            </a>
+              <a
+                href="https://wa.me/553899658215?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ALUMNORT%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento."
+                class="btn btn--secondary btn--large"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                WhatsApp
+              </a>
+            </div>
+
+            <div class="hero__mini-info">
+              <div class="hero__mini-card">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Acabamento profissional</span>
+              </div>
+
+              <div class="hero__mini-card">
+                <i class="fa-solid fa-ruler-combined"></i>
+                <span>Sob medida</span>
+              </div>
+
+              <div class="hero__mini-card">
+                <i class="fa-solid fa-location-dot"></i>
+                <span>Norte de Minas</span>
+              </div>
+            </div>
           </div>
 
-          <div class="hero__mini-info">
-            <div class="hero__mini-card">
-              <i class="fa-solid fa-pen-ruler"></i>
-              <span>Projetos sob medida</span>
-            </div>
+          <div class="hero__visual reveal">
+            <article
+              class="hero-avatar-card"
+              data-lightbox-image="img/avatar-hero.jpg"
+              data-lightbox-title="Projeto em destaque ALUMNORT"
+              data-lightbox-description="Acabamento moderno, leitura visual sofisticada e solução pensada para valorizar o imóvel."
+            >
+              <div class="hero-avatar-card__image">
+                <img src="img/avatar-hero.jpg" alt="Projeto destaque ALUMNORT" />
+              </div>
 
-            <div class="hero__mini-card">
-              <i class="fa-solid fa-shield-halved"></i>
-              <span>Acabamento profissional</span>
-            </div>
-
-            <div class="hero__mini-card">
-              <i class="fa-solid fa-location-dot"></i>
-              <span>Norte de Minas</span>
-            </div>
+              <div class="hero-avatar-card__content">
+                <span class="hero-avatar-card__tag">Destaque</span>
+                <h3>Projeto com presença visual premium</h3>
+                <p>Clique para ampliar a imagem.</p>
+              </div>
+            </article>
           </div>
         </div>
       </div>
-
-      <div class="hero__dots" id="heroDots" aria-label="Controle do slider">
-        <button class="hero__dot active" aria-label="Slide 1"></button>
-        <button class="hero__dot" aria-label="Slide 2"></button>
-        <button class="hero__dot" aria-label="Slide 3"></button>
-        <button class="hero__dot" aria-label="Slide 4"></button>
-        <button class="hero__dot" aria-label="Slide 5"></button>
-      </div>
     </section>
 
+    <!-- STATS -->
     <section class="stats">
       <div class="container">
         <div class="stats__grid">
@@ -339,7 +344,7 @@
 
           <article class="stats__card reveal">
             <div class="stats__top">
-              <strong class="stats__number" data-target="150">0</strong>
+              <strong class="stats__number" data-target="100">0</strong>
               <span class="stats__suffix">+</span>
             </div>
             <p>Projetos executados com foco em acabamento e presença visual</p>
@@ -355,7 +360,7 @@
 
           <article class="stats__card reveal">
             <div class="stats__top">
-              <strong class="stats__number" data-target="100">0</strong>
+              <strong class="stats__number" data-target="200">0</strong>
               <span class="stats__suffix">%</span>
             </div>
             <p>Compromisso com atendimento sério e solução sob medida</p>
@@ -364,11 +369,12 @@
       </div>
     </section>
 
+    <!-- ABOUT -->
     <section class="about section" id="quem-somos">
       <div class="container">
         <div class="section-heading reveal">
           <span class="section-tag">Quem Somos</span>
-          <h2>Uma empresa que entrega alumínio e vidro com padrão profissional</h2>
+          <h2>Uma empresa que entrega alumínio e vidro com apresentação profissional</h2>
           <p>
             A ALUMNORT atende clientes que procuram acabamento, durabilidade, visual moderno e confiança em cada etapa do serviço.
           </p>
@@ -385,33 +391,27 @@
             </p>
 
             <p>
-              Nosso objetivo é unir funcionalidade, segurança e apresentação visual para valorizar o imóvel e entregar um resultado que realmente passe qualidade.
+              Nosso foco é unir funcionalidade, segurança e apresentação visual para entregar resultados que realmente valorizem o imóvel.
             </p>
 
             <p>
-              Com atuação em Janaúba e em todo o Norte de Minas, a ALUMNORT busca ser referência em atendimento, acabamento e confiança.
+              Com atuação regional, buscamos ser referência em atendimento, acabamento e confiança no Norte de Minas.
             </p>
 
             <div class="about__cards">
               <article class="info-card">
                 <h3>Missão</h3>
-                <p>
-                  Entregar soluções em alumínio e vidro com qualidade, segurança e ótimo acabamento.
-                </p>
+                <p>Entregar soluções em alumínio e vidro com qualidade, segurança e ótimo acabamento.</p>
               </article>
 
               <article class="info-card">
                 <h3>Visão</h3>
-                <p>
-                  Ser reconhecida como referência regional em esquadrias de alumínio e vidraçaria.
-                </p>
+                <p>Ser reconhecida como referência regional em esquadrias de alumínio e vidraçaria.</p>
               </article>
 
               <article class="info-card">
                 <h3>Valores</h3>
-                <p>
-                  Compromisso, clareza, confiança, respeito ao cliente e padrão profissional.
-                </p>
+                <p>Compromisso, clareza, confiança, respeito ao cliente e padrão profissional.</p>
               </article>
             </div>
           </div>
@@ -419,11 +419,12 @@
       </div>
     </section>
 
+    <!-- SERVICES -->
     <section class="services section section--alt" id="servicos">
       <div class="container">
         <div class="section-heading reveal">
           <span class="section-tag">Nossos Serviços</span>
-          <h2>Soluções em alumínio e vidro para obras residenciais e comerciais</h2>
+          <h2>Soluções em alumínio e vidro para residências, fachadas e áreas comerciais</h2>
           <p>
             Projetos sob medida para quem deseja beleza, funcionalidade, durabilidade e mais valorização no imóvel.
           </p>
@@ -436,12 +437,8 @@
             </div>
             <div class="service-card__content">
               <h3>Portas em Alumínio</h3>
-              <p>
-                Soluções resistentes, elegantes e alinhadas ao padrão arquitetônico do ambiente.
-              </p>
-              <button class="btn btn--outline" data-open-contact data-service="Portas em Alumínio">
-                Pedir orçamento
-              </button>
+              <p>Soluções resistentes, elegantes e alinhadas ao padrão arquitetônico do ambiente.</p>
+              <button class="btn btn--outline" data-open-contact data-service="Portas em Alumínio">Pedir orçamento</button>
             </div>
           </article>
 
@@ -451,12 +448,8 @@
             </div>
             <div class="service-card__content">
               <h3>Janelas Sob Medida</h3>
-              <p>
-                Mais ventilação, iluminação e um visual moderno para seu projeto.
-              </p>
-              <button class="btn btn--outline" data-open-contact data-service="Janelas Sob Medida">
-                Pedir orçamento
-              </button>
+              <p>Mais ventilação, iluminação e um visual moderno para seu projeto.</p>
+              <button class="btn btn--outline" data-open-contact data-service="Janelas Sob Medida">Pedir orçamento</button>
             </div>
           </article>
 
@@ -466,12 +459,8 @@
             </div>
             <div class="service-card__content">
               <h3>Portões em Alumínio</h3>
-              <p>
-                Durabilidade, segurança e presença de fachada para valorizar o imóvel.
-              </p>
-              <button class="btn btn--outline" data-open-contact data-service="Portões em Alumínio">
-                Solicitar avaliação
-              </button>
+              <p>Durabilidade, segurança e presença de fachada para valorizar o imóvel.</p>
+              <button class="btn btn--outline" data-open-contact data-service="Portões em Alumínio">Solicitar avaliação</button>
             </div>
           </article>
 
@@ -481,12 +470,8 @@
             </div>
             <div class="service-card__content">
               <h3>Vidraçaria</h3>
-              <p>
-                Aplicações em vidro com acabamento limpo, elegante e valorização visual.
-              </p>
-              <button class="btn btn--outline" data-open-contact data-service="Vidraçaria">
-                Pedir orçamento
-              </button>
+              <p>Aplicações em vidro com acabamento limpo, elegante e forte valorização visual.</p>
+              <button class="btn btn--outline" data-open-contact data-service="Vidraçaria">Pedir orçamento</button>
             </div>
           </article>
 
@@ -496,12 +481,8 @@
             </div>
             <div class="service-card__content">
               <h3>Vidro Temperado</h3>
-              <p>
-                Segurança, resistência e sofisticação para aplicações residenciais e comerciais.
-              </p>
-              <button class="btn btn--outline" data-open-contact data-service="Vidro Temperado">
-                Solicitar avaliação
-              </button>
+              <p>Segurança, resistência e sofisticação para aplicações residenciais e comerciais.</p>
+              <button class="btn btn--outline" data-open-contact data-service="Vidro Temperado">Solicitar avaliação</button>
             </div>
           </article>
 
@@ -511,71 +492,119 @@
             </div>
             <div class="service-card__content">
               <h3>Pele de Vidro</h3>
-              <p>
-                Fachadas de forte impacto visual para projetos que pedem presença premium.
-              </p>
-              <button class="btn btn--outline" data-open-contact data-service="Pele de Vidro">
-                Pedir orçamento
-              </button>
+              <p>Fachadas de forte impacto visual para projetos que pedem presença premium.</p>
+              <button class="btn btn--outline" data-open-contact data-service="Pele de Vidro">Pedir orçamento</button>
             </div>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="differentials section" id="diferenciais">
+    <!-- PARTNERS STRIP -->
+    <section class="partners-marquee section">
       <div class="container">
         <div class="section-heading reveal">
-          <span class="section-tag">Diferenciais</span>
-          <h2>Por que a ALUMNORT transmite confiança no mercado regional</h2>
+          <span class="section-tag">Parceiros</span>
+          <h2>Parceiros e negócios que caminham junto com a marca</h2>
           <p>
-            Nossa proposta é simples: entregar soluções sob medida em alumínio e vidro com acabamento profissional, atendimento sério e visual valorizado.
+            Faixa contínua pronta para adicionar novos parceiros depois. Todos clicáveis.
           </p>
         </div>
 
-        <div class="differentials__grid">
-          <article class="feature-card reveal">
-            <span class="feature-card__icon"><i class="fa-solid fa-medal"></i></span>
-            <h3>Acabamento profissional</h3>
-            <p>
-              Atenção aos detalhes, encaixes e apresentação final de cada projeto.
-            </p>
-          </article>
+        <div class="partners-marquee__wrap reveal">
+          <div class="partners-marquee__track">
+            <a
+              class="partner-pill"
+              href="https://www.instagram.com/restaurantelpgrill/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class="fa-brands fa-instagram"></i>
+              <span>@restaurantelpgrill</span>
+            </a>
 
-          <article class="feature-card reveal">
-            <span class="feature-card__icon"><i class="fa-solid fa-ruler-combined"></i></span>
-            <h3>Soluções sob medida</h3>
-            <p>
-              Cada trabalho é pensado conforme o espaço e a necessidade do cliente.
-            </p>
-          </article>
+            <a
+              class="partner-pill"
+              href="https://www.instagram.com/pldigitalgroup/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class="fa-brands fa-instagram"></i>
+              <span>@pldigitalgroup</span>
+            </a>
 
-          <article class="feature-card reveal">
-            <span class="feature-card__icon"><i class="fa-solid fa-building-circle-check"></i></span>
-            <h3>Visual moderno</h3>
-            <p>
-              Alumínio e vidro aplicados para trazer leveza, sofisticação e valorização ao imóvel.
-            </p>
-          </article>
+            <a
+              class="partner-pill"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class="fa-brands fa-instagram"></i>
+              <span>@parceiro03</span>
+            </a>
 
-          <article class="feature-card reveal">
-            <span class="feature-card__icon"><i class="fa-solid fa-handshake-angle"></i></span>
-            <h3>Atendimento confiável</h3>
-            <p>
-              Clareza comercial, compromisso com prazo e postura profissional.
-            </p>
-          </article>
+            <a
+              class="partner-pill"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class="fa-brands fa-instagram"></i>
+              <span>@parceiro04</span>
+            </a>
+
+            <a
+              class="partner-pill"
+              href="https://www.instagram.com/restaurantelpgrill/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class="fa-brands fa-instagram"></i>
+              <span>@restaurantelpgrill</span>
+            </a>
+
+            <a
+              class="partner-pill"
+              href="https://www.instagram.com/pldigitalgroup/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class="fa-brands fa-instagram"></i>
+              <span>@pldigitalgroup</span>
+            </a>
+
+            <a
+              class="partner-pill"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class="fa-brands fa-instagram"></i>
+              <span>@parceiro03</span>
+            </a>
+
+            <a
+              class="partner-pill"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class="fa-brands fa-instagram"></i>
+              <span>@parceiro04</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>
 
+    <!-- PROJECTS -->
     <section class="portfolio section section--alt" id="projetos">
       <div class="container">
         <div class="section-heading reveal">
           <span class="section-tag">Projetos</span>
-          <h2>Projetos que mostram presença, estética e acabamento em alumínio e vidro</h2>
+          <h2>Projetos que mostram acabamento, presença e valorização visual</h2>
           <p>
-            Clique nas imagens para ampliar e visualizar melhor os detalhes dos serviços realizados.
+            Clique nas imagens para ampliar. A lightbox foi preparada para fechar no X, fora da imagem e no ESC.
           </p>
         </div>
 
@@ -627,21 +656,6 @@
 
           <article
             class="project-card reveal"
-            data-lightbox-image="img/projetos/porta-vidro-aluminio-sala-moderna.jpg"
-            data-lightbox-title="Porta de vidro e alumínio em sala moderna"
-            data-lightbox-description="Integração visual, iluminação natural e sensação de amplitude."
-          >
-            <div class="project-card__image">
-              <img src="img/projetos/porta-vidro-aluminio-sala-moderna.jpg" alt="Porta de vidro e alumínio em sala moderna" />
-            </div>
-            <div class="project-card__content">
-              <h3>Porta de vidro e alumínio em sala moderna</h3>
-              <p>Mais luz, leveza e valorização visual do interior.</p>
-            </div>
-          </article>
-
-          <article
-            class="project-card reveal"
             data-lightbox-image="img/projetos/portao-aluminio-preto-area-externa.jpg"
             data-lightbox-title="Portão em alumínio preto para área externa"
             data-lightbox-description="Solução voltada para resistência, visual moderno e presença marcante."
@@ -654,164 +668,71 @@
               <p>Robustez visual com estética contemporânea.</p>
             </div>
           </article>
-
-          <article
-            class="project-card reveal"
-            data-lightbox-image="img/projetos/portao-garagem-aluminio-branco.jpg"
-            data-lightbox-title="Portão de garagem em alumínio branco"
-            data-lightbox-description="Aplicação limpa, funcional e elegante para compor fachadas mais leves."
-          >
-            <div class="project-card__image">
-              <img src="img/projetos/portao-garagem-aluminio-branco.jpg" alt="Portão de garagem em alumínio branco" />
-            </div>
-            <div class="project-card__content">
-              <h3>Portão de garagem em alumínio branco</h3>
-              <p>Leveza visual, praticidade e acabamento valorizado.</p>
-            </div>
-          </article>
         </div>
       </div>
     </section>
 
-    <section class="coverage section">
-      <div class="container">
-        <div class="coverage__box reveal">
-          <div class="coverage__content">
-            <span class="section-tag section-tag--light">Região de Atuação</span>
-            <h2>Atendimento em Janaúba e todo o Norte de Minas</h2>
-            <p>
-              Atendemos projetos residenciais e comerciais com foco em apresentação visual, funcionalidade e acabamento bem executado.
-            </p>
-          </div>
-
-          <div class="coverage__items">
-            <div class="coverage__item">
-              <i class="fa-solid fa-house-chimney-window"></i>
-              <span>Residencial</span>
-            </div>
-
-            <div class="coverage__item">
-              <i class="fa-solid fa-store"></i>
-              <span>Comercial</span>
-            </div>
-
-            <div class="coverage__item">
-              <i class="fa-solid fa-screwdriver-wrench"></i>
-              <span>Obras e reformas</span>
-            </div>
-
-            <div class="coverage__item">
-              <i class="fa-solid fa-city"></i>
-              <span>Projetos especiais</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="partners section section--alt">
-      <div class="container">
-        <div class="section-heading reveal">
-          <span class="section-tag">Nossos parceiros</span>
-          <h2>Relacionamentos que reforçam confiança, imagem e resultado</h2>
-          <p>
-            Clique nas imagens para ampliar. Todos os cards ficam com texto embaixo, visual padronizado e leitura mais profissional.
-          </p>
-        </div>
-
-        <div class="partners__grid">
-          <article
-            class="partner-card reveal"
-            data-lightbox-image="img/parceiro-1.jpg"
-            data-lightbox-title="Parceiro / Cliente ALUMNORT"
-            data-lightbox-description="Atendimento sério, compromisso comercial e entrega alinhada ao que o projeto exige."
-          >
-            <div class="partner-card__image">
-              <img src="img/parceiro-1.jpg" alt="Parceiro ou cliente ALUMNORT 1" />
-            </div>
-            <div class="partner-card__content">
-              <h3>Relacionamento comercial consistente</h3>
-              <p>
-                Atendimento claro, postura profissional e soluções alinhadas ao que cada obra realmente precisa.
-              </p>
-            </div>
-          </article>
-
-          <article
-            class="partner-card reveal"
-            data-lightbox-image="img/parceiro-2.jpg"
-            data-lightbox-title="Parceiro / Cliente ALUMNORT"
-            data-lightbox-description="Projetos que ajudam a valorizar o imóvel e fortalecer a presença visual do ambiente."
-          >
-            <div class="partner-card__image">
-              <img src="img/parceiro-2.jpg" alt="Parceiro ou cliente ALUMNORT 2" />
-            </div>
-            <div class="partner-card__content">
-              <h3>Entrega que reforça valor e apresentação</h3>
-              <p>
-                Alumínio e vidro aplicados com leitura moderna para elevar o padrão visual do imóvel.
-              </p>
-            </div>
-          </article>
-        </div>
-
-        <div class="credibility-strip reveal">
-          <div class="credibility-strip__item">
-            <strong>+2 anos de mercado</strong>
-            <span>Empresa regional com atendimento em Janaúba e Norte de Minas.</span>
-          </div>
-
-          <div class="credibility-strip__item">
-            <strong>Especialista em alumínio</strong>
-            <span>Projetos sob medida para obras que exigem bom acabamento e presença visual.</span>
-          </div>
-
-          <div class="credibility-strip__item">
-            <strong>Atuação comercial séria</strong>
-            <span>Contato rápido, orçamento objetivo e serviço pensado para valorizar o patrimônio.</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
+    <!-- TESTIMONIALS -->
     <section class="testimonials section">
       <div class="container">
         <div class="section-heading reveal">
           <span class="section-tag">Depoimentos</span>
-          <h2>O que nossos clientes dizem</h2>
+          <h2>Comentários que passam mais confiança para quem entra no site</h2>
           <p>
-            Prova social ajuda a passar confiança e melhora muito a conversão do site.
+            Depoimentos mais naturais ajudam a vender melhor do que frases muito genéricas.
           </p>
         </div>
 
-        <div class="differentials__grid">
-          <article class="feature-card reveal">
-            <span class="feature-card__icon"><i class="fa-solid fa-quote-left"></i></span>
-            <h3>Paulo Roberto</h3>
+        <div class="testimonials__grid">
+          <article class="testimonial-card reveal">
+            <div class="testimonial-card__stars">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
             <p>
-              “Ótima janela, ficou perfeita em casa.”
+              “A pele de vidro ficou incrível. O acabamento ficou muito acima do que eu esperava e deu outra presença para a fachada.”
             </p>
+            <h3>Israel Mendes</h3>
+            <span>Cliente residencial</span>
           </article>
 
-          <article class="feature-card reveal">
-            <span class="feature-card__icon"><i class="fa-solid fa-quote-left"></i></span>
-            <h3>Antônio</h3>
+          <article class="testimonial-card reveal">
+            <div class="testimonial-card__stars">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
             <p>
-              “Meu portão depois de reformado ficou ótimo.”
+              “Meu box do banheiro ficou ótimo. Atendimento bom, instalação caprichada e o banheiro ficou muito mais bonito.”
             </p>
+            <h3>Joana Souza</h3>
+            <span>Cliente residencial</span>
           </article>
 
-          <article class="feature-card reveal">
-            <span class="feature-card__icon"><i class="fa-solid fa-star"></i></span>
-            <h3>Atendimento regional</h3>
+          <article class="testimonial-card reveal">
+            <div class="testimonial-card__stars">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
             <p>
-              Empresa com presença local, atuação séria e foco em acabamento de alto nível no Norte de Minas.
+              “Gostei muito da janela e do acabamento. Ficou alinhado, bonito e valorizou bastante a parte da frente da casa.”
             </p>
+            <h3>Marcos Ribeiro</h3>
+            <span>Cliente residencial</span>
           </article>
         </div>
       </div>
     </section>
 
+    <!-- CTA FINAL -->
     <section class="cta-final section" id="contato">
       <div class="container">
         <div class="cta-final__box reveal">
@@ -881,7 +802,7 @@
         <ul>
           <li><a href="#home">Home</a></li>
           <li><a href="#quem-somos">Quem Somos</a></li>
-          <li><a href="#servicos">Serviços</a></li>
+          <li><a href="#servicos">Nossos Serviços</a></li>
           <li><a href="#projetos">Projetos</a></li>
           <li><a href="#contato">Contato</a></li>
         </ul>
@@ -917,10 +838,6 @@
           <li>
             <i class="fa-solid fa-map"></i>
             <span>Atendimento em Janaúba e Norte de Minas</span>
-          </li>
-          <li>
-            <i class="fa-brands fa-instagram"></i>
-            <span>@alumnortesquadrias_de_aluminio</span>
           </li>
         </ul>
       </div>
