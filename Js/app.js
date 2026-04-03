@@ -1,10 +1,17 @@
-import './modules/menu.js';
-import './modules/hero.js';
-import './modules/reveal.js';
-import './modules/counter.js';
-import './modules/lightbox.js';
-import './modules/contact-modal.js';
-import './modules/scroll-top.js';
-import './modules/loader.js';
-import './modules/sticky-header.js';
-import './modules/quote-storage.js';
+import initMenu from './modules/menu.js';
+import initHero from './modules/hero.js';
+import initReveal from './modules/reveal.js';
+import initCounter from './modules/counter.js';
+import initLightbox from './modules/lightbox.js';
+import initContactModal from './modules/contact-modal.js';
+import initScrollTop from './modules/scroll-top.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu();
+  initHero();
+  initReveal();
+  initCounter();
+  initLightbox();
+  initContactModal();
+  initScrollTop();
+});
