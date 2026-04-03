@@ -1,9 +1,13 @@
-const reveals = document.querySelectorAll('.section');
+export default function initReveal() {
+  const elements = document.querySelectorAll('.reveal');
 
-window.addEventListener('scroll', ()=>{
-  reveals.forEach(el=>{
-    if(el.getBoundingClientRect().top < window.innerHeight){
-      el.classList.add('show');
-    }
-  });
-});
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+      }
+    });
+  }, { threshold: 0.2 });
+
+  elements.forEach(el => observer.observe(el));
+}
