@@ -1,23 +1,18 @@
-export function initScrollTop() {
-  const button = document.getElementById("scrollTopBtn");
+export default function initScrollTop() {
+  const btn = document.getElementById('scrollTopBtn');
 
-  if (!button) return;
-
-  const toggleVisibility = () => {
-    if (window.scrollY > 420) {
-      button.classList.add("is-visible");
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 400) {
+      btn.classList.add('active');
     } else {
-      button.classList.remove("is-visible");
+      btn.classList.remove('active');
     }
-  };
-
-  button.addEventListener("click", () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
   });
 
-  toggleVisibility();
-  window.addEventListener("scroll", toggleVisibility, { passive: true });
+  btn.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
 }
