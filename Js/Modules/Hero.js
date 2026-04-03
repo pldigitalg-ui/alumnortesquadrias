@@ -1,38 +1,58 @@
 export function initHero() {
-  const slides = document.querySelectorAll(".hero-slide");
-  const dots = document.querySelectorAll(".hero-dot");
+  const slides = document.querySelectorAll(".hero__slide");
+  const dots = document.querySelectorAll(".hero__dot");
 
   if (!slides.length || !dots.length) return;
 
-  let current = 0;
+  let currentIndex = 0;
   let intervalId = null;
+  const autoplayDelay = 5000;
 
-  function showSlide(index) {
-    slides.forEach((slide, i) => slide.classList.toggle("active", i === index));
-    dots.forEach((dot, i) => dot.classList.toggle("active", i === index));
-    current = index;
-  }
+  const goToSlide = (index) => {
+    slides.forEach((slide, slideIndex) => {
+      slide.classList.toggle("active", slideIndex === index);
+    });
 
-  function nextSlide() {
-    const next = (current + 1) % slides.length;
-    showSlide(next);
-  }
+    dots.forEach((dot, dotIndex) => {
+      dot.classList.toggle("active", dotIndex === index);
+    });
 
-  function start() {
-    intervalId = setInterval(nextSlide, 5000);
-  }
+    currentIndex = index;
+  };
 
-  function reset() {
-    clearInterval(intervalId);
-    start();
-  }
+  const nextSlide = () => {
+    const nextIndex = (currentIndex + 1) % slides.length;
+    goToSlide(nextIndex);
+  };
+
+  const startAutoplay = () => {
+    stopAutoplay();
+    intervalId = window.setInterval(nextSlide, autoplayDelay);
+  };
+
+  const stopAutoplay = () => {
+    if (intervalId) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+  };
 
   dots.forEach((dot, index) => {
     dot.addEventListener("click", () => {
-      showSlide(index);
-      reset();
+      goToSlide(index);
+      startAutoplay();
     });
   });
 
-  start();
+  const hero = document.querySelector(".hero");
+
+  if (hero) {
+    hero.addEventListener("mouseenter", stopAutoplay);
+    hero.addEventListener("mouseleave", startAutoplay);
+    hero.addEventListener("touchstart", stopAutoplay, { passive: true });
+    hero.addEventListener("touchend", startAutoplay, { passive: true });
+  }
+
+  goToSlide(0);
+  startAutoplay();
 }
