@@ -1,18 +1,7 @@
-export default function initScrollTop() {
-  const btn = document.getElementById('scrollTopBtn');
+const btn = document.getElementById('top');
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 400) {
-      btn.classList.add('active');
-    } else {
-      btn.classList.remove('active');
-    }
-  });
+window.addEventListener('scroll', ()=>{
+  btn.style.display = window.scrollY > 300 ? 'block' : 'none';
+});
 
-  btn.addEventListener('click', () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  });
-}
+btn.onclick = ()=> window.scrollTo({top:0, behavior:'smooth'});
