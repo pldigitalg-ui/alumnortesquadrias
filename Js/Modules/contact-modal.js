@@ -1,83 +1,37 @@
-export function initContactModal() {
-  const modal = document.getElementById("contactModal");
-  const form = document.getElementById("contactForm");
-  const modalClose = document.getElementById("contactModalClose");
-  const openButtons = document.querySelectorAll("[data-open-contact]");
-  const closeButtons = document.querySelectorAll("[data-modal-close]");
-  const serviceSelect = document.getElementById("servico");
+export default function initContactModal() {
+  const modal = document.getElementById('contactModal');
+  const openBtns = document.querySelectorAll('[data-open-contact]');
+  const closeBtns = document.querySelectorAll('[data-modal-close]');
+  const form = document.getElementById('contactForm');
 
-  if (!modal || !form || !openButtons.length) return;
-
-  const whatsappNumber = "553899658215";
-  const defaultMessage = "Olá! Vim pelo site da Alumnort e gostaria de solicitar um orçamento.";
-
-  const openModal = (service = "") => {
-    modal.classList.add("is-active");
-    modal.setAttribute("aria-hidden", "false");
-    document.body.classList.add("modal-open");
-
-    if (service && serviceSelect) {
-      serviceSelect.value = service;
-    }
-  };
-
-  const closeModal = () => {
-    modal.classList.remove("is-active");
-    modal.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("modal-open");
-  };
-
-  openButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const service = button.dataset.service || "";
-      openModal(service);
+  openBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      modal.classList.add('active');
     });
   });
 
-  if (modalClose) {
-    modalClose.addEventListener("click", closeModal);
-  }
-
-  closeButtons.forEach((button) => {
-    button.addEventListener("click", closeModal);
+  closeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
   });
 
-  modal.addEventListener("click", (event) => {
-    if (event.target === modal) {
-      closeModal();
-    }
-  });
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && modal.classList.contains("is-active")) {
-      closeModal();
-    }
-  });
+    const nome = form.nome.value;
+    const telefone = form.telefone.value;
+    const email = form.email.value;
+    const servico = form.servico.value;
+    const mensagem = form.mensagem.value;
 
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
+    const text = `Olá! Vim pelo site da Alumnort e gostaria de um orçamento.%0A
+Nome: ${nome}%0A
+Telefone: ${telefone}%0A
+Email: ${email}%0A
+Serviço: ${servico}%0A
+Mensagem: ${mensagem}`;
 
-    const nome = document.getElementById("nome")?.value.trim() || "";
-    const telefone = document.getElementById("telefone")?.value.trim() || "";
-    const email = document.getElementById("email")?.value.trim() || "";
-    const servico = document.getElementById("servico")?.value.trim() || "";
-    const mensagem = document.getElementById("mensagem")?.value.trim() || "";
-
-    const texto = [
-      defaultMessage,
-      "",
-      "*Dados do contato:*",
-      `Nome: ${nome}`,
-      `Telefone: ${telefone}`,
-      `E-mail: ${email || "Não informado"}`,
-      `Tipo de serviço: ${servico || "Não informado"}`,
-      `Mensagem: ${mensagem || "Não informada"}`
-    ].join("\n");
-
-    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(texto)}`;
-    window.open(url, "_blank", "noopener,noreferrer");
-
-    closeModal();
-    form.reset();
+    window.open(`https://wa.me/553899658215?text=${text}`, '_blank');
   });
 }
