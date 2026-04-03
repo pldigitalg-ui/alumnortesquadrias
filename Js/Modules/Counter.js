@@ -1,38 +1,45 @@
 export function initCounter() {
-  const counters = document.querySelectorAll(".counter");
-  const section = document.querySelector(".metrics-band");
+  const counters = document.querySelectorAll(".stats__number");
 
-  if (!counters.length || !section) return;
+  if (!counters.length) return;
 
-  let started = false;
-
-  function animateCounter(counter) {
-    const target = Number(counter.dataset.target || 0);
+  const animateCounter = (element) => {
+    const target = Number(element.dataset.target || 0);
     const duration = 1600;
     const startTime = performance.now();
 
-    function update(now) {
-      const progress = Math.min((now - startTime) / duration, 1);
-      const value = Math.floor(progress * target);
-      counter.textContent = value;
+    const updateCounter = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      const easedProgress = 1 - Math.pow(1 - progress, 3);
+      const currentValue = Math.floor(target * easedProgress);
+
+      element.textContent = currentValue.toString();
+
       if (progress < 1) {
-        requestAnimationFrame(update);
+        requestAnimationFrame(updateCounter);
       } else {
-        counter.textContent = target;
+        element.textContent = target.toString();
       }
+    };
+
+    requestAnimationFrame(updateCounter);
+  };
+
+  const observer = new IntersectionObserver(
+    (entries, obs) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        animateCounter(entry.target);
+        obs.unobserve(entry.target);
+      });
+    },
+    {
+      threshold: 0.5
     }
+  );
 
-    requestAnimationFrame(update);
-  }
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !started) {
-        started = true;
-        counters.forEach(animateCounter);
-      }
-    });
-  }, { threshold: 0.35 });
-
-  observer.observe(section);
+  counters.forEach((counter) => observer.observe(counter));
 }
