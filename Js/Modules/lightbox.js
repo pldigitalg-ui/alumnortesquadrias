@@ -1,29 +1,65 @@
 export default function initLightbox() {
-  const cards = document.querySelectorAll('.project-card');
-  const modal = document.getElementById('lightbox');
-  const img = document.getElementById('lightboxImage');
-  const title = document.getElementById('lightboxTitle');
-  const desc = document.getElementById('lightboxDescription');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImage = document.getElementById('lightboxImage');
+  const lightboxTitle = document.getElementById('lightboxTitle');
+  const lightboxDescription = document.getElementById('lightboxDescription');
+  const lightboxClose = document.getElementById('lightboxClose');
+  const clickableCards = document.querySelectorAll(
+    '[data-lightbox-image]'
+  );
 
-  if (!cards.length) return;
+  if (
+    !lightbox ||
+    !lightboxImage ||
+    !lightboxTitle ||
+    !lightboxDescription ||
+    !lightboxClose ||
+    !clickableCards.length
+  ) {
+    return;
+  }
 
-  cards.forEach(card => {
+  const closeElements = lightbox.querySelectorAll('[data-lightbox-close]');
+
+  const openLightbox = ({ image, title, description, alt }) => {
+    lightboxImage.src = image;
+    lightboxImage.alt = alt || title || 'Imagem ampliada';
+    lightboxTitle.textContent = title || 'Projeto';
+    lightboxDescription.textContent = description || '';
+    lightbox.classList.add('is-active');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+  };
+
+  const closeLightbox = () => {
+    lightbox.classList.remove('is-active');
+    lightbox.setAttribute('aria-hidden', 'true');
+    lightboxImage.src = '';
+    lightboxImage.alt = '';
+    document.body.classList.remove('modal-open');
+  };
+
+  clickableCards.forEach((card) => {
     card.addEventListener('click', () => {
-      img.src = card.dataset.lightboxImage;
-      title.textContent = card.dataset.lightboxTitle;
-      desc.textContent = card.dataset.lightboxDescription;
+      const image = card.dataset.lightboxImage;
+      const title = card.dataset.lightboxTitle;
+      const description = card.dataset.lightboxDescription;
+      const img = card.querySelector('img');
+      const alt = img ? img.alt : title;
 
-      modal.classList.add('active');
+      openLightbox({ image, title, description, alt });
     });
   });
 
-  modal.addEventListener('click', (e) => {
-    if (e.target.dataset.lightboxClose !== undefined || e.target.id === 'lightbox') {
-      modal.classList.remove('active');
-    }
+  lightboxClose.addEventListener('click', closeLightbox);
+
+  closeElements.forEach((element) => {
+    element.addEventListener('click', closeLightbox);
   });
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') modal.classList.remove('active');
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && lightbox.classList.contains('is-active')) {
+      closeLightbox();
+    }
   });
 }
