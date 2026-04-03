@@ -7,24 +7,31 @@
 <title>Alumnort | Esquadrias de Alumínio em Janaúba MG</title>
 
 <meta name="description" content="Esquadrias de Alumínio em Janaúba MG. Portas, janelas, portões, vidro temperado e pele de vidro no Norte de Minas. Solicite orçamento com a Alumnort.">
-<meta name="keywords" content="esquadrias alumínio Janaúba, vidraçaria Janaúba, portas alumínio MG, janelas sob medida Janaúba, portões alumínio Norte de Minas">
 
 <link rel="stylesheet" href="css/style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
 <!-- LOADER -->
 <div id="loader">
-  <div class="loader-content">
-    <img src="img/logo.png" alt="Alumnort">
-    <span></span>
+  <div class="loader-box">
+    <img src="img/logo.png">
+    <div class="loader-line"></div>
   </div>
 </div>
 
 <!-- TOPBAR -->
 <div class="topbar">
-  Especialista em Esquadrias de Alumínio no Norte de Minas
+  <div class="container">
+    <span>Especialista em Esquadrias de Alumínio no Norte de Minas</span>
+    <div class="top-info">
+      <span>📞 (38) 9965-8215</span>
+      <span>✉ alumnort1@gmail.com</span>
+    </div>
+  </div>
 </div>
 
 <!-- HEADER -->
@@ -32,7 +39,7 @@
   <div class="container header-flex">
     <img src="img/logo.png" class="logo">
 
-    <nav id="menu">
+    <nav>
       <a href="#">Home</a>
       <a href="#sobre">Quem Somos</a>
       <a href="#servicos">Serviços</a>
@@ -40,12 +47,14 @@
       <a href="#contato">Contato</a>
     </nav>
 
-    <button class="cta" data-open-modal>Solicite Orçamento</button>
+    <button class="btn-cta" data-open-modal>Solicitar Orçamento</button>
   </div>
 </header>
 
 <!-- HERO -->
 <section class="hero">
+  <div class="hero-overlay"></div>
+
   <div class="hero-slider">
     <img src="img/hero-1.jpg">
     <img src="img/hero-2.jpg">
@@ -54,92 +63,144 @@
 
   <div class="hero-content">
     <h1>Esquadrias de Alumínio com Acabamento Premium</h1>
-    <p>Soluções modernas para residências e empresas no Norte de Minas</p>
 
-    <button data-open-modal class="btn-main">Solicitar Orçamento</button>
+    <p>
+      Projetos sob medida com alto padrão de acabamento, valorizando seu imóvel
+      com design moderno e durabilidade.
+    </p>
+
+    <div class="hero-buttons">
+      <button class="btn-main" data-open-modal>Solicitar Orçamento</button>
+      <a href="#servicos" class="btn-outline">Ver Serviços</a>
+    </div>
   </div>
 </section>
+
+<!-- FAIXA PREMIUM -->
+<div class="divider"></div>
 
 <!-- MÉTRICAS -->
 <section class="metrics">
   <div class="container grid-4">
-    <div><h3 data-counter="10">0</h3><p>Anos de experiência</p></div>
-    <div><h3 data-counter="500">0</h3><p>Projetos realizados</p></div>
-    <div><h3 data-counter="20">0</h3><p>Cidades atendidas</p></div>
-    <div><h3>100%</h3><p>Compromisso</p></div>
+    <div class="metric">
+      <h3 data-counter="12">0</h3>
+      <p>Anos de experiência</p>
+    </div>
+
+    <div class="metric">
+      <h3 data-counter="600">0</h3>
+      <p>Projetos executados</p>
+    </div>
+
+    <div class="metric">
+      <h3 data-counter="20">0</h3>
+      <p>Cidades atendidas</p>
+    </div>
+
+    <div class="metric">
+      <h3>100%</h3>
+      <p>Compromisso com qualidade</p>
+    </div>
   </div>
 </section>
 
 <!-- SOBRE -->
 <section id="sobre" class="section">
   <div class="container grid-2">
-    <img src="img/quem-somos.jpg">
+    <div class="img-box">
+      <img src="img/quem-somos.jpg">
+    </div>
+
     <div>
       <h2>Quem Somos</h2>
-      <p>Somos especialistas em esquadrias de alumínio com foco em qualidade, durabilidade e acabamento impecável.</p>
+
+      <p>
+        A Alumnort é referência em esquadrias de alumínio e vidraçaria em Janaúba
+        e região. Trabalhamos com projetos personalizados, unindo resistência,
+        estética e acabamento impecável.
+      </p>
+
+      <p>
+        Nosso compromisso é entregar soluções modernas que valorizam seu imóvel
+        e garantem durabilidade e sofisticação.
+      </p>
     </div>
   </div>
 </section>
 
 <!-- SERVIÇOS -->
-<section id="servicos" class="section">
+<section id="servicos" class="section bg-light">
   <div class="container">
-    <h2>Serviços</h2>
+    <h2>Nossos Serviços</h2>
 
     <div class="grid-3">
-      <div class="card" data-service="Portas">
+
+      <div class="card" data-service="Portas em Alumínio">
         <img src="img/servico-portas.jpg">
-        <h3>Portas</h3>
+        <h3>Portas em Alumínio</h3>
       </div>
 
-      <div class="card" data-service="Janelas">
+      <div class="card" data-service="Janelas Sob Medida">
         <img src="img/servico-janelas.jpg">
-        <h3>Janelas</h3>
+        <h3>Janelas Sob Medida</h3>
       </div>
 
-      <div class="card" data-service="Portões">
+      <div class="card" data-service="Portões em Alumínio">
         <img src="img/servico-portoes.jpg">
-        <h3>Portões</h3>
+        <h3>Portões em Alumínio</h3>
       </div>
+
+      <div class="card" data-service="Vidraçaria">
+        <img src="img/servico-vidracaria.jpg">
+        <h3>Vidraçaria</h3>
+      </div>
+
+      <div class="card" data-service="Vidro Temperado">
+        <img src="img/servico-vidro-temperado.jpg">
+        <h3>Vidro Temperado</h3>
+      </div>
+
+      <div class="card" data-service="Pele de Vidro">
+        <img src="img/servico-pele-de-vidro.jpg">
+        <h3>Pele de Vidro</h3>
+      </div>
+
     </div>
   </div>
 </section>
 
 <!-- PROJETOS -->
 <section id="projetos" class="section">
-  <div class="container grid-3">
-    <img src="img/projetos/corredor-esquadrias-alumínio-preto.jpg" class="lightbox">
-    <img src="img/projetos/escada-guarda-corpo-vidro-alumínio.jpg" class="lightbox">
+  <div class="container">
+    <h2>Projetos Realizados</h2>
+
+    <div class="grid-3">
+
+      <img src="img/projetos/corredor-esquadrias-alumínio-preto.jpg" class="lightbox">
+      <img src="img/projetos/escada-guarda-corpo-vidro-alumínio.jpg" class="lightbox">
+      <img src="img/projetos/porta-vidro-aluminio-sala-moderna.jpg" class="lightbox">
+
+    </div>
   </div>
 </section>
 
-<!-- CTA -->
+<!-- CTA FINAL -->
 <section class="cta-final">
-  <h2>Solicite seu orçamento agora</h2>
+  <h2>Fale com a Alumnort e solicite seu orçamento</h2>
   <button data-open-modal>Falar no WhatsApp</button>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <p>Alumnort © 2026</p>
+  <div class="container">
+    <p>Alumnort © 2026 - Janaúba MG</p>
+  </div>
 </footer>
 
-<!-- MODAL -->
-<div id="modal">
-  <div class="modal-box">
-    <h2>Solicitar Orçamento</h2>
+<!-- WHATSAPP -->
+<a href="https://wa.me/553899658215?text=Olá! Vim pelo site da Alumnort" id="whatsapp">💬</a>
 
-    <input type="text" id="nome" placeholder="Nome">
-    <input type="text" id="telefone" placeholder="Telefone">
-    <input type="text" id="servico" placeholder="Serviço">
-    <textarea id="mensagem"></textarea>
-
-    <button id="enviar">Enviar WhatsApp</button>
-  </div>
-</div>
-
-<!-- BOTÕES FIXOS -->
-<a id="whatsapp" href="#">WhatsApp</a>
+<!-- TOPO -->
 <button id="top">↑</button>
 
 <script src="js/app.js"></script>
