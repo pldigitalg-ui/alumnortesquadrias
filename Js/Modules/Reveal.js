@@ -1,13 +1,22 @@
 export default function initReveal() {
   const elements = document.querySelectorAll('.reveal');
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('active');
-      }
-    });
-  }, { threshold: 0.2 });
+  if (!elements.length) return;
 
-  elements.forEach(el => observer.observe(el));
+  const observer = new IntersectionObserver(
+    (entries, obs) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      threshold: 0.15,
+      rootMargin: '0px 0px -40px 0px'
+    }
+  );
+
+  elements.forEach((element) => observer.observe(element));
 }
