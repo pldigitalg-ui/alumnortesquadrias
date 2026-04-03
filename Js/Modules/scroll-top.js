@@ -1,14 +1,15 @@
 export function initScrollTop() {
   const button = document.getElementById("scrollTopBtn");
+
   if (!button) return;
 
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 500) {
-      button.classList.add("show");
+  const toggleVisibility = () => {
+    if (window.scrollY > 420) {
+      button.classList.add("is-visible");
     } else {
-      button.classList.remove("show");
+      button.classList.remove("is-visible");
     }
-  });
+  };
 
   button.addEventListener("click", () => {
     window.scrollTo({
@@ -16,4 +17,7 @@ export function initScrollTop() {
       behavior: "smooth"
     });
   });
+
+  toggleVisibility();
+  window.addEventListener("scroll", toggleVisibility, { passive: true });
 }
