@@ -1,31 +1,14 @@
-export default function initCounter() {
-  const counters = document.querySelectorAll('.stats__number');
+document.querySelectorAll('[data-counter]').forEach(el=>{
+  let target = +el.dataset.counter;
+  let count = 0;
 
-  const run = (el) => {
-    const target = +el.dataset.target;
-    let count = 0;
-    const speed = target / 100;
+  let interval = setInterval(()=>{
+    count += 5;
+    el.innerText = count;
 
-    const update = () => {
-      count += speed;
-      if (count < target) {
-        el.innerText = Math.floor(count);
-        requestAnimationFrame(update);
-      } else {
-        el.innerText = target;
-      }
-    };
-
-    update();
-  };
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        run(entry.target);
-      }
-    });
-  }, { threshold: 0.5 });
-
-  counters.forEach(c => observer.observe(c));
-}
+    if(count >= target){
+      el.innerText = target;
+      clearInterval(interval);
+    }
+  },20);
+});
