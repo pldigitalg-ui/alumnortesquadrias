@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initActiveNavOnScroll();
 });
 
-/* =========================================
+/* =========================
    MENU MOBILE
-========================================= */
+========================= */
 function initMenu() {
   const menuToggle = document.getElementById('menuToggle');
   const navMenu = document.getElementById('navMenu');
@@ -37,12 +37,7 @@ function initMenu() {
   }
 
   menuToggle.addEventListener('click', () => {
-    const isOpen = navMenu.classList.contains('active');
-    if (isOpen) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
+    navMenu.classList.contains('active') ? closeMenu() : openMenu();
   });
 
   menuBackdrop.addEventListener('click', closeMenu);
@@ -51,22 +46,18 @@ function initMenu() {
     link.addEventListener('click', closeMenu);
   });
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeMenu();
-    }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeMenu();
   });
 
   window.addEventListener('resize', () => {
-    if (window.innerWidth > 991) {
-      closeMenu();
-    }
+    if (window.innerWidth > 991) closeMenu();
   });
 }
 
-/* =========================================
+/* =========================
    HERO SLIDER AUTOMÁTICO
-========================================= */
+========================= */
 function initHeroSlider() {
   const slider = document.getElementById('heroSlider');
   if (!slider) return;
@@ -75,7 +66,7 @@ function initHeroSlider() {
   if (!slides.length) return;
 
   let current = 0;
-  let interval = null;
+  let intervalId = null;
 
   function showSlide(index) {
     slides.forEach((slide, i) => {
@@ -86,16 +77,17 @@ function initHeroSlider() {
   function startSlider() {
     if (slides.length <= 1) return;
 
-    interval = setInterval(() => {
+    stopSlider();
+    intervalId = setInterval(() => {
       current = (current + 1) % slides.length;
       showSlide(current);
     }, 5000);
   }
 
   function stopSlider() {
-    if (interval) {
-      clearInterval(interval);
-      interval = null;
+    if (intervalId) {
+      clearInterval(intervalId);
+      intervalId = null;
     }
   }
 
@@ -106,15 +98,14 @@ function initHeroSlider() {
     if (document.hidden) {
       stopSlider();
     } else {
-      stopSlider();
       startSlider();
     }
   });
 }
 
-/* =========================================
+/* =========================
    REVEAL
-========================================= */
+========================= */
 function initReveal() {
   const items = document.querySelectorAll('.reveal');
   if (!items.length) return;
@@ -135,17 +126,15 @@ function initReveal() {
         }
       });
     },
-    {
-      threshold: 0.15
-    }
+    { threshold: 0.15 }
   );
 
   items.forEach(item => observer.observe(item));
 }
 
-/* =========================================
+/* =========================
    COUNTER
-========================================= */
+========================= */
 function initCounter() {
   const counters = document.querySelectorAll('.stats__number');
   if (!counters.length) return;
@@ -153,10 +142,10 @@ function initCounter() {
   function animateCounter(el) {
     const target = parseInt(el.dataset.target || '0', 10);
     const duration = 1600;
-    const start = performance.now();
+    const startTime = performance.now();
 
     function update(now) {
-      const progress = Math.min((now - start) / duration, 1);
+      const progress = Math.min((now - startTime) / duration, 1);
       const value = Math.floor(progress * target);
       el.textContent = value.toLocaleString('pt-BR');
 
@@ -179,17 +168,15 @@ function initCounter() {
         }
       });
     },
-    {
-      threshold: 0.5
-    }
+    { threshold: 0.5 }
   );
 
   counters.forEach(counter => observer.observe(counter));
 }
 
-/* =========================================
+/* =========================
    LIGHTBOX
-========================================= */
+========================= */
 function initLightbox() {
   const lightbox = document.getElementById('lightbox');
   const lightboxImage = document.getElementById('lightboxImage');
@@ -224,6 +211,8 @@ function initLightbox() {
   }
 
   triggers.forEach(trigger => {
+    trigger.style.cursor = 'pointer';
+
     trigger.addEventListener('click', () => {
       const image = trigger.dataset.lightboxImage;
       const title = trigger.dataset.lightboxTitle || '';
@@ -247,16 +236,16 @@ function initLightbox() {
     lightboxClose.addEventListener('click', closeLightbox);
   }
 
-  document.addEventListener('keydown', (e) => {
+  document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && lightbox.classList.contains('active')) {
       closeLightbox();
     }
   });
 }
 
-/* =========================================
-   MODAL DE CONTATO + WHATSAPP
-========================================= */
+/* =========================
+   MODAL + WHATSAPP
+========================= */
 function initContactModal() {
   const modal = document.getElementById('contactModal');
   const form = document.getElementById('contactForm');
@@ -299,13 +288,13 @@ function initContactModal() {
     closeBtn.addEventListener('click', closeModal);
   }
 
-  document.addEventListener('keydown', (e) => {
+  document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && modal.classList.contains('active')) {
       closeModal();
     }
   });
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', e => {
     e.preventDefault();
 
     const nome = form.querySelector('#nome')?.value.trim() || '';
@@ -331,14 +320,13 @@ ${mensagem || 'Não informado'}`;
 
     const url = `https://wa.me/553899658215?text=${encodeURIComponent(texto)}`;
     window.open(url, '_blank');
-
     closeModal();
   });
 }
 
-/* =========================================
-   VOLTAR AO TOPO
-========================================= */
+/* =========================
+   BOTÃO TOPO
+========================= */
 function initScrollTop() {
   const button = document.getElementById('scrollTopBtn');
   if (!button) return;
@@ -362,9 +350,9 @@ function initScrollTop() {
   });
 }
 
-/* =========================================
+/* =========================
    LINK ATIVO NO MENU
-========================================= */
+========================= */
 function initActiveNavOnScroll() {
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-link');
