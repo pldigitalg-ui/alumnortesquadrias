@@ -2,29 +2,47 @@ export default function initHero() {
   const slides = document.querySelectorAll('.hero__slide');
   const dots = document.querySelectorAll('.hero__dot');
 
-  if (!slides.length) return;
+  if (!slides.length || !dots.length) return;
 
-  let index = 0;
+  let currentIndex = 0;
+  let autoPlay;
 
-  function showSlide(i) {
-    slides.forEach(s => s.classList.remove('active'));
-    dots.forEach(d => d.classList.remove('active'));
+  const setActiveSlide = (index) => {
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('active', i === index);
+    });
 
-    slides[i].classList.add('active');
-    dots[i].classList.add('active');
-  }
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === index);
+    });
 
-  function nextSlide() {
-    index = (index + 1) % slides.length;
-    showSlide(index);
-  }
+    currentIndex = index;
+  };
 
-  dots.forEach((dot, i) => {
+  const nextSlide = () => {
+    const nextIndex = (currentIndex + 1) % slides.length;
+    setActiveSlide(nextIndex);
+  };
+
+  const startAutoPlay = () => {
+    stopAutoPlay();
+    autoPlay = setInterval(nextSlide, 5000);
+  };
+
+  const stopAutoPlay = () => {
+    if (autoPlay) clearInterval(autoPlay);
+  };
+
+  dots.forEach((dot, index) => {
     dot.addEventListener('click', () => {
-      index = i;
-      showSlide(index);
+      setActiveSlide(index);
+      startAutoPlay();
     });
   });
 
-  setInterval(nextSlide, 5000);
+  setActiveSlide(0);
+  startAutoPlay();
+
+  window.addEventListener('blur', stopAutoPlay);
+  window.addEventListener('focus', startAutoPlay);
 }
