@@ -1,18 +1,23 @@
 export default function initScrollTop() {
-  const btn = document.getElementById('scrollTopBtn');
+  const scrollTopBtn = document.getElementById('scrollTopBtn');
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 400) {
-      btn.classList.add('active');
+  if (!scrollTopBtn) return;
+
+  const toggleButton = () => {
+    if (window.scrollY > 350) {
+      scrollTopBtn.classList.add('is-visible');
     } else {
-      btn.classList.remove('active');
+      scrollTopBtn.classList.remove('is-visible');
     }
-  });
+  };
 
-  btn.addEventListener('click', () => {
+  scrollTopBtn.addEventListener('click', () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
   });
+
+  toggleButton();
+  window.addEventListener('scroll', toggleButton);
 }
