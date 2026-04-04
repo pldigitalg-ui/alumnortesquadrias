@@ -1904,3 +1904,54 @@ ul{
         object-fit: cover;
     }
 }
+/* HERO FULLSCREEN FORÇADO */
+header,
+.hero-banner,
+.hero-section,
+section:first-of-type {
+    min-height: 100vh !important;
+    height: 100vh !important;
+    width: 100% !important;
+    position: relative;
+    overflow: hidden;
+}
+
+header img,
+.hero-banner img,
+.hero-section img,
+section:first-of-type img {
+    width: 100% !important;
+    height: 100vh !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+    display: block;
+}
+
+/* conteúdo por cima */
+header .container,
+.hero-banner .container,
+.hero-section .container,
+section:first-of-type .container {
+    height: 100vh !important;
+    display: flex;
+    align-items: center;
+}
+
+/* celular */
+@media (max-width: 768px) {
+    header,
+    .hero-banner,
+    .hero-section,
+    section:first-of-type {
+        height: 100vh !important;
+        min-height: 100vh !important;
+    }
+
+    header img,
+    .hero-banner img,
+    .hero-section img,
+    section:first-of-type img {
+        height: 100vh !important;
+        object-fit: cover !important;
+    }
+}
