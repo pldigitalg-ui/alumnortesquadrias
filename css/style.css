@@ -1762,3 +1762,61 @@ ul{
     border-radius:18px;
   }
 }
+/* ================================
+   HERO IMAGE — FULL LANDSCAPE FIX
+   (ALUMNORT OPTIMIZED)
+================================ */
+
+.hero__media--landscape{
+  position:relative;
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.hero__image{
+  position:relative;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-lg);
+}
+
+/* ⭐ AQUI ESTÁ A CORREÇÃO PRINCIPAL */
+.hero__image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  transform:scale(1.03);
+  transition:transform 0.6s ease;
+}
+
+/* efeito premium hover desktop */
+.hero__image:hover img{
+  transform:scale(1.06);
+}
+
+/* garante proporção bonita */
+.hero__image{
+  aspect-ratio:16 / 10;
+}
+
+/* responsivo */
+@media (max-width:1024px){
+
+  .hero__grid--landscape{
+    grid-template-columns:1fr;
+    gap:40px;
+    text-align:center;
+  }
+
+  .hero__image{
+    aspect-ratio:16 / 9;
+  }
+
+}
