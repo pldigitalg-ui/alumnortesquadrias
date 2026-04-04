@@ -1762,38 +1762,6 @@ ul{
     border-radius:18px;
   }
 }
-/* HERO FULLSCREEN FINAL */
-.hero,
-.hero-slider,
-.hero-slide {
-    min-height: 100vh;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-}
-
-.hero img,
-.hero-slider img,
-.hero-slide img,
-.hero__image img {
-    width: 100%;
-    height: 100vh;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-}
-
-/* conteúdo sobre a imagem */
-.hero__content,
-.hero-content {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 40px;
-}
 
 /* MOBILE */
 @media (max-width: 768px) {
@@ -1817,20 +1785,7 @@ ul{
         padding: 24px;
         align-items: flex-end;
     }
-}
-/* MENU MOBILE FINAL */
-@media (max-width: 768px) {
-    #navMenu {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 280px;
-        height: 100vh;
-        background: #0d2340;
-        transition: right 0.3s ease;
-        z-index: 9999;
-        padding: 80px 20px;
-    }
+
 
     #navMenu.active {
         right: 0;
@@ -1854,28 +1809,6 @@ ul{
     gap: 24px;
     width: max-content;
     will-change: transform;
-}
-/* HERO TELA INTEIRA FINAL */
-.hero-slider,
-.hero-slide,
-.hero,
-.hero__wrapper,
-.hero__image {
-    height: 100vh !important;
-    min-height: 100vh !important;
-    width: 100%;
-}
-
-.hero-slider img,
-.hero-slide img,
-.hero img,
-.hero__image img {
-    width: 100%;
-    height: 100vh !important;
-    min-height: 100vh !important;
-    object-fit: cover;
-    object-position: center;
-    display: block;
 }
 
 /* remove limites do container */
@@ -1903,28 +1836,6 @@ ul{
         height: 100vh !important;
         object-fit: cover;
     }
-}
-/* HERO FULLSCREEN FORÇADO */
-header,
-.hero-banner,
-.hero-section,
-section:first-of-type {
-    min-height: 100vh !important;
-    height: 100vh !important;
-    width: 100% !important;
-    position: relative;
-    overflow: hidden;
-}
-
-header img,
-.hero-banner img,
-.hero-section img,
-section:first-of-type img {
-    width: 100% !important;
-    height: 100vh !important;
-    object-fit: cover !important;
-    object-position: center center !important;
-    display: block;
 }
 
 /* conteúdo por cima */
@@ -1954,4 +1865,88 @@ section:first-of-type .container {
         height: 100vh !important;
         object-fit: cover !important;
     }
+}
+/* ===== AJUSTE FINAL HERO + MENU + SLIDES ===== */
+
+/* HERO full screen sem quebrar layout */
+.hero,
+.hero--landscape,
+section:first-of-type {
+    min-height: 100vh !important;
+    height: auto !important;
+    width: 100%;
+    overflow: hidden;
+}
+
+.hero__grid--landscape {
+    min-height: 100vh !important;
+    align-items: center;
+}
+
+.hero__visual--landscape {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    height: 100%;
+}
+
+.hero__avatar {
+    width: min(100%, 820px) !important;
+    max-height: 95vh !important;
+    height: auto !important;
+    object-fit: contain !important;
+    object-position: right bottom !important;
+}
+
+/* mobile hero */
+@media (max-width: 991px) {
+    .hero,
+    .hero--landscape {
+        min-height: 100vh !important;
+    }
+
+    .hero__grid--landscape {
+        min-height: 100vh !important;
+        padding: 100px 0 30px !important;
+    }
+
+    .hero__avatar {
+        width: min(92vw, 460px) !important;
+        max-height: 52vh !important;
+        object-position: center bottom !important;
+    }
+}
+
+/* menu mobile sem alterar visual */
+@media (max-width: 991px) {
+    .nav-menu {
+        z-index: 1200 !important;
+    }
+
+    .menu-toggle {
+        display: flex !important;
+        z-index: 1300 !important;
+    }
+}
+
+/* sliders funcionando */
+.partners-slider,
+.testimonials-slider {
+    overflow: hidden !important;
+    width: 100%;
+}
+
+.partners-slider__track,
+.testimonials-slider__track {
+    display: flex !important;
+    gap: 20px;
+    width: max-content;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+.partners-slider__track::-webkit-scrollbar,
+.testimonials-slider__track::-webkit-scrollbar {
+    display: none;
 }
