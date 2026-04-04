@@ -37,24 +37,29 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <!-- WhatsApp flutuante premium -->
   <a
     href="https://wa.me/553899658215?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ALUMNORT%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento."
     class="whatsapp-float"
-    id="whatsappFloat"
     target="_blank"
     rel="noopener noreferrer"
     aria-label="Falar no WhatsApp"
   >
-    <i class="fa-brands fa-whatsapp"></i>
-    <span>Chame no WhatsApp</span>
+    <span class="whatsapp-float__icon">
+      <i class="fa-brands fa-whatsapp"></i>
+    </span>
+    <span class="whatsapp-float__text">WhatsApp</span>
   </a>
 
+  <!-- Botão subir -->
   <button class="scroll-top" id="scrollTopBtn" aria-label="Voltar ao topo">
     <i class="fa-solid fa-arrow-up"></i>
   </button>
 
-  <div class="menu-backdrop" id="menuBackdrop" aria-hidden="true"></div>
+  <!-- Backdrop menu mobile -->
+  <div class="menu-backdrop" id="menuBackdrop"></div>
 
+  <!-- LIGHTBOX PADRONIZADA -->
   <div class="lightbox" id="lightbox" aria-hidden="true">
     <div class="lightbox__backdrop" data-lightbox-close></div>
 
@@ -75,6 +80,7 @@
     </div>
   </div>
 
+  <!-- MODAL ORÇAMENTO -->
   <div class="contact-modal" id="contactModal" aria-hidden="true">
     <div class="contact-modal__overlay" data-modal-close></div>
 
@@ -109,7 +115,7 @@
           </div>
 
           <div class="form-group">
-            <label for="servico">Serviço</label>
+            <label for="servico">Tipo de serviço</label>
             <select id="servico" name="servico" required>
               <option value="">Selecione</option>
               <option value="Portas em Alumínio">Portas em Alumínio</option>
@@ -124,7 +130,7 @@
           </div>
         </div>
 
-        <div class="form-grid form-grid--triple">
+        <div class="form-grid">
           <div class="form-group">
             <label for="cidade">Cidade</label>
             <input type="text" id="cidade" name="cidade" placeholder="Ex.: Janaúba" />
@@ -133,11 +139,6 @@
           <div class="form-group">
             <label for="bairro">Bairro / Região</label>
             <input type="text" id="bairro" name="bairro" placeholder="Ex.: Centro / Norte de Minas" />
-          </div>
-
-          <div class="form-group">
-            <label for="endereco">Endereço</label>
-            <input type="text" id="endereco" name="endereco" placeholder="Rua, número, referência" />
           </div>
         </div>
 
@@ -162,7 +163,7 @@
     </div>
   </div>
 
-  <header class="site-header" id="topo">
+  <header class="site-header">
     <div class="topbar">
       <div class="container topbar__inner">
         <p class="topbar__text">Atendimento em Janaúba e todo o Norte de Minas</p>
@@ -192,7 +193,7 @@
 
     <div class="brandbar">
       <div class="container brandbar__inner">
-        <a href="#home" class="brandbar__logo" aria-label="ALUMNORT">
+        <a href="#home" class="brandbar__logo brandbar__logo--refined" aria-label="ALUMNORT">
           <img src="img/logo.png" alt="Logo ALUMNORT" />
         </a>
 
@@ -230,40 +231,35 @@
           <img src="img/logo.png" alt="Logo ALUMNORT" />
         </a>
 
-        <nav class="nav-menu" id="navMenu" aria-label="Menu principal">
-          <a href="#home" class="nav-link">Home</a>
-          <a href="#quem-somos" class="nav-link">Quem Somos</a>
-          <a href="#servicos" class="nav-link">Nossos Serviços</a>
-          <a href="#parceiros" class="nav-link">Parceiros</a>
-          <a href="#projetos" class="nav-link">Projetos</a>
-          <a href="#depoimentos" class="nav-link">Depoimentos</a>
-          <a href="#contato" class="nav-link">Contato</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
 
-          <div class="nav-menu__cta-wrap">
+        <nav class="nav-menu" id="navMenu" aria-label="Menu principal">
+          <div class="nav-menu__links">
+            <a href="#home" class="nav-link">Home</a>
+            <a href="#quem-somos" class="nav-link">Quem Somos</a>
+            <a href="#servicos" class="nav-link">Nossos Serviços</a>
+            <a href="#projetos" class="nav-link">Projetos</a>
+            <a href="#contato" class="nav-link">Contato</a>
+          </div>
+
+          <div class="nav-menu__center-cta">
             <button class="btn btn--primary nav-menu__cta" data-open-contact>
               Pedir orçamento
             </button>
           </div>
         </nav>
-
-        <button
-          class="menu-toggle"
-          id="menuToggle"
-          aria-label="Abrir menu"
-          aria-expanded="false"
-          aria-controls="navMenu"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
       </div>
     </div>
   </header>
 
   <main>
-    <section class="hero" id="home">
-      <div class="hero__slider" id="heroSlider" aria-hidden="true">
+    <!-- HERO -->
+    <section class="hero hero--clean" id="home">
+      <div class="hero__slider" id="heroSlider">
         <div class="hero__slide active" style="background-image: url('img/hero-1.jpg');"></div>
         <div class="hero__slide" style="background-image: url('img/hero-2.jpg');"></div>
         <div class="hero__slide" style="background-image: url('img/hero-3.jpg');"></div>
@@ -273,16 +269,31 @@
       <div class="hero__overlay"></div>
 
       <div class="container hero__content">
-        <div class="hero__grid">
+        <div class="hero__grid hero__grid--offset">
           <div class="hero__text reveal">
             <span class="section-tag section-tag--light">ALUMNORT • Janaúba - MG</span>
 
-            <h1>Esquadrias de alumínio e vidro com acabamento que valoriza seu imóvel</h1>
+            <h1>
+              Esquadrias de alumínio e vidro com acabamento que valoriza seu imóvel
+            </h1>
+
+            <p class="hero__lead">
+              Soluções sob medida para residências e comércios com visual moderno, funcionalidade e padrão profissional.
+            </p>
 
             <div class="hero__actions">
               <button class="btn btn--primary btn--large" data-open-contact>
                 Pedir orçamento
               </button>
+
+              <a
+                href="https://wa.me/553899658215?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ALUMNORT%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento."
+                class="btn btn--secondary btn--large"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                WhatsApp
+              </a>
             </div>
 
             <div class="hero__mini-info">
@@ -323,15 +334,9 @@
           </div>
         </div>
       </div>
-
-      <div class="hero__dots" id="heroDots" aria-label="Navegação do slider principal">
-        <button class="hero__dot active" type="button" aria-label="Slide 1"></button>
-        <button class="hero__dot" type="button" aria-label="Slide 2"></button>
-        <button class="hero__dot" type="button" aria-label="Slide 3"></button>
-        <button class="hero__dot" type="button" aria-label="Slide 4"></button>
-      </div>
     </section>
 
+    <!-- STATS -->
     <section class="stats">
       <div class="container">
         <div class="stats__grid">
@@ -370,6 +375,7 @@
       </div>
     </section>
 
+    <!-- ABOUT -->
     <section class="about section" id="quem-somos">
       <div class="container">
         <div class="section-heading reveal">
@@ -419,6 +425,7 @@
       </div>
     </section>
 
+    <!-- SERVICES -->
     <section class="services section section--alt" id="servicos">
       <div class="container">
         <div class="section-heading reveal">
@@ -499,59 +506,81 @@
       </div>
     </section>
 
+    <!-- PARCEIROS EM SLIDE CLICÁVEL -->
     <section class="partners section" id="parceiros">
       <div class="container">
         <div class="section-heading reveal">
           <span class="section-tag">Nossos parceiros</span>
-          <h2>Parceiros e negócios que caminham junto com a marca</h2>
+          <h2>Parcerias e conexões que fortalecem a presença da marca</h2>
           <p>
-            Estrutura pronta para slider real, com itens clicáveis e movimento automático.
+            Área pronta para funcionar em slide, com todos os cards clicáveis.
           </p>
         </div>
 
         <div class="partners-slider reveal" id="partnersSlider">
           <div class="partners-slider__track">
-            <a class="partner-card" href="https://www.instagram.com/restaurantelpgrill/" target="_blank" rel="noopener noreferrer">
-              <span class="partner-card__icon"><i class="fa-brands fa-instagram"></i></span>
-              <span class="partner-card__name">@restaurantelpgrill</span>
+            <a
+              class="partner-card"
+              href="https://www.instagram.com/restaurantelpgrill/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div class="partner-card__logo">
+                <i class="fa-brands fa-instagram"></i>
+              </div>
+              <div class="partner-card__content">
+                <h3>LP Grill</h3>
+                <p>@restaurantelpgrill</p>
+              </div>
             </a>
 
-            <a class="partner-card" href="https://www.instagram.com/pldigitalgroup/" target="_blank" rel="noopener noreferrer">
-              <span class="partner-card__icon"><i class="fa-brands fa-instagram"></i></span>
-              <span class="partner-card__name">@pldigitalgroup</span>
+            <a
+              class="partner-card"
+              href="https://www.instagram.com/pldigitalgroup/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div class="partner-card__logo">
+                <i class="fa-brands fa-instagram"></i>
+              </div>
+              <div class="partner-card__content">
+                <h3>PL Digital</h3>
+                <p>@pldigitalgroup</p>
+              </div>
             </a>
 
             <a class="partner-card" href="#" target="_blank" rel="noopener noreferrer">
-              <span class="partner-card__icon"><i class="fa-brands fa-instagram"></i></span>
-              <span class="partner-card__name">@parceiro03</span>
+              <div class="partner-card__logo">
+                <i class="fa-solid fa-building"></i>
+              </div>
+              <div class="partner-card__content">
+                <h3>Parceiro 03</h3>
+                <p>Adicionar depois</p>
+              </div>
             </a>
 
             <a class="partner-card" href="#" target="_blank" rel="noopener noreferrer">
-              <span class="partner-card__icon"><i class="fa-brands fa-instagram"></i></span>
-              <span class="partner-card__name">@parceiro04</span>
-            </a>
-
-            <a class="partner-card" href="https://www.instagram.com/restaurantelpgrill/" target="_blank" rel="noopener noreferrer">
-              <span class="partner-card__icon"><i class="fa-brands fa-instagram"></i></span>
-              <span class="partner-card__name">@restaurantelpgrill</span>
-            </a>
-
-            <a class="partner-card" href="https://www.instagram.com/pldigitalgroup/" target="_blank" rel="noopener noreferrer">
-              <span class="partner-card__icon"><i class="fa-brands fa-instagram"></i></span>
-              <span class="partner-card__name">@pldigitalgroup</span>
+              <div class="partner-card__logo">
+                <i class="fa-solid fa-building"></i>
+              </div>
+              <div class="partner-card__content">
+                <h3>Parceiro 04</h3>
+                <p>Adicionar depois</p>
+              </div>
             </a>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- PROJECTS -->
     <section class="portfolio section section--alt" id="projetos">
       <div class="container">
         <div class="section-heading reveal">
           <span class="section-tag">Projetos</span>
           <h2>Projetos que mostram acabamento, presença e valorização visual</h2>
           <p>
-            Clique nas imagens para ampliar. A lightbox foi preparada para fechar no X, fora da imagem e no ESC.
+            Clique nas imagens para ampliar. Lightbox padronizada para desktop e celular.
           </p>
         </div>
 
@@ -619,19 +648,20 @@
       </div>
     </section>
 
-    <section class="testimonials section" id="depoimentos">
+    <!-- DEPOIMENTOS EM BALÕES / SLIDER -->
+    <section class="testimonials section">
       <div class="container">
         <div class="section-heading reveal">
           <span class="section-tag">Depoimentos</span>
           <h2>Comentários que passam mais confiança para quem entra no site</h2>
           <p>
-            Depoimentos mais naturais ajudam a vender melhor do que frases muito genéricas.
+            Estrutura pronta para funcionar em slider com visual de balões.
           </p>
         </div>
 
         <div class="testimonials-slider reveal" id="testimonialsSlider">
           <div class="testimonials-slider__track">
-            <article class="testimonial-card">
+            <article class="testimonial-card testimonial-card--balloon">
               <div class="testimonial-card__stars">
                 <i class="fa-solid fa-star"></i>
                 <i class="fa-solid fa-star"></i>
@@ -646,7 +676,7 @@
               <span>Cliente residencial</span>
             </article>
 
-            <article class="testimonial-card">
+            <article class="testimonial-card testimonial-card--balloon">
               <div class="testimonial-card__stars">
                 <i class="fa-solid fa-star"></i>
                 <i class="fa-solid fa-star"></i>
@@ -661,7 +691,7 @@
               <span>Cliente residencial</span>
             </article>
 
-            <article class="testimonial-card">
+            <article class="testimonial-card testimonial-card--balloon">
               <div class="testimonial-card__stars">
                 <i class="fa-solid fa-star"></i>
                 <i class="fa-solid fa-star"></i>
@@ -680,6 +710,7 @@
       </div>
     </section>
 
+    <!-- CTA FINAL -->
     <section class="cta-final section" id="contato">
       <div class="container">
         <div class="cta-final__box reveal">
@@ -705,10 +736,6 @@
               <i class="fa-brands fa-whatsapp"></i>
               Falar no WhatsApp
             </a>
-
-            <button class="btn btn--outline-light btn--large" data-open-contact>
-              Solicitar atendimento
-            </button>
           </div>
         </div>
       </div>
@@ -754,7 +781,6 @@
           <li><a href="#home">Home</a></li>
           <li><a href="#quem-somos">Quem Somos</a></li>
           <li><a href="#servicos">Nossos Serviços</a></li>
-          <li><a href="#parceiros">Parceiros</a></li>
           <li><a href="#projetos">Projetos</a></li>
           <li><a href="#contato">Contato</a></li>
         </ul>
