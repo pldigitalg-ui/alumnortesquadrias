@@ -1,12 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
   const body = document.body;
 
-  const $ = (s, p = document) => p.querySelector(s);
-  const $$ = (s, p = document) => Array.from(p.querySelectorAll(s));
+  const $ = (selector, parent = document) => parent.querySelector(selector);
+  const $$ = (selector, parent = document) => Array.from(parent.querySelectorAll(selector));
 
-  /* =========================================================
-     ELEMENTOS
-  ========================================================= */
   const menuToggle = $('#menuToggle');
   const navMenu = $('#navMenu');
   const menuBackdrop = $('#menuBackdrop');
@@ -25,215 +22,306 @@ document.addEventListener('DOMContentLoaded', () => {
   const lightboxImage = $('#lightboxImage');
   const lightboxTitle = $('#lightboxTitle');
   const lightboxDescription = $('#lightboxDescription');
+  const lightboxClose = $('#lightboxClose');
+  const lightboxBackdrop = $('[data-lightbox-close]');
   const projectCards = $$('.project-card');
 
-  /* =========================================================
-     MENU MOBILE
-  ========================================================= */
   function openMenu() {
-    navMenu?.classList.add('active');
+    if (!navMenu) return;
+    navMenu.classList.add('active');
     menuBackdrop?.classList.add('active');
     body.classList.add('menu-open');
+    menuToggle?.setAttribute('aria-expanded', 'true');
   }
 
   function closeMenu() {
-    navMenu?.classList.remove('active');
+    if (!navMenu) return;
+    navMenu.classList.remove('active');
     menuBackdrop?.classList.remove('active');
     body.classList.remove('menu-open');
+    menuToggle?.setAttribute('aria-expanded', 'false');
   }
 
-  menuToggle?.addEventListener('click', () => {
+  function toggleMenu() {
+    if (!navMenu) return;
     navMenu.classList.contains('active') ? closeMenu() : openMenu();
+  }
+
+  menuToggle?.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleMenu();
   });
 
   menuBackdrop?.addEventListener('click', closeMenu);
-  navLinks.forEach(link => link.addEventListener('click', closeMenu));
+  navLinks.forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
 
-  /* =========================================================
-     LINK ATIVO
-  ========================================================= */
   function setActiveLink() {
-    const scrollY = window.scrollY + 150;
+    const scrollY = window.scrollY + 180;
 
-    sections.forEach(section => {
-      const top = section.offsetTop;
-      const height = section.offsetHeight;
-      const id = section.getAttribute('id');
-      const link = document.querySelector(`.nav-link[href="#${id}"]`);
+    sections.forEach((section) => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.offsetHeight;
+      const sectionId = section.getAttribute('id');
+      const currentLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
 
-      if (!link) return;
+      if (!currentLink) return;
 
-      if (scrollY >= top && scrollY < top + height) {
-        navLinks.forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
+      if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+        navLinks.forEach((link) => link.classList.remove('active'));
+        currentLink.classList.add('active');
       }
     });
   }
 
-  /* =========================================================
-     BOTÃO TOPO
-  ========================================================= */
-  function toggleScrollTop() {
+  function toggleScrollTopButton() {
     if (!btnTopo) return;
 
-    if (window.scrollY > 300) {
+    if (window.scrollY > 240) {
       btnTopo.classList.add('show');
     } else {
       btnTopo.classList.remove('show');
     }
   }
 
-  btnTopo?.addEventListener('click', () => {
+  btnTopo?.addEventListener('click', (e) => {
+    e.preventDefault();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  /* =========================================================
-     MODAL
-  ========================================================= */
-  function openModal(service = '') {
-    contactModal?.classList.add('active');
+  function openContactModal(service = '') {
+    if (!contactModal) return;
+
+    contactModal.classList.add('active');
+    contactModal.setAttribute('aria-hidden', 'false');
     body.classList.add('modal-open');
 
     if (serviceField && service) {
       serviceField.value = service;
     }
+
+    const firstInput = contactModal.querySelector('input, select, textarea');
+    setTimeout(() => firstInput?.focus(), 120);
   }
 
-  function closeModal() {
-    contactModal?.classList.remove('active');
+  function closeContactModal() {
+    if (!contactModal) return;
+
+    contactModal.classList.remove('active');
+    contactModal.setAttribute('aria-hidden', 'true');
     body.classList.remove('modal-open');
   }
 
-  openContactButtons.forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.preventDefault();
+  openContactButtons.forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      const selectedService = button.getAttribute('data-service') || '';
       closeMenu();
-      openModal(btn.dataset.service || '');
+      openContactModal(selectedService);
     });
   });
 
-  closeContactButtons.forEach(btn => {
-    btn.addEventListener('click', closeModal);
+  closeContactButtons.forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      closeContactModal();
+    });
   });
 
-  contactModal?.addEventListener('click', e => {
-    if (
-      e.target === contactModal ||
-      e.target.classList.contains('contact-modal__overlay')
-    ) {
-      closeModal();
+  contactModal?.addEventListener('click', (event) => {
+    const clickedOverlay =
+      event.target === contactModal ||
+      event.target.classList.contains('contact-modal__overlay') ||
+      event.target.hasAttribute('data-close-contact');
+
+    if (clickedOverlay) {
+      closeContactModal();
     }
   });
 
-  /* =========================================================
-     WHATSAPP
-  ========================================================= */
-  contactForm?.addEventListener('submit', e => {
-    e.preventDefault();
+  contactForm?.addEventListener('submit', (event) => {
+    event.preventDefault();
 
-    const nome = $('#nome')?.value.trim();
-    const whatsapp = $('#whatsapp')?.value.trim();
-    const servico = $('#servico')?.value.trim();
-    const cidade = $('#cidade')?.value.trim();
-    const endereco = $('#endereco')?.value.trim();
-    const detalhes = $('#detalhes')?.value.trim();
+    const nome = $('#nome')?.value.trim() || '';
+    const whatsapp = $('#whatsapp')?.value.trim() || '';
+    const servico = $('#servico')?.value.trim() || '';
+    const cidade = $('#cidade')?.value.trim() || '';
+    const endereco = $('#endereco')?.value.trim() || '';
+    const detalhes = $('#detalhes')?.value.trim() || '';
 
     if (!nome || !whatsapp || !servico || !cidade || !endereco) {
-      alert('Preencha todos os campos obrigatórios.');
+      alert('Preencha nome, WhatsApp, serviço, cidade/região e endereço.');
       return;
     }
 
-    const msg = encodeURIComponent(
-      `Olá, vim pelo site.\n\nNome: ${nome}\nWhatsApp: ${whatsapp}\nServiço: ${servico}\nCidade: ${cidade}\nEndereço: ${endereco}\nDetalhes: ${detalhes || '-'}`
+    const mensagem = encodeURIComponent(
+      `Olá! Vim pelo site da ALUMNORT.\n\n` +
+      `Pedido de orçamento:\n\n` +
+      `Nome: ${nome}\n` +
+      `WhatsApp: ${whatsapp}\n` +
+      `Serviço: ${servico}\n` +
+      `Cidade / Região: ${cidade}\n` +
+      `Endereço: ${endereco}\n` +
+      `Detalhes: ${detalhes || 'Não informado'}`
     );
 
-    window.open(`https://wa.me/553899658215?text=${msg}`, '_blank');
-    closeModal();
+    const numero = '553899658215';
+    const url = `https://wa.me/${numero}?text=${mensagem}`;
+
+    window.open(url, '_blank', 'noopener,noreferrer');
+    closeContactModal();
     contactForm.reset();
   });
 
-  /* =========================================================
-     LIGHTBOX
-  ========================================================= */
-  function openLightbox(img, title, desc) {
-    lightboxImage.src = img;
-    lightboxTitle.textContent = title;
-    lightboxDescription.textContent = desc;
+  function openLightbox(image, title, description) {
+    if (!lightbox || !lightboxImage) return;
+
+    lightboxImage.src = image || '';
+    lightboxImage.alt = title || 'Projeto ALUMNORT';
+
+    if (lightboxTitle) lightboxTitle.textContent = title || 'Projeto';
+    if (lightboxDescription) {
+      lightboxDescription.textContent = description || 'Projeto executado pela ALUMNORT.';
+    }
 
     lightbox.classList.add('active');
+    lightbox.setAttribute('aria-hidden', 'false');
     body.classList.add('lightbox-open');
   }
 
   function closeLightbox() {
+    if (!lightbox) return;
+
     lightbox.classList.remove('active');
+    lightbox.setAttribute('aria-hidden', 'true');
     body.classList.remove('lightbox-open');
+
+    if (lightboxImage) {
+      setTimeout(() => {
+        lightboxImage.src = '';
+        lightboxImage.alt = '';
+      }, 180);
+    }
   }
 
-  projectCards.forEach(card => {
-    card.addEventListener('click', () => {
-      const img = card.querySelector('img')?.src;
-      const title = card.querySelector('h3')?.textContent || '';
-      const desc = card.querySelector('p')?.textContent || '';
+  projectCards.forEach((card) => {
+    if (!card.hasAttribute('tabindex')) {
+      card.setAttribute('tabindex', '0');
+    }
 
-      openLightbox(img, title, desc);
+    const triggerOpen = () => {
+      const image =
+        card.getAttribute('data-lightbox-image') ||
+        $('img', card)?.getAttribute('src') ||
+        '';
+
+      const title =
+        card.getAttribute('data-lightbox-title') ||
+        $('h3', card)?.textContent?.trim() ||
+        'Projeto ALUMNORT';
+
+      const description =
+        card.getAttribute('data-lightbox-description') ||
+        $('p', card)?.textContent?.trim() ||
+        'Projeto executado pela ALUMNORT.';
+
+      if (image) openLightbox(image, title, description);
+    };
+
+    card.addEventListener('click', triggerOpen);
+    card.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        triggerOpen();
+      }
     });
   });
 
-  $('[data-lightbox-close]')?.addEventListener('click', closeLightbox);
+  lightboxClose?.addEventListener('click', closeLightbox);
+  lightboxBackdrop?.addEventListener('click', closeLightbox);
 
-  lightbox?.addEventListener('click', e => {
-    if (e.target === lightbox) closeLightbox();
-  });
-
-  /* =========================================================
-     SLIDER PARCEIROS
-  ========================================================= */
-  function autoScroll(track, speed = 0.4) {
-    let paused = false;
-
-    track.addEventListener('mouseenter', () => paused = true);
-    track.addEventListener('mouseleave', () => paused = false);
-
-    function loop() {
-      if (!paused) {
-        track.scrollLeft += speed;
-        if (track.scrollLeft >= track.scrollWidth - track.clientWidth) {
-          track.scrollLeft = 0;
-        }
-      }
-      requestAnimationFrame(loop);
-    }
-
-    loop();
-  }
-
-  const partnersTrack = document.querySelector('.partners-slider__track');
-  if (partnersTrack) autoScroll(partnersTrack);
-
-  const testimonialsTrack = document.querySelector('.testimonials-slider__track');
-  if (testimonialsTrack) autoScroll(testimonialsTrack, 0.3);
-
-  /* =========================================================
-     ESC
-  ========================================================= */
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      closeMenu();
-      closeModal();
+  lightbox?.addEventListener('click', (event) => {
+    if (
+      event.target === lightbox ||
+      event.target.classList.contains('lightbox__backdrop') ||
+      event.target.hasAttribute('data-lightbox-close')
+    ) {
       closeLightbox();
     }
   });
 
-  /* =========================================================
-     SCROLL
-  ========================================================= */
-  window.addEventListener('scroll', () => {
+  function autoScrollTrack(track, speed = 0.35) {
+    if (!track) return;
+
+    let paused = false;
+    let rafId = null;
+
+    function maxScroll() {
+      return Math.max(0, track.scrollWidth - track.clientWidth);
+    }
+
+    function step() {
+      if (!paused) {
+        const limit = maxScroll();
+
+        if (limit > 0) {
+          if (track.scrollLeft >= limit) {
+            track.scrollLeft = 0;
+          } else {
+            track.scrollLeft += speed;
+          }
+        }
+      }
+
+      rafId = requestAnimationFrame(step);
+    }
+
+    ['mouseenter', 'touchstart'].forEach((evt) => {
+      track.addEventListener(evt, () => { paused = true; }, { passive: true });
+    });
+
+    ['mouseleave', 'touchend'].forEach((evt) => {
+      track.addEventListener(evt, () => { paused = false; }, { passive: true });
+    });
+
+    rafId = requestAnimationFrame(step);
+
+    window.addEventListener('beforeunload', () => {
+      if (rafId) cancelAnimationFrame(rafId);
+    });
+  }
+
+  autoScrollTrack(document.querySelector('#partnersSlider .partners-slider__track') || document.querySelector('.partners-slider__track'), 0.45);
+  autoScrollTrack(document.querySelector('#testimonialsSlider .testimonials-slider__track') || document.querySelector('.testimonials-slider__track'), 0.32);
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeMenu();
+      closeContactModal();
+      closeLightbox();
+    }
+  });
+
+  let ticking = false;
+
+  function onScroll() {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        setActiveLink();
+        toggleScrollTopButton();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', () => {
     setActiveLink();
-    toggleScrollTop();
+    toggleScrollTopButton();
   });
 
   setActiveLink();
-  toggleScrollTop();
-
-  console.log('SITE FINAL OK');
+  toggleScrollTopButton();
 });
