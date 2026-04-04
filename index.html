@@ -41,6 +41,7 @@
   <a
     href="https://wa.me/553899658215?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ALUMNORT%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento."
     class="whatsapp-float"
+    id="whatsappFloat"
     target="_blank"
     rel="noopener noreferrer"
     aria-label="Falar no WhatsApp"
@@ -55,7 +56,7 @@
   </button>
 
   <!-- Backdrop do menu mobile -->
-  <div class="menu-backdrop" id="menuBackdrop"></div>
+  <div class="menu-backdrop" id="menuBackdrop" aria-hidden="true"></div>
 
   <!-- Lightbox -->
   <div class="lightbox" id="lightbox" aria-hidden="true">
@@ -113,7 +114,7 @@
           </div>
 
           <div class="form-group">
-            <label for="servico">Tipo de serviço</label>
+            <label for="servico">Serviço</label>
             <select id="servico" name="servico" required>
               <option value="">Selecione</option>
               <option value="Portas em Alumínio">Portas em Alumínio</option>
@@ -128,7 +129,7 @@
           </div>
         </div>
 
-        <div class="form-grid">
+        <div class="form-grid form-grid--triple">
           <div class="form-group">
             <label for="cidade">Cidade</label>
             <input type="text" id="cidade" name="cidade" placeholder="Ex.: Janaúba" />
@@ -137,6 +138,11 @@
           <div class="form-group">
             <label for="bairro">Bairro / Região</label>
             <input type="text" id="bairro" name="bairro" placeholder="Ex.: Centro / Norte de Minas" />
+          </div>
+
+          <div class="form-group">
+            <label for="endereco">Endereço</label>
+            <input type="text" id="endereco" name="endereco" placeholder="Rua, número, referência" />
           </div>
         </div>
 
@@ -161,7 +167,7 @@
     </div>
   </div>
 
-  <header class="site-header">
+  <header class="site-header" id="topo">
     <div class="topbar">
       <div class="container topbar__inner">
         <p class="topbar__text">Atendimento em Janaúba e todo o Norte de Minas</p>
@@ -229,23 +235,33 @@
           <img src="img/logo.png" alt="Logo ALUMNORT" />
         </a>
 
-        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-
         <nav class="nav-menu" id="navMenu" aria-label="Menu principal">
           <a href="#home" class="nav-link">Home</a>
           <a href="#quem-somos" class="nav-link">Quem Somos</a>
           <a href="#servicos" class="nav-link">Nossos Serviços</a>
+          <a href="#parceiros" class="nav-link">Parceiros</a>
           <a href="#projetos" class="nav-link">Projetos</a>
-          <a href="#contato" class="nav-link">Fale Conosco</a>
+          <a href="#depoimentos" class="nav-link">Depoimentos</a>
+          <a href="#contato" class="nav-link">Contato</a>
 
-          <button class="btn btn--primary nav-menu__cta" data-open-contact>
-            Pedir orçamento
-          </button>
+          <div class="nav-menu__cta-wrap">
+            <button class="btn btn--primary nav-menu__cta" data-open-contact>
+              Pedir orçamento
+            </button>
+          </div>
         </nav>
+
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          aria-label="Abrir menu"
+          aria-expanded="false"
+          aria-controls="navMenu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
     </div>
   </header>
@@ -253,7 +269,7 @@
   <main>
     <!-- HERO -->
     <section class="hero" id="home">
-      <div class="hero__slider" id="heroSlider">
+      <div class="hero__slider" id="heroSlider" aria-hidden="true">
         <div class="hero__slide active" style="background-image: url('img/hero-1.jpg');"></div>
         <div class="hero__slide" style="background-image: url('img/hero-2.jpg');"></div>
         <div class="hero__slide" style="background-image: url('img/hero-3.jpg');"></div>
@@ -267,27 +283,12 @@
           <div class="hero__text reveal">
             <span class="section-tag section-tag--light">ALUMNORT • Janaúba - MG</span>
 
-            <h1>
-              Esquadrias de alumínio e vidro com acabamento que valoriza seu imóvel
-            </h1>
-
-            <p>
-              Soluções sob medida para residências, comércios e fachadas com mais presença visual, funcionalidade e padrão profissional.
-            </p>
+            <h1>Esquadrias de alumínio e vidro com acabamento que valoriza seu imóvel</h1>
 
             <div class="hero__actions">
               <button class="btn btn--primary btn--large" data-open-contact>
                 Pedir orçamento
               </button>
-
-              <a
-                href="https://wa.me/553899658215?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ALUMNORT%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento."
-                class="btn btn--secondary btn--large"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                WhatsApp
-              </a>
             </div>
 
             <div class="hero__mini-info">
@@ -327,6 +328,13 @@
             </article>
           </div>
         </div>
+      </div>
+
+      <div class="hero__dots" id="heroDots" aria-label="Navegação do slider principal">
+        <button class="hero__dot active" type="button" aria-label="Slide 1"></button>
+        <button class="hero__dot" type="button" aria-label="Slide 2"></button>
+        <button class="hero__dot" type="button" aria-label="Slide 3"></button>
+        <button class="hero__dot" type="button" aria-label="Slide 4"></button>
       </div>
     </section>
 
@@ -500,97 +508,77 @@
       </div>
     </section>
 
-    <!-- PARTNERS STRIP -->
-    <section class="partners-marquee section">
+    <!-- PARTNERS -->
+    <section class="partners section" id="parceiros">
       <div class="container">
         <div class="section-heading reveal">
-          <span class="section-tag">Parceiros</span>
+          <span class="section-tag">Nossos parceiros</span>
           <h2>Parceiros e negócios que caminham junto com a marca</h2>
           <p>
-            Faixa contínua pronta para adicionar novos parceiros depois. Todos clicáveis.
+            Estrutura pronta para slider real, com itens clicáveis e movimento automático.
           </p>
         </div>
 
-        <div class="partners-marquee__wrap reveal">
-          <div class="partners-marquee__track">
+        <div class="partners-slider reveal" id="partnersSlider">
+          <div class="partners-slider__track">
             <a
-              class="partner-pill"
+              class="partner-card"
               href="https://www.instagram.com/restaurantelpgrill/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <i class="fa-brands fa-instagram"></i>
-              <span>@restaurantelpgrill</span>
+              <span class="partner-card__icon"><i class="fa-brands fa-instagram"></i></span>
+              <span class="partner-card__name">@restaurantelpgrill</span>
             </a>
 
             <a
-              class="partner-pill"
+              class="partner-card"
               href="https://www.instagram.com/pldigitalgroup/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <i class="fa-brands fa-instagram"></i>
-              <span>@pldigitalgroup</span>
+              <span class="partner-card__icon"><i class="fa-brands fa-instagram"></i></span>
+              <span class="partner-card__name">@pldigitalgroup</span>
             </a>
 
             <a
-              class="partner-pill"
+              class="partner-card"
               href="#"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <i class="fa-brands fa-instagram"></i>
-              <span>@parceiro03</span>
+              <span class="partner-card__icon"><i class="fa-brands fa-instagram"></i></span>
+              <span class="partner-card__name">@parceiro03</span>
             </a>
 
             <a
-              class="partner-pill"
+              class="partner-card"
               href="#"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <i class="fa-brands fa-instagram"></i>
-              <span>@parceiro04</span>
+              <span class="partner-card__icon"><i class="fa-brands fa-instagram"></i></span>
+              <span class="partner-card__name">@parceiro04</span>
             </a>
 
             <a
-              class="partner-pill"
+              class="partner-card"
               href="https://www.instagram.com/restaurantelpgrill/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <i class="fa-brands fa-instagram"></i>
-              <span>@restaurantelpgrill</span>
+              <span class="partner-card__icon"><i class="fa-brands fa-instagram"></i></span>
+              <span class="partner-card__name">@restaurantelpgrill</span>
             </a>
 
             <a
-              class="partner-pill"
+              class="partner-card"
               href="https://www.instagram.com/pldigitalgroup/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <i class="fa-brands fa-instagram"></i>
-              <span>@pldigitalgroup</span>
-            </a>
-
-            <a
-              class="partner-pill"
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <i class="fa-brands fa-instagram"></i>
-              <span>@parceiro03</span>
-            </a>
-
-            <a
-              class="partner-pill"
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <i class="fa-brands fa-instagram"></i>
-              <span>@parceiro04</span>
+              <span class="partner-card__icon"><i class="fa-brands fa-instagram"></i></span>
+              <span class="partner-card__name">@pldigitalgroup</span>
             </a>
           </div>
         </div>
@@ -673,7 +661,7 @@
     </section>
 
     <!-- TESTIMONIALS -->
-    <section class="testimonials section">
+    <section class="testimonials section" id="depoimentos">
       <div class="container">
         <div class="section-heading reveal">
           <span class="section-tag">Depoimentos</span>
@@ -683,51 +671,53 @@
           </p>
         </div>
 
-        <div class="testimonials__grid">
-          <article class="testimonial-card reveal">
-            <div class="testimonial-card__stars">
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-            </div>
-            <p>
-              “A pele de vidro ficou incrível. O acabamento ficou muito acima do que eu esperava e deu outra presença para a fachada.”
-            </p>
-            <h3>Israel Mendes</h3>
-            <span>Cliente residencial</span>
-          </article>
+        <div class="testimonials-slider reveal" id="testimonialsSlider">
+          <div class="testimonials-slider__track">
+            <article class="testimonial-card">
+              <div class="testimonial-card__stars">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <p>
+                “A pele de vidro ficou incrível. O acabamento ficou muito acima do que eu esperava e deu outra presença para a fachada.”
+              </p>
+              <h3>Israel Mendes</h3>
+              <span>Cliente residencial</span>
+            </article>
 
-          <article class="testimonial-card reveal">
-            <div class="testimonial-card__stars">
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-            </div>
-            <p>
-              “Meu box do banheiro ficou ótimo. Atendimento bom, instalação caprichada e o banheiro ficou muito mais bonito.”
-            </p>
-            <h3>Joana Souza</h3>
-            <span>Cliente residencial</span>
-          </article>
+            <article class="testimonial-card">
+              <div class="testimonial-card__stars">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <p>
+                “Meu box do banheiro ficou ótimo. Atendimento bom, instalação caprichada e o banheiro ficou muito mais bonito.”
+              </p>
+              <h3>Joana Souza</h3>
+              <span>Cliente residencial</span>
+            </article>
 
-          <article class="testimonial-card reveal">
-            <div class="testimonial-card__stars">
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-            </div>
-            <p>
-              “Gostei muito da janela e do acabamento. Ficou alinhado, bonito e valorizou bastante a parte da frente da casa.”
-            </p>
-            <h3>Marcos Ribeiro</h3>
-            <span>Cliente residencial</span>
-          </article>
+            <article class="testimonial-card">
+              <div class="testimonial-card__stars">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <p>
+                “Gostei muito da janela e do acabamento. Ficou alinhado, bonito e valorizou bastante a parte da frente da casa.”
+              </p>
+              <h3>Marcos Ribeiro</h3>
+              <span>Cliente residencial</span>
+            </article>
+          </div>
         </div>
       </div>
     </section>
@@ -758,6 +748,10 @@
               <i class="fa-brands fa-whatsapp"></i>
               Falar no WhatsApp
             </a>
+
+            <button class="btn btn--outline-light btn--large" data-open-contact>
+              Solicitar atendimento
+            </button>
           </div>
         </div>
       </div>
@@ -803,6 +797,7 @@
           <li><a href="#home">Home</a></li>
           <li><a href="#quem-somos">Quem Somos</a></li>
           <li><a href="#servicos">Nossos Serviços</a></li>
+          <li><a href="#parceiros">Parceiros</a></li>
           <li><a href="#projetos">Projetos</a></li>
           <li><a href="#contato">Contato</a></li>
         </ul>
