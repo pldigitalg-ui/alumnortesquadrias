@@ -1950,3 +1950,78 @@ section:first-of-type {
 .testimonials-slider__track::-webkit-scrollbar {
     display: none;
 }
+/* ================================
+   PERFORMANCE BOOST — LIGHTHOUSE 95+
+================================ */
+
+/* GPU acceleration */
+.btn,
+.nav-link,
+.brandbar__logo img,
+.whatsapp-float {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Reduce layout rendering cost */
+.section {
+  content-visibility: auto;
+  contain-intrinsic-size: 900px;
+}
+
+/* Prevent CLS */
+img {
+  height: auto;
+  aspect-ratio: attr(width) / attr(height);
+}
+
+/* Smooth scrolling optimized */
+html {
+  scroll-padding-top: var(--header-height);
+}
+
+/* Better animation performance */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Hardware accelerated hover */
+.btn:hover,
+.nav-link:hover {
+  transform: translate3d(0,-3px,0);
+}
+
+/* Reduce heavy blur cost */
+@supports not (backdrop-filter: blur(10px)) {
+  .brandbar,
+  .navbar {
+    backdrop-filter: none;
+    background: rgba(16,40,68,0.98);
+  }
+}
+
+/* Faster shadows */
+:root {
+  --shadow-md: 0 12px 28px rgba(9,24,43,0.10);
+  --shadow-lg: 0 18px 40px rgba(9,24,43,0.14);
+}
+
+/* Prevent repaint storms */
+.whatsapp-float {
+  will-change: transform, box-shadow;
+}
+
+/* Optimize animations */
+@keyframes heroPulse {
+  0% { transform: scale(1); }
+  70% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+/* Lazy sections */
+.section--alt {
+  contain: layout style paint;
+}
