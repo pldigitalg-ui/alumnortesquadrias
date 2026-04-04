@@ -1,93 +1,181 @@
 document.addEventListener('DOMContentLoaded', () => {
-  initMenu();
-  initReveal();
-  initLightbox();
-  initContactModal();
+  initSmoothScroll();
+  initMobileMenu();
+  initNavActiveOnScroll();
   initScrollTop();
-  initHorizontalAutoSliders();
-  initActiveNavOnScroll();
+  initHeaderScrollState();
+  initRevealOnScroll();
+  initLightbox();
+  initTestimonialsSlider();
+  initPartnersSlider();
+  initContactModal();
 });
+
+/* =========================
+   SCROLL SUAVE
+========================= */
+function initSmoothScroll() {
+  document.documentElement.style.scrollBehavior = 'smooth';
+}
 
 /* =========================
    MENU MOBILE
 ========================= */
-function initMenu() {
-  const menuToggle = document.getElementById('menuToggle');
+function initMobileMenu() {
+  const toggle = document.getElementById('menuToggle');
   const navMenu = document.getElementById('navMenu');
-  const menuBackdrop = document.getElementById('menuBackdrop');
-  const navLinks = document.querySelectorAll('.nav-link');
+  const backdrop = document.getElementById('menuBackdrop');
+  const body = document.body;
 
-  if (!menuToggle || !navMenu || !menuBackdrop) return;
+  if (!toggle || !navMenu || !backdrop) return;
+
+  const navLinks = navMenu.querySelectorAll('.nav-link');
 
   function openMenu() {
     navMenu.classList.add('active');
-    menuBackdrop.classList.add('active');
-    menuToggle.classList.add('active');
-    menuToggle.setAttribute('aria-expanded', 'true');
-    document.body.classList.add('menu-open');
+    toggle.classList.add('is-active');
+    backdrop.classList.add('active');
+    toggle.setAttribute('aria-expanded', 'true');
+    body.classList.add('menu-open');
   }
 
   function closeMenu() {
     navMenu.classList.remove('active');
-    menuBackdrop.classList.remove('active');
-    menuToggle.classList.remove('active');
-    menuToggle.setAttribute('aria-expanded', 'false');
-    document.body.classList.remove('menu-open');
+    toggle.classList.remove('is-active');
+    backdrop.classList.remove('active');
+    toggle.setAttribute('aria-expanded', 'false');
+    body.classList.remove('menu-open');
   }
 
-  menuToggle.addEventListener('click', () => {
+  function toggleMenu() {
     if (navMenu.classList.contains('active')) {
       closeMenu();
     } else {
       openMenu();
     }
-  });
+  }
 
-  menuBackdrop.addEventListener('click', closeMenu);
+  toggle.addEventListener('click', toggleMenu);
+  backdrop.addEventListener('click', closeMenu);
 
-  navLinks.forEach(link => {
+  navLinks.forEach((link) => {
     link.addEventListener('click', closeMenu);
   });
 
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 991) closeMenu();
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && navMenu.classList.contains('active')) {
+      closeMenu();
+    }
   });
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 991) {
       closeMenu();
     }
   });
 }
 
 /* =========================
+   MENU ATIVO PELO SCROLL
+========================= */
+function initNavActiveOnScroll() {
+  const sections = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('.nav-menu .nav-link');
+
+  if (!sections.length || !links.length) return;
+
+  function setActiveLink() {
+    let currentId = 'home';
+
+    sections.forEach((section) => {
+      const top = section.offsetTop - 180;
+      const height = section.offsetHeight;
+
+      if (window.scrollY >= top && window.scrollY < top + height) {
+        currentId = section.getAttribute('id');
+      }
+    });
+
+    links.forEach((link) => {
+      const href = link.getAttribute('href') || '';
+      link.classList.toggle('active', href === `#${currentId}`);
+    });
+  }
+
+  window.addEventListener('scroll', setActiveLink, { passive: true });
+  setActiveLink();
+}
+
+/* =========================
+   BOTÃO SUBIR AO TOPO
+========================= */
+function initScrollTop() {
+  const button = document.getElementById('btnTopo');
+  if (!button) return;
+
+  function toggleButton() {
+    const visible = window.scrollY > 320;
+    button.classList.toggle('show', visible);
+    button.setAttribute('aria-hidden', visible ? 'false' : 'true');
+  }
+
+  toggleButton();
+  window.addEventListener('scroll', toggleButton, { passive: true });
+
+  button.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+}
+
+/* =========================
+   ESTADO DO HEADER NO SCROLL
+========================= */
+function initHeaderScrollState() {
+  const header = document.querySelector('.site-header');
+  const navbar = document.getElementById('navbar');
+  if (!header && !navbar) return;
+
+  function onScroll() {
+    const scrolled = window.scrollY > 24;
+    header?.classList.toggle('is-scrolled', scrolled);
+    navbar?.classList.toggle('is-scrolled', scrolled);
+  }
+
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+}
+
+/* =========================
    REVEAL ON SCROLL
 ========================= */
-function initReveal() {
-  const items = document.querySelectorAll('.reveal');
-  if (!items.length) return;
+function initRevealOnScroll() {
+  const elements = document.querySelectorAll('.reveal');
+  if (!elements.length) return;
 
-  items.forEach(item => {
-    item.style.opacity = '0';
-    item.style.transform = 'translateY(24px)';
-    item.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
-  });
+  if (!('IntersectionObserver' in window)) {
+    elements.forEach((element) => element.classList.add('is-visible'));
+    return;
+  }
 
   const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
+    (entries, currentObserver) => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
           entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
+          currentObserver.unobserve(entry.target);
         }
       });
     },
-    { threshold: 0.12 }
+    {
+      threshold: 0.16,
+      rootMargin: '0px 0px -40px 0px'
+    }
   );
 
-  items.forEach(item => observer.observe(item));
+  elements.forEach((element) => observer.observe(element));
 }
 
 /* =========================
@@ -95,21 +183,25 @@ function initReveal() {
 ========================= */
 function initLightbox() {
   const lightbox = document.getElementById('lightbox');
-  const lightboxImage = document.getElementById('lightboxImage');
-  const lightboxTitle = document.getElementById('lightboxTitle');
-  const lightboxDescription = document.getElementById('lightboxDescription');
-  const lightboxClose = document.getElementById('lightboxClose');
+  const image = document.getElementById('lightboxImage');
+  const title = document.getElementById('lightboxTitle');
+  const description = document.getElementById('lightboxDescription');
+  const closeButton = document.getElementById('lightboxClose');
+  const overlay = lightbox?.querySelector('[data-lightbox-close]');
 
-  if (!lightbox || !lightboxImage || !lightboxTitle || !lightboxDescription) return;
+  if (!lightbox || !image || !title || !description) return;
 
   const triggers = document.querySelectorAll('[data-lightbox-image]');
-  const closeTriggers = lightbox.querySelectorAll('[data-lightbox-close]');
+  let lastFocusedElement = null;
 
-  function openLightbox({ image, title, description, alt }) {
-    lightboxImage.src = image;
-    lightboxImage.alt = alt || title || 'Imagem ampliada';
-    lightboxTitle.textContent = title || 'Projeto';
-    lightboxDescription.textContent = description || '';
+  function openLightbox({ src, heading, text, alt }) {
+    lastFocusedElement = document.activeElement;
+
+    image.src = src;
+    image.alt = alt || heading || 'Imagem ampliada';
+    title.textContent = heading || 'Projeto';
+    description.textContent = text || 'Descrição do projeto.';
+
     lightbox.classList.add('active');
     lightbox.setAttribute('aria-hidden', 'false');
     document.body.classList.add('lightbox-open');
@@ -121,42 +213,165 @@ function initLightbox() {
     document.body.classList.remove('lightbox-open');
 
     setTimeout(() => {
-      lightboxImage.src = '';
-      lightboxImage.alt = '';
-    }, 200);
+      image.src = '';
+      image.alt = '';
+    }, 180);
+
+    if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+      lastFocusedElement.focus();
+    }
   }
 
-  triggers.forEach(trigger => {
-    trigger.style.cursor = 'pointer';
+  triggers.forEach((trigger) => {
+    trigger.setAttribute('tabindex', '0');
+    trigger.setAttribute('role', 'button');
+    trigger.setAttribute('aria-label', 'Abrir imagem ampliada');
 
-    trigger.addEventListener('click', () => {
-      const image = trigger.dataset.lightboxImage;
-      const title = trigger.dataset.lightboxTitle || 'Projeto';
-      const description = trigger.dataset.lightboxDescription || '';
-      const alt = trigger.querySelector('img')?.alt || title;
+    const openFromTrigger = () => {
+      const src = trigger.dataset.lightboxImage || '';
+      const heading = trigger.dataset.lightboxTitle || 'Projeto';
+      const text = trigger.dataset.lightboxDescription || 'Descrição do projeto.';
+      const altImage = trigger.querySelector('img')?.alt || heading;
 
-      if (!image) return;
-      openLightbox({ image, title, description, alt });
+      if (!src) return;
+
+      openLightbox({
+        src,
+        heading,
+        text,
+        alt: altImage
+      });
+    };
+
+    trigger.addEventListener('click', openFromTrigger);
+
+    trigger.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openFromTrigger();
+      }
     });
   });
 
-  closeTriggers.forEach(trigger => {
-    trigger.addEventListener('click', closeLightbox);
-  });
+  closeButton?.addEventListener('click', closeLightbox);
+  overlay?.addEventListener('click', closeLightbox);
 
-  if (lightboxClose) {
-    lightboxClose.addEventListener('click', closeLightbox);
-  }
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && lightbox.classList.contains('active')) {
       closeLightbox();
     }
   });
 }
 
 /* =========================
-   MODAL DE CONTATO + WHATSAPP
+   SLIDER DE DEPOIMENTOS
+========================= */
+function initTestimonialsSlider() {
+  const slider = document.getElementById('testimonialsSlider');
+  const track = slider?.querySelector('.testimonials-slider__track');
+  const cards = track ? Array.from(track.children) : [];
+
+  if (!slider || !track || cards.length <= 1) return;
+
+  let intervalId = null;
+  const delay = 4200;
+
+  function getStepWidth() {
+    const firstCard = cards[0];
+    if (!firstCard) return 320;
+    const styles = window.getComputedStyle(track);
+    const gap = parseFloat(styles.gap || styles.columnGap || '22');
+    return firstCard.getBoundingClientRect().width + gap;
+  }
+
+  function next() {
+    const maxScrollLeft = track.scrollWidth - track.clientWidth;
+    const nextScroll = track.scrollLeft + getStepWidth();
+
+    if (nextScroll >= maxScrollLeft - 8) {
+      track.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+      track.scrollTo({ left: nextScroll, behavior: 'smooth' });
+    }
+  }
+
+  function start() {
+    stop();
+    intervalId = window.setInterval(next, delay);
+  }
+
+  function stop() {
+    if (intervalId) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+  }
+
+  slider.addEventListener('mouseenter', stop);
+  slider.addEventListener('mouseleave', start);
+  slider.addEventListener('touchstart', stop, { passive: true });
+  slider.addEventListener('touchend', start, { passive: true });
+
+  start();
+}
+
+/* =========================
+   SLIDER DE PARCEIROS
+========================= */
+function initPartnersSlider() {
+  const slider = document.getElementById('partnersSlider');
+  const track = slider?.querySelector('.partners-slider__track');
+  const cards = track ? Array.from(track.children) : [];
+
+  if (!slider || !track || cards.length <= 1) return;
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) return;
+
+  let intervalId = null;
+  const delay = 3600;
+
+  function getStepWidth() {
+    const firstCard = cards[0];
+    if (!firstCard) return 300;
+    const styles = window.getComputedStyle(track);
+    const gap = parseFloat(styles.gap || styles.columnGap || '22');
+    return firstCard.getBoundingClientRect().width + gap;
+  }
+
+  function next() {
+    const maxScrollLeft = track.scrollWidth - track.clientWidth;
+    const nextScroll = track.scrollLeft + getStepWidth();
+
+    if (nextScroll >= maxScrollLeft - 8) {
+      track.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+      track.scrollTo({ left: nextScroll, behavior: 'smooth' });
+    }
+  }
+
+  function start() {
+    stop();
+    intervalId = window.setInterval(next, delay);
+  }
+
+  function stop() {
+    if (intervalId) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+  }
+
+  slider.addEventListener('mouseenter', stop);
+  slider.addEventListener('mouseleave', start);
+  slider.addEventListener('touchstart', stop, { passive: true });
+  slider.addEventListener('touchend', start, { passive: true });
+
+  start();
+}
+
+/* =========================
+   MODAL DE CONTATO
 ========================= */
 function initContactModal() {
   const modal = document.getElementById('contactModal');
@@ -167,8 +382,10 @@ function initContactModal() {
 
   const openButtons = document.querySelectorAll('[data-open-contact]');
   const closeButtons = modal.querySelectorAll('[data-close-contact]');
+  let lastFocusedElement = null;
 
   function openModal(service = '') {
+    lastFocusedElement = document.activeElement;
     modal.classList.add('is-active');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
@@ -182,27 +399,31 @@ function initContactModal() {
     modal.classList.remove('is-active');
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('modal-open');
+
+    if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+      lastFocusedElement.focus();
+    }
   }
 
-  openButtons.forEach(button => {
+  openButtons.forEach((button) => {
     button.addEventListener('click', () => {
       const service = button.dataset.service || '';
       openModal(service);
     });
   });
 
-  closeButtons.forEach(button => {
+  closeButtons.forEach((button) => {
     button.addEventListener('click', closeModal);
   });
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('is-active')) {
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && modal.classList.contains('is-active')) {
       closeModal();
     }
   });
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
 
     const nome = form.querySelector('#nome')?.value.trim() || '';
     const whatsapp = form.querySelector('#whatsapp')?.value.trim() || '';
@@ -216,7 +437,7 @@ function initContactModal() {
       return;
     }
 
-    const texto = `Olá, vim pelo site da ALUMNORT e gostaria de solicitar um orçamento.
+    const mensagem = `Olá, vim pelo site da ALUMNORT e gostaria de solicitar um orçamento.
 
 *DADOS DO CLIENTE*
 *Nome:* ${nome}
@@ -228,133 +449,10 @@ function initContactModal() {
 *Detalhes do pedido:*
 ${detalhes || 'Não informado'}`;
 
-    const url = `https://wa.me/553899658215?text=${encodeURIComponent(texto)}`;
-    window.open(url, '_blank', 'noopener,noreferrer');
+    const whatsappUrl = `https://wa.me/553899658215?text=${encodeURIComponent(mensagem)}`;
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
 
     form.reset();
     closeModal();
   });
-}
-
-/* =========================
-   BOTÃO VOLTAR AO TOPO
-========================= */
-function initScrollTop() {
-  const button = document.getElementById('btnTopo');
-  if (!button) return;
-
-  function toggleButton() {
-    if (window.scrollY > 300) {
-      button.classList.add('show');
-    } else {
-      button.classList.remove('show');
-    }
-  }
-
-  window.addEventListener('scroll', toggleButton, { passive: true });
-  toggleButton();
-
-  button.addEventListener('click', () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  });
-}
-
-/* =========================
-   SLIDERS HORIZONTAIS
-   PARCEIROS / DEPOIMENTOS
-========================= */
-function initHorizontalAutoSliders() {
-  const sliderSelectors = [
-    '#partnersSlider .partners-slider__track',
-    '#testimonialsSlider .testimonials-slider__track'
-  ];
-
-  sliderSelectors.forEach(selector => {
-    const track = document.querySelector(selector);
-    if (!track || track.children.length < 2) return;
-
-    let autoScroll = null;
-    let isPaused = false;
-
-    function getCardWidth() {
-      const firstCard = track.children[0];
-      if (!firstCard) return 320;
-      const styles = window.getComputedStyle(track);
-      const gap = parseInt(styles.columnGap || styles.gap || 22, 10);
-      return firstCard.offsetWidth + gap;
-    }
-
-    function startAutoScroll() {
-      stopAutoScroll();
-
-      autoScroll = setInterval(() => {
-        if (isPaused) return;
-
-        const maxScrollLeft = track.scrollWidth - track.clientWidth;
-        const next = track.scrollLeft + getCardWidth();
-
-        if (next >= maxScrollLeft - 10) {
-          track.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          track.scrollTo({ left: next, behavior: 'smooth' });
-        }
-      }, 3500);
-    }
-
-    function stopAutoScroll() {
-      if (autoScroll) clearInterval(autoScroll);
-    }
-
-    track.addEventListener('mouseenter', () => {
-      isPaused = true;
-    });
-
-    track.addEventListener('mouseleave', () => {
-      isPaused = false;
-    });
-
-    track.addEventListener('touchstart', () => {
-      isPaused = true;
-    }, { passive: true });
-
-    track.addEventListener('touchend', () => {
-      isPaused = false;
-    }, { passive: true });
-
-    startAutoScroll();
-  });
-}
-
-/* =========================
-   MENU ATIVO CONFORME SCROLL
-========================= */
-function initActiveNavOnScroll() {
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-link');
-
-  if (!sections.length || !navLinks.length) return;
-
-  function setActiveLink() {
-    let currentId = '';
-
-    sections.forEach(section => {
-      const top = section.offsetTop - 180;
-      const height = section.offsetHeight;
-
-      if (window.scrollY >= top && window.scrollY < top + height) {
-        currentId = section.getAttribute('id');
-      }
-    });
-
-    navLinks.forEach(link => {
-      const href = link.getAttribute('href') || '';
-      link.classList.toggle('active', href === `#${currentId}`);
-    });
-  }
-
-  window.addEventListener('scroll', setActiveLink, { passive: true });
-  setActiveLink();
 }
