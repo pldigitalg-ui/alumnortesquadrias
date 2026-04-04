@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initLightbox();
   initContactModal();
   initScrollTop();
+  initHorizontalAutoSliders();
+  initActiveNavOnScroll();
 });
 
 /* =========================
@@ -20,27 +22,23 @@ function initMenu() {
   if (!menuToggle || !navMenu || !menuBackdrop) return;
 
   function openMenu() {
-    navMenu.classList.add('is-open');
-    menuBackdrop.classList.add('is-active');
-    menuToggle.classList.add('is-active');
+    navMenu.classList.add('active');
+    menuBackdrop.classList.add('active');
+    menuToggle.classList.add('active');
     menuToggle.setAttribute('aria-expanded', 'true');
     document.body.classList.add('menu-open');
   }
 
   function closeMenu() {
-    navMenu.classList.remove('is-open');
-    menuBackdrop.classList.remove('is-active');
-    menuToggle.classList.remove('is-active');
+    navMenu.classList.remove('active');
+    menuBackdrop.classList.remove('active');
+    menuToggle.classList.remove('active');
     menuToggle.setAttribute('aria-expanded', 'false');
     document.body.classList.remove('menu-open');
   }
 
   menuToggle.addEventListener('click', () => {
-    if (navMenu.classList.contains('is-open')) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
+    navMenu.classList.contains('active') ? closeMenu() : openMenu();
   });
 
   menuBackdrop.addEventListener('click', closeMenu);
@@ -50,13 +48,13 @@ function initMenu() {
   });
 
   window.addEventListener('resize', () => {
-    if (window.innerWidth > 991) {
-      closeMenu();
-    }
+    if (window.innerWidth > 991) closeMenu();
   });
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeMenu();
+    if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+      closeMenu();
+    }
   });
 }
 
@@ -71,6 +69,7 @@ function initHeroSlider() {
   if (!slides.length) return;
 
   let current = 0;
+  let intervalId = null;
 
   function showSlide(index) {
     slides.forEach((slide, i) => {
@@ -78,14 +77,26 @@ function initHeroSlider() {
     });
   }
 
-  showSlide(current);
-
-  if (slides.length > 1) {
-    setInterval(() => {
-      current = (current + 1) % slides.length;
-      showSlide(current);
-    }, 5000);
+  function nextSlide() {
+    current = (current + 1) % slides.length;
+    showSlide(current);
   }
+
+  function startAuto() {
+    if (slides.length <= 1) return;
+    stopAuto();
+    intervalId = setInterval(nextSlide, 5000);
+  }
+
+  function stopAuto() {
+    if (intervalId) clearInterval(intervalId);
+  }
+
+  showSlide(current);
+  startAuto();
+
+  slider.addEventListener('mouseenter', stopAuto);
+  slider.addEventListener('mouseleave', startAuto);
 }
 
 /* =========================
@@ -95,18 +106,24 @@ function initReveal() {
   const items = document.querySelectorAll('.reveal');
   if (!items.length) return;
 
+  items.forEach(item => {
+    item.style.opacity = '0';
+    item.style.transform = 'translateY(24px)';
+    item.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+  });
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
           entry.target.classList.add('is-visible');
           observer.unobserve(entry.target);
         }
       });
     },
-    {
-      threshold: 0.15
-    }
+    { threshold: 0.12 }
   );
 
   items.forEach(item => observer.observe(item));
@@ -119,13 +136,13 @@ function initCounter() {
   const counters = document.querySelectorAll('.stats__number');
   if (!counters.length) return;
 
-  const animateCounter = (el) => {
+  function animateCounter(el) {
     const target = Number(el.dataset.target || 0);
     const duration = 1600;
-    const startTime = performance.now();
+    const start = performance.now();
 
     function update(now) {
-      const progress = Math.min((now - startTime) / duration, 1);
+      const progress = Math.min((now - start) / duration, 1);
       const value = Math.floor(progress * target);
       el.textContent = value;
 
@@ -137,7 +154,7 @@ function initCounter() {
     }
 
     requestAnimationFrame(update);
-  };
+  }
 
   const observer = new IntersectionObserver(
     (entries) => {
@@ -148,7 +165,7 @@ function initCounter() {
         }
       });
     },
-    { threshold: 0.5 }
+    { threshold: 0.45 }
   );
 
   counters.forEach(counter => observer.observe(counter));
@@ -174,13 +191,13 @@ function initLightbox() {
     lightboxImage.alt = alt || title || 'Imagem ampliada';
     lightboxTitle.textContent = title || 'Projeto';
     lightboxDescription.textContent = description || '';
-    lightbox.classList.add('is-active');
+    lightbox.classList.add('active');
     lightbox.setAttribute('aria-hidden', 'false');
     document.body.classList.add('lightbox-open');
   }
 
   function closeLightbox() {
-    lightbox.classList.remove('is-active');
+    lightbox.classList.remove('active');
     lightbox.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('lightbox-open');
 
@@ -195,33 +212,23 @@ function initLightbox() {
 
     trigger.addEventListener('click', () => {
       const image = trigger.dataset.lightboxImage;
-      const title = trigger.dataset.lightboxTitle;
-      const description = trigger.dataset.lightboxDescription;
-      const alt =
-        trigger.querySelector('img')?.alt ||
-        trigger.dataset.lightboxTitle ||
-        'Imagem ampliada';
+      const title = trigger.dataset.lightboxTitle || 'Projeto';
+      const description = trigger.dataset.lightboxDescription || '';
+      const alt = trigger.querySelector('img')?.alt || title;
 
       if (!image) return;
-
       openLightbox({ image, title, description, alt });
     });
   });
 
-  closeTriggers.forEach(btn => {
-    btn.addEventListener('click', closeLightbox);
-  });
+  closeTriggers.forEach(btn => btn.addEventListener('click', closeLightbox));
 
   if (lightboxClose) {
     lightboxClose.addEventListener('click', closeLightbox);
   }
 
-  lightbox.addEventListener('click', (e) => {
-    if (e.target === lightbox) closeLightbox();
-  });
-
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && lightbox.classList.contains('is-active')) {
+    if (e.key === 'Escape' && lightbox.classList.contains('active')) {
       closeLightbox();
     }
   });
@@ -242,7 +249,7 @@ function initContactModal() {
   const modalClose = document.getElementById('contactModalClose');
 
   function openModal(service = '') {
-    modal.classList.add('is-active');
+    modal.classList.add('active');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
 
@@ -252,7 +259,7 @@ function initContactModal() {
   }
 
   function closeModal() {
-    modal.classList.remove('is-active');
+    modal.classList.remove('active');
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('modal-open');
   }
@@ -272,12 +279,8 @@ function initContactModal() {
     modalClose.addEventListener('click', closeModal);
   }
 
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
-
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('is-active')) {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
       closeModal();
     }
   });
@@ -291,25 +294,32 @@ function initContactModal() {
     const servico = form.querySelector('#servico')?.value.trim() || '';
     const cidade = form.querySelector('#cidade')?.value.trim() || '';
     const bairro = form.querySelector('#bairro')?.value.trim() || '';
+    const endereco = form.querySelector('#endereco')?.value.trim() || '';
     const mensagem = form.querySelector('#mensagem')?.value.trim() || '';
 
-    const texto =
-`Olá, vim pelo site da ALUMNORT e gostaria de solicitar um orçamento.
+    if (!nome || !telefone || !servico) {
+      alert('Preencha pelo menos nome, telefone e tipo de serviço.');
+      return;
+    }
+
+    const texto = `Olá, vim pelo site da ALUMNORT e gostaria de solicitar um orçamento.
 
 *RELATÓRIO DO CLIENTE*
 *Nome:* ${nome}
 *Telefone:* ${telefone}
 *E-mail:* ${email || 'Não informado'}
-*Serviço:* ${servico || 'Não informado'}
+*Serviço:* ${servico}
 *Cidade:* ${cidade || 'Não informado'}
 *Bairro/Região:* ${bairro || 'Não informado'}
+*Endereço:* ${endereco || 'Não informado'}
 
 *Detalhes do pedido:*
 ${mensagem || 'Não informado'}`;
 
     const url = `https://wa.me/553899658215?text=${encodeURIComponent(texto)}`;
-    window.open(url, '_blank');
+    window.open(url, '_blank', 'noopener,noreferrer');
 
+    form.reset();
     closeModal();
   });
 }
@@ -329,7 +339,7 @@ function initScrollTop() {
     }
   }
 
-  window.addEventListener('scroll', toggleButton);
+  window.addEventListener('scroll', toggleButton, { passive: true });
   toggleButton();
 
   button.addEventListener('click', () => {
@@ -338,4 +348,90 @@ function initScrollTop() {
       behavior: 'smooth'
     });
   });
+}
+
+/* =========================
+   SLIDERS HORIZONTAIS
+   PARCEIROS / DEPOIMENTOS
+========================= */
+function initHorizontalAutoSliders() {
+  const sliderSelectors = [
+    '#partnersSlider .partners-slider__track',
+    '#testimonialsSlider .testimonials-slider__track'
+  ];
+
+  sliderSelectors.forEach(selector => {
+    const track = document.querySelector(selector);
+    if (!track) return;
+
+    let autoScroll;
+    let isPaused = false;
+
+    function getCardWidth() {
+      const firstCard = track.children[0];
+      if (!firstCard) return 320;
+      const styles = window.getComputedStyle(track);
+      const gap = parseInt(styles.columnGap || styles.gap || 22, 10);
+      return firstCard.offsetWidth + gap;
+    }
+
+    function startAutoScroll() {
+      stopAutoScroll();
+
+      autoScroll = setInterval(() => {
+        if (isPaused) return;
+
+        const maxScrollLeft = track.scrollWidth - track.clientWidth;
+        const next = track.scrollLeft + getCardWidth();
+
+        if (next >= maxScrollLeft - 10) {
+          track.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          track.scrollTo({ left: next, behavior: 'smooth' });
+        }
+      }, 3500);
+    }
+
+    function stopAutoScroll() {
+      if (autoScroll) clearInterval(autoScroll);
+    }
+
+    track.addEventListener('mouseenter', () => { isPaused = true; });
+    track.addEventListener('mouseleave', () => { isPaused = false; });
+    track.addEventListener('touchstart', () => { isPaused = true; }, { passive: true });
+    track.addEventListener('touchend', () => { isPaused = false; }, { passive: true });
+
+    startAutoScroll();
+  });
+}
+
+/* =========================
+   MENU ATIVO CONFORME SCROLL
+========================= */
+function initActiveNavOnScroll() {
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  if (!sections.length || !navLinks.length) return;
+
+  function setActiveLink() {
+    let currentId = '';
+
+    sections.forEach(section => {
+      const top = section.offsetTop - 180;
+      const height = section.offsetHeight;
+
+      if (window.scrollY >= top && window.scrollY < top + height) {
+        currentId = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach(link => {
+      const href = link.getAttribute('href') || '';
+      link.classList.toggle('active', href === `#${currentId}`);
+    });
+  }
+
+  window.addEventListener('scroll', setActiveLink, { passive: true });
+  setActiveLink();
 }
