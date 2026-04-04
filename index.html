@@ -20,7 +20,7 @@
   <meta property="og:title" content="ALUMNORT | Esquadrias de Alumínio e Vidraçaria em Janaúba - MG" />
   <meta property="og:description" content="Empresa regional em Janaúba e Norte de Minas com foco em acabamento, presença visual e soluções sob medida em alumínio e vidro." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="img/hero-1.jpg" />
+  <meta property="og:image" content="img/hero.png" />
   <meta property="og:locale" content="pt_BR" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -50,7 +50,7 @@
     <span class="whatsapp-float__text">WhatsApp</span>
   </a>
 
-  <button id="btnTopo" aria-label="Voltar ao topo">
+  <button id="btnTopo" type="button" aria-label="Voltar ao topo">
     <i class="fa-solid fa-arrow-up"></i>
   </button>
 
@@ -60,7 +60,7 @@
     <div class="lightbox__backdrop" data-lightbox-close></div>
 
     <div class="lightbox__dialog" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
-      <button class="lightbox__close" id="lightboxClose" aria-label="Fechar imagem">
+      <button class="lightbox__close" id="lightboxClose" type="button" aria-label="Fechar imagem">
         <i class="fa-solid fa-xmark"></i>
       </button>
 
@@ -88,7 +88,7 @@
         <span class="section-tag">Atendimento comercial</span>
         <h2 id="contactModalTitle">Solicite seu orçamento com a ALUMNORT</h2>
         <p>
-          Preencha os dados abaixo para enviar sua solicitação de forma organizada direto para o WhatsApp.
+          Preencha os dados abaixo para enviar sua solicitação direto para o WhatsApp.
         </p>
       </div>
 
@@ -226,6 +226,7 @@
             <a href="#home" class="nav-link active">Home</a>
             <a href="#quem-somos" class="nav-link">Quem Somos</a>
             <a href="#servicos" class="nav-link">Nossos Serviços</a>
+            <a href="#parceiros" class="nav-link">Parceiros</a>
             <a href="#projetos" class="nav-link">Projetos</a>
             <a href="#contato" class="nav-link">Contato</a>
           </div>
@@ -254,7 +255,7 @@
 
             <p class="hero-lead">
               Projetos sob medida para residências e comércios, com visual moderno, funcionalidade,
-              segurança e presença profissional do início ao acabamento final.
+              segurança e acabamento profissional.
             </p>
 
             <button type="button" class="btn btn--primary btn--hero-pulse" data-open-contact>
@@ -292,8 +293,8 @@
           </article>
 
           <article class="hero-metric-card reveal">
-            <strong>200<span>%</span></strong>
-            <p>Compromisso com atendimento sério, solução sob medida e entrega bem apresentada.</p>
+            <strong>Compromisso</strong>
+            <p>Atendimento sério, solução sob medida e entrega bem apresentada do início ao fim.</p>
           </article>
         </div>
       </div>
@@ -433,7 +434,7 @@
         <div class="section-heading reveal">
           <span class="section-tag">Nossos parceiros</span>
           <h2>Parcerias e conexões que fortalecem a presença da marca</h2>
-          <p>Área pronta para funcionar em slide, com todos os cards clicáveis.</p>
+          <p>Cards clicáveis e preparados para funcionar em slide.</p>
         </div>
 
         <div class="partners-slider reveal" id="partnersSlider">
@@ -444,8 +445,8 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              <div class="partner-card__logo">
-                <i class="fa-brands fa-instagram"></i>
+              <div class="partner-card__image">
+                <img src="img/parceiro-1.jpg" alt="Parceiro LP Grill" />
               </div>
               <div class="partner-card__content">
                 <h3>LP Grill</h3>
@@ -459,8 +460,8 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              <div class="partner-card__logo">
-                <i class="fa-brands fa-instagram"></i>
+              <div class="partner-card__image">
+                <img src="img/parceiro-2.jpg" alt="Parceiro PL Digital" />
               </div>
               <div class="partner-card__content">
                 <h3>PL Digital</h3>
@@ -468,23 +469,33 @@
               </div>
             </a>
 
-            <a class="partner-card" href="#">
-              <div class="partner-card__logo">
-                <i class="fa-solid fa-building"></i>
+            <a
+              class="partner-card"
+              href="https://www.instagram.com/alumnortesquadrias_de_aluminio"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div class="partner-card__image">
+                <img src="img/parceiro-1.jpg" alt="Instagram ALUMNORT" />
               </div>
               <div class="partner-card__content">
-                <h3>Parceiro 03</h3>
-                <p>Adicionar depois</p>
+                <h3>ALUMNORT</h3>
+                <p>@alumnortesquadrias_de_aluminio</p>
               </div>
             </a>
 
-            <a class="partner-card" href="#">
-              <div class="partner-card__logo">
-                <i class="fa-solid fa-building"></i>
+            <a
+              class="partner-card"
+              href="https://www.instagram.com/alumnortesquadrias_de_aluminio"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div class="partner-card__image">
+                <img src="img/parceiro-2.jpg" alt="Instagram ALUMNORT parceiro" />
               </div>
               <div class="partner-card__content">
-                <h3>Parceiro 04</h3>
-                <p>Adicionar depois</p>
+                <h3>Conexão regional</h3>
+                <p>Parcerias e visibilidade local</p>
               </div>
             </a>
           </div>
@@ -497,7 +508,7 @@
         <div class="section-heading reveal">
           <span class="section-tag">Projetos</span>
           <h2>Projetos que mostram acabamento, presença e valorização visual</h2>
-          <p>Clique nas imagens para ampliar. Lightbox padronizada para desktop e celular.</p>
+          <p>Clique nas imagens para ampliar.</p>
         </div>
 
         <div class="portfolio__grid">
@@ -548,6 +559,21 @@
 
           <article
             class="project-card reveal"
+            data-lightbox-image="img/projetos/porta-vidro-aluminio-sala-moderna.jpg"
+            data-lightbox-title="Porta de vidro e alumínio em sala moderna"
+            data-lightbox-description="Solução com visual limpo, moderno e integração elegante entre ambientes."
+          >
+            <div class="project-card__image">
+              <img src="img/projetos/porta-vidro-aluminio-sala-moderna.jpg" alt="Porta de vidro e alumínio em sala moderna" />
+            </div>
+            <div class="project-card__content">
+              <h3>Porta de vidro e alumínio em sala moderna</h3>
+              <p>Leveza visual e acabamento contemporâneo.</p>
+            </div>
+          </article>
+
+          <article
+            class="project-card reveal"
             data-lightbox-image="img/projetos/portao-aluminio-preto-area-externa.jpg"
             data-lightbox-title="Portão em alumínio preto para área externa"
             data-lightbox-description="Solução voltada para resistência, visual moderno e presença marcante."
@@ -558,6 +584,21 @@
             <div class="project-card__content">
               <h3>Portão em alumínio preto para área externa</h3>
               <p>Robustez visual com estética contemporânea.</p>
+            </div>
+          </article>
+
+          <article
+            class="project-card reveal"
+            data-lightbox-image="img/projetos/portao-garagem-aluminio-branco.jpg"
+            data-lightbox-title="Portão de garagem em alumínio branco"
+            data-lightbox-description="Projeto com presença visual forte, segurança e acabamento limpo."
+          >
+            <div class="project-card__image">
+              <img src="img/projetos/portao-garagem-aluminio-branco.jpg" alt="Portão de garagem em alumínio branco" />
+            </div>
+            <div class="project-card__content">
+              <h3>Portão de garagem em alumínio branco</h3>
+              <p>Segurança e fachada valorizada com visual elegante.</p>
             </div>
           </article>
         </div>
@@ -630,7 +671,7 @@
             <span class="section-tag section-tag--light">Solicite seu orçamento</span>
             <h2>Leve mais acabamento, presença e valorização para seu projeto com a ALUMNORT</h2>
             <p>
-              Fale com nossa equipe e receba um atendimento direto, objetivo e pronto para entender a melhor solução em alumínio e vidro para sua necessidade.
+              Fale com nossa equipe e receba um atendimento direto, objetivo e pronto para entender a melhor solução em alumínio e vidro.
             </p>
           </div>
 
@@ -705,6 +746,7 @@
           <li><a href="#home">Home</a></li>
           <li><a href="#quem-somos">Quem Somos</a></li>
           <li><a href="#servicos">Nossos Serviços</a></li>
+          <li><a href="#parceiros">Parceiros</a></li>
           <li><a href="#projetos">Projetos</a></li>
           <li><a href="#contato">Contato</a></li>
         </ul>
