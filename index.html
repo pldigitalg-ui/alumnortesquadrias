@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <!-- WhatsApp flutuante -->
+  <!-- WhatsApp flutuante premium -->
   <a
     href="https://wa.me/553899658215?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ALUMNORT%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento."
     class="whatsapp-float"
@@ -45,19 +45,21 @@
     rel="noopener noreferrer"
     aria-label="Falar no WhatsApp"
   >
-    <i class="fa-brands fa-whatsapp"></i>
-    <span>Chame no WhatsApp</span>
+    <span class="whatsapp-float__icon">
+      <i class="fa-brands fa-whatsapp"></i>
+    </span>
+    <span class="whatsapp-float__text">WhatsApp</span>
   </a>
 
-  <!-- Voltar ao topo -->
+  <!-- Botão subir -->
   <button class="scroll-top" id="scrollTopBtn" aria-label="Voltar ao topo">
     <i class="fa-solid fa-arrow-up"></i>
   </button>
 
-  <!-- Backdrop do menu mobile -->
+  <!-- Backdrop menu mobile -->
   <div class="menu-backdrop" id="menuBackdrop"></div>
 
-  <!-- Lightbox -->
+  <!-- LIGHTBOX PADRONIZADA -->
   <div class="lightbox" id="lightbox" aria-hidden="true">
     <div class="lightbox__backdrop" data-lightbox-close></div>
 
@@ -78,7 +80,7 @@
     </div>
   </div>
 
-  <!-- Modal de orçamento -->
+  <!-- MODAL ORÇAMENTO -->
   <div class="contact-modal" id="contactModal" aria-hidden="true">
     <div class="contact-modal__overlay" data-modal-close></div>
 
@@ -191,7 +193,7 @@
 
     <div class="brandbar">
       <div class="container brandbar__inner">
-        <a href="#home" class="brandbar__logo" aria-label="ALUMNORT">
+        <a href="#home" class="brandbar__logo brandbar__logo--refined" aria-label="ALUMNORT">
           <img src="img/logo.png" alt="Logo ALUMNORT" />
         </a>
 
@@ -236,15 +238,19 @@
         </button>
 
         <nav class="nav-menu" id="navMenu" aria-label="Menu principal">
-          <a href="#home" class="nav-link">Home</a>
-          <a href="#quem-somos" class="nav-link">Quem Somos</a>
-          <a href="#servicos" class="nav-link">Nossos Serviços</a>
-          <a href="#projetos" class="nav-link">Projetos</a>
-          <a href="#contato" class="nav-link">Fale Conosco</a>
+          <div class="nav-menu__links">
+            <a href="#home" class="nav-link">Home</a>
+            <a href="#quem-somos" class="nav-link">Quem Somos</a>
+            <a href="#servicos" class="nav-link">Nossos Serviços</a>
+            <a href="#projetos" class="nav-link">Projetos</a>
+            <a href="#contato" class="nav-link">Contato</a>
+          </div>
 
-          <button class="btn btn--primary nav-menu__cta" data-open-contact>
-            Pedir orçamento
-          </button>
+          <div class="nav-menu__center-cta">
+            <button class="btn btn--primary nav-menu__cta" data-open-contact>
+              Pedir orçamento
+            </button>
+          </div>
         </nav>
       </div>
     </div>
@@ -252,7 +258,7 @@
 
   <main>
     <!-- HERO -->
-    <section class="hero" id="home">
+    <section class="hero hero--clean" id="home">
       <div class="hero__slider" id="heroSlider">
         <div class="hero__slide active" style="background-image: url('img/hero-1.jpg');"></div>
         <div class="hero__slide" style="background-image: url('img/hero-2.jpg');"></div>
@@ -263,7 +269,7 @@
       <div class="hero__overlay"></div>
 
       <div class="container hero__content">
-        <div class="hero__grid">
+        <div class="hero__grid hero__grid--offset">
           <div class="hero__text reveal">
             <span class="section-tag section-tag--light">ALUMNORT • Janaúba - MG</span>
 
@@ -271,8 +277,8 @@
               Esquadrias de alumínio e vidro com acabamento que valoriza seu imóvel
             </h1>
 
-            <p>
-              Soluções sob medida para residências, comércios e fachadas com mais presença visual, funcionalidade e padrão profissional.
+            <p class="hero__lead">
+              Soluções sob medida para residências e comércios com visual moderno, funcionalidade e padrão profissional.
             </p>
 
             <div class="hero__actions">
@@ -500,97 +506,67 @@
       </div>
     </section>
 
-    <!-- PARTNERS STRIP -->
-    <section class="partners-marquee section">
+    <!-- PARCEIROS EM SLIDE CLICÁVEL -->
+    <section class="partners section" id="parceiros">
       <div class="container">
         <div class="section-heading reveal">
-          <span class="section-tag">Parceiros</span>
-          <h2>Parceiros e negócios que caminham junto com a marca</h2>
+          <span class="section-tag">Nossos parceiros</span>
+          <h2>Parcerias e conexões que fortalecem a presença da marca</h2>
           <p>
-            Faixa contínua pronta para adicionar novos parceiros depois. Todos clicáveis.
+            Área pronta para funcionar em slide, com todos os cards clicáveis.
           </p>
         </div>
 
-        <div class="partners-marquee__wrap reveal">
-          <div class="partners-marquee__track">
+        <div class="partners-slider reveal" id="partnersSlider">
+          <div class="partners-slider__track">
             <a
-              class="partner-pill"
+              class="partner-card"
               href="https://www.instagram.com/restaurantelpgrill/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <i class="fa-brands fa-instagram"></i>
-              <span>@restaurantelpgrill</span>
+              <div class="partner-card__logo">
+                <i class="fa-brands fa-instagram"></i>
+              </div>
+              <div class="partner-card__content">
+                <h3>LP Grill</h3>
+                <p>@restaurantelpgrill</p>
+              </div>
             </a>
 
             <a
-              class="partner-pill"
+              class="partner-card"
               href="https://www.instagram.com/pldigitalgroup/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <i class="fa-brands fa-instagram"></i>
-              <span>@pldigitalgroup</span>
+              <div class="partner-card__logo">
+                <i class="fa-brands fa-instagram"></i>
+              </div>
+              <div class="partner-card__content">
+                <h3>PL Digital</h3>
+                <p>@pldigitalgroup</p>
+              </div>
             </a>
 
-            <a
-              class="partner-pill"
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <i class="fa-brands fa-instagram"></i>
-              <span>@parceiro03</span>
+            <a class="partner-card" href="#" target="_blank" rel="noopener noreferrer">
+              <div class="partner-card__logo">
+                <i class="fa-solid fa-building"></i>
+              </div>
+              <div class="partner-card__content">
+                <h3>Parceiro 03</h3>
+                <p>Adicionar depois</p>
+              </div>
             </a>
 
-            <a
-              class="partner-pill"
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <i class="fa-brands fa-instagram"></i>
-              <span>@parceiro04</span>
-            </a>
-
-            <a
-              class="partner-pill"
-              href="https://www.instagram.com/restaurantelpgrill/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <i class="fa-brands fa-instagram"></i>
-              <span>@restaurantelpgrill</span>
-            </a>
-
-            <a
-              class="partner-pill"
-              href="https://www.instagram.com/pldigitalgroup/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <i class="fa-brands fa-instagram"></i>
-              <span>@pldigitalgroup</span>
-            </a>
-
-            <a
-              class="partner-pill"
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <i class="fa-brands fa-instagram"></i>
-              <span>@parceiro03</span>
-            </a>
-
-            <a
-              class="partner-pill"
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <i class="fa-brands fa-instagram"></i>
-              <span>@parceiro04</span>
+            <a class="partner-card" href="#" target="_blank" rel="noopener noreferrer">
+              <div class="partner-card__logo">
+                <i class="fa-solid fa-building"></i>
+              </div>
+              <div class="partner-card__content">
+                <h3>Parceiro 04</h3>
+                <p>Adicionar depois</p>
+              </div>
             </a>
           </div>
         </div>
@@ -604,7 +580,7 @@
           <span class="section-tag">Projetos</span>
           <h2>Projetos que mostram acabamento, presença e valorização visual</h2>
           <p>
-            Clique nas imagens para ampliar. A lightbox foi preparada para fechar no X, fora da imagem e no ESC.
+            Clique nas imagens para ampliar. Lightbox padronizada para desktop e celular.
           </p>
         </div>
 
@@ -672,62 +648,64 @@
       </div>
     </section>
 
-    <!-- TESTIMONIALS -->
+    <!-- DEPOIMENTOS EM BALÕES / SLIDER -->
     <section class="testimonials section">
       <div class="container">
         <div class="section-heading reveal">
           <span class="section-tag">Depoimentos</span>
           <h2>Comentários que passam mais confiança para quem entra no site</h2>
           <p>
-            Depoimentos mais naturais ajudam a vender melhor do que frases muito genéricas.
+            Estrutura pronta para funcionar em slider com visual de balões.
           </p>
         </div>
 
-        <div class="testimonials__grid">
-          <article class="testimonial-card reveal">
-            <div class="testimonial-card__stars">
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-            </div>
-            <p>
-              “A pele de vidro ficou incrível. O acabamento ficou muito acima do que eu esperava e deu outra presença para a fachada.”
-            </p>
-            <h3>Israel Mendes</h3>
-            <span>Cliente residencial</span>
-          </article>
+        <div class="testimonials-slider reveal" id="testimonialsSlider">
+          <div class="testimonials-slider__track">
+            <article class="testimonial-card testimonial-card--balloon">
+              <div class="testimonial-card__stars">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <p>
+                “A pele de vidro ficou incrível. O acabamento ficou muito acima do que eu esperava e deu outra presença para a fachada.”
+              </p>
+              <h3>Israel Mendes</h3>
+              <span>Cliente residencial</span>
+            </article>
 
-          <article class="testimonial-card reveal">
-            <div class="testimonial-card__stars">
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-            </div>
-            <p>
-              “Meu box do banheiro ficou ótimo. Atendimento bom, instalação caprichada e o banheiro ficou muito mais bonito.”
-            </p>
-            <h3>Joana Souza</h3>
-            <span>Cliente residencial</span>
-          </article>
+            <article class="testimonial-card testimonial-card--balloon">
+              <div class="testimonial-card__stars">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <p>
+                “Meu box do banheiro ficou ótimo. Atendimento bom, instalação caprichada e o banheiro ficou muito mais bonito.”
+              </p>
+              <h3>Joana Souza</h3>
+              <span>Cliente residencial</span>
+            </article>
 
-          <article class="testimonial-card reveal">
-            <div class="testimonial-card__stars">
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-            </div>
-            <p>
-              “Gostei muito da janela e do acabamento. Ficou alinhado, bonito e valorizou bastante a parte da frente da casa.”
-            </p>
-            <h3>Marcos Ribeiro</h3>
-            <span>Cliente residencial</span>
-          </article>
+            <article class="testimonial-card testimonial-card--balloon">
+              <div class="testimonial-card__stars">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <p>
+                “Gostei muito da janela e do acabamento. Ficou alinhado, bonito e valorizou bastante a parte da frente da casa.”
+              </p>
+              <h3>Marcos Ribeiro</h3>
+              <span>Cliente residencial</span>
+            </article>
+          </div>
         </div>
       </div>
     </section>
