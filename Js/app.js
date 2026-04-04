@@ -1,53 +1,32 @@
 document.addEventListener('DOMContentLoaded', () => {
-  initSmoothScroll();
-  initMobileMenu();
-  initNavActiveOnScroll();
-  initScrollTop();
-  initHeaderScrollState();
-  initRevealOnScroll();
-  initLightbox();
-  initTestimonialsSlider();
-  initPartnersSlider();
-  initContactModal();
-});
-
-/* =========================
-   SCROLL SUAVE
-========================= */
-function initSmoothScroll() {
-  document.documentElement.style.scrollBehavior = 'smooth';
-}
-
-/* =========================
-   MENU MOBILE
-========================= */
-function initMobileMenu() {
-  const toggle = document.getElementById('menuToggle');
-  const navMenu = document.getElementById('navMenu');
-  const backdrop = document.getElementById('menuBackdrop');
   const body = document.body;
 
-  if (!toggle || !navMenu || !backdrop) return;
-
-  const navLinks = navMenu.querySelectorAll('.nav-link');
+  /* =========================================================
+     MENU MOBILE
+  ========================================================= */
+  const menuToggle = document.getElementById('menuToggle');
+  const navMenu = document.getElementById('navMenu');
+  const menuBackdrop = document.getElementById('menuBackdrop');
+  const navLinks = document.querySelectorAll('.nav-link');
 
   function openMenu() {
+    if (!navMenu) return;
     navMenu.classList.add('active');
-    toggle.classList.add('is-active');
-    backdrop.classList.add('active');
-    toggle.setAttribute('aria-expanded', 'true');
+    menuBackdrop?.classList.add('active');
     body.classList.add('menu-open');
+    menuToggle?.setAttribute('aria-expanded', 'true');
   }
 
   function closeMenu() {
+    if (!navMenu) return;
     navMenu.classList.remove('active');
-    toggle.classList.remove('is-active');
-    backdrop.classList.remove('active');
-    toggle.setAttribute('aria-expanded', 'false');
+    menuBackdrop?.classList.remove('active');
     body.classList.remove('menu-open');
+    menuToggle?.setAttribute('aria-expanded', 'false');
   }
 
   function toggleMenu() {
+    if (!navMenu) return;
     if (navMenu.classList.contains('active')) {
       closeMenu();
     } else {
@@ -55,404 +34,275 @@ function initMobileMenu() {
     }
   }
 
-  toggle.addEventListener('click', toggleMenu);
-  backdrop.addEventListener('click', closeMenu);
+  menuToggle?.addEventListener('click', toggleMenu);
+  menuBackdrop?.addEventListener('click', closeMenu);
 
   navLinks.forEach((link) => {
-    link.addEventListener('click', closeMenu);
-  });
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && navMenu.classList.contains('active')) {
+    link.addEventListener('click', () => {
       closeMenu();
-    }
+    });
   });
 
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 991) {
-      closeMenu();
-    }
-  });
-}
-
-/* =========================
-   MENU ATIVO PELO SCROLL
-========================= */
-function initNavActiveOnScroll() {
+  /* =========================================================
+     LINK ATIVO NO MENU
+  ========================================================= */
   const sections = document.querySelectorAll('section[id]');
-  const links = document.querySelectorAll('.nav-menu .nav-link');
-
-  if (!sections.length || !links.length) return;
 
   function setActiveLink() {
-    let currentId = 'home';
+    const scrollY = window.scrollY + 140;
 
     sections.forEach((section) => {
-      const top = section.offsetTop - 180;
-      const height = section.offsetHeight;
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.offsetHeight;
+      const sectionId = section.getAttribute('id');
+      const currentLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
 
-      if (window.scrollY >= top && window.scrollY < top + height) {
-        currentId = section.getAttribute('id');
+      if (!currentLink) return;
+
+      if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+        navLinks.forEach((link) => link.classList.remove('active'));
+        currentLink.classList.add('active');
       }
     });
-
-    links.forEach((link) => {
-      const href = link.getAttribute('href') || '';
-      link.classList.toggle('active', href === `#${currentId}`);
-    });
   }
 
-  window.addEventListener('scroll', setActiveLink, { passive: true });
+  window.addEventListener('scroll', setActiveLink);
   setActiveLink();
-}
 
-/* =========================
-   BOTÃO SUBIR AO TOPO
-========================= */
-function initScrollTop() {
-  const button = document.getElementById('btnTopo');
-  if (!button) return;
+  /* =========================================================
+     BOTÃO VOLTAR AO TOPO
+  ========================================================= */
+  const btnTopo = document.getElementById('btnTopo');
 
-  function toggleButton() {
-    const visible = window.scrollY > 320;
-    button.classList.toggle('show', visible);
-    button.setAttribute('aria-hidden', visible ? 'false' : 'true');
+  function toggleScrollTopButton() {
+    if (!btnTopo) return;
+
+    if (window.scrollY > 350) {
+      btnTopo.classList.add('show');
+    } else {
+      btnTopo.classList.remove('show');
+    }
   }
 
-  toggleButton();
-  window.addEventListener('scroll', toggleButton, { passive: true });
+  window.addEventListener('scroll', toggleScrollTopButton);
+  toggleScrollTopButton();
 
-  button.addEventListener('click', () => {
+  btnTopo?.addEventListener('click', () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
   });
-}
 
-/* =========================
-   ESTADO DO HEADER NO SCROLL
-========================= */
-function initHeaderScrollState() {
-  const header = document.querySelector('.site-header');
-  const navbar = document.getElementById('navbar');
-  if (!header && !navbar) return;
-
-  function onScroll() {
-    const scrolled = window.scrollY > 24;
-    header?.classList.toggle('is-scrolled', scrolled);
-    navbar?.classList.toggle('is-scrolled', scrolled);
-  }
-
-  onScroll();
-  window.addEventListener('scroll', onScroll, { passive: true });
-}
-
-/* =========================
-   REVEAL ON SCROLL
-========================= */
-function initRevealOnScroll() {
-  const elements = document.querySelectorAll('.reveal');
-  if (!elements.length) return;
-
-  if (!('IntersectionObserver' in window)) {
-    elements.forEach((element) => element.classList.add('is-visible'));
-    return;
-  }
-
-  const observer = new IntersectionObserver(
-    (entries, currentObserver) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          currentObserver.unobserve(entry.target);
-        }
-      });
-    },
-    {
-      threshold: 0.16,
-      rootMargin: '0px 0px -40px 0px'
-    }
-  );
-
-  elements.forEach((element) => observer.observe(element));
-}
-
-/* =========================
-   LIGHTBOX
-========================= */
-function initLightbox() {
-  const lightbox = document.getElementById('lightbox');
-  const image = document.getElementById('lightboxImage');
-  const title = document.getElementById('lightboxTitle');
-  const description = document.getElementById('lightboxDescription');
-  const closeButton = document.getElementById('lightboxClose');
-  const overlay = lightbox?.querySelector('[data-lightbox-close]');
-
-  if (!lightbox || !image || !title || !description) return;
-
-  const triggers = document.querySelectorAll('[data-lightbox-image]');
-  let lastFocusedElement = null;
-
-  function openLightbox({ src, heading, text, alt }) {
-    lastFocusedElement = document.activeElement;
-
-    image.src = src;
-    image.alt = alt || heading || 'Imagem ampliada';
-    title.textContent = heading || 'Projeto';
-    description.textContent = text || 'Descrição do projeto.';
-
-    lightbox.classList.add('active');
-    lightbox.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('lightbox-open');
-  }
-
-  function closeLightbox() {
-    lightbox.classList.remove('active');
-    lightbox.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('lightbox-open');
-
-    setTimeout(() => {
-      image.src = '';
-      image.alt = '';
-    }, 180);
-
-    if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
-      lastFocusedElement.focus();
-    }
-  }
-
-  triggers.forEach((trigger) => {
-    trigger.setAttribute('tabindex', '0');
-    trigger.setAttribute('role', 'button');
-    trigger.setAttribute('aria-label', 'Abrir imagem ampliada');
-
-    const openFromTrigger = () => {
-      const src = trigger.dataset.lightboxImage || '';
-      const heading = trigger.dataset.lightboxTitle || 'Projeto';
-      const text = trigger.dataset.lightboxDescription || 'Descrição do projeto.';
-      const altImage = trigger.querySelector('img')?.alt || heading;
-
-      if (!src) return;
-
-      openLightbox({
-        src,
-        heading,
-        text,
-        alt: altImage
-      });
-    };
-
-    trigger.addEventListener('click', openFromTrigger);
-
-    trigger.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        openFromTrigger();
-      }
-    });
-  });
-
-  closeButton?.addEventListener('click', closeLightbox);
-  overlay?.addEventListener('click', closeLightbox);
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && lightbox.classList.contains('active')) {
-      closeLightbox();
-    }
-  });
-}
-
-/* =========================
-   SLIDER DE DEPOIMENTOS
-========================= */
-function initTestimonialsSlider() {
-  const slider = document.getElementById('testimonialsSlider');
-  const track = slider?.querySelector('.testimonials-slider__track');
-  const cards = track ? Array.from(track.children) : [];
-
-  if (!slider || !track || cards.length <= 1) return;
-
-  let intervalId = null;
-  const delay = 4200;
-
-  function getStepWidth() {
-    const firstCard = cards[0];
-    if (!firstCard) return 320;
-    const styles = window.getComputedStyle(track);
-    const gap = parseFloat(styles.gap || styles.columnGap || '22');
-    return firstCard.getBoundingClientRect().width + gap;
-  }
-
-  function next() {
-    const maxScrollLeft = track.scrollWidth - track.clientWidth;
-    const nextScroll = track.scrollLeft + getStepWidth();
-
-    if (nextScroll >= maxScrollLeft - 8) {
-      track.scrollTo({ left: 0, behavior: 'smooth' });
-    } else {
-      track.scrollTo({ left: nextScroll, behavior: 'smooth' });
-    }
-  }
-
-  function start() {
-    stop();
-    intervalId = window.setInterval(next, delay);
-  }
-
-  function stop() {
-    if (intervalId) {
-      clearInterval(intervalId);
-      intervalId = null;
-    }
-  }
-
-  slider.addEventListener('mouseenter', stop);
-  slider.addEventListener('mouseleave', start);
-  slider.addEventListener('touchstart', stop, { passive: true });
-  slider.addEventListener('touchend', start, { passive: true });
-
-  start();
-}
-
-/* =========================
-   SLIDER DE PARCEIROS
-========================= */
-function initPartnersSlider() {
-  const slider = document.getElementById('partnersSlider');
-  const track = slider?.querySelector('.partners-slider__track');
-  const cards = track ? Array.from(track.children) : [];
-
-  if (!slider || !track || cards.length <= 1) return;
-
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (prefersReducedMotion) return;
-
-  let intervalId = null;
-  const delay = 3600;
-
-  function getStepWidth() {
-    const firstCard = cards[0];
-    if (!firstCard) return 300;
-    const styles = window.getComputedStyle(track);
-    const gap = parseFloat(styles.gap || styles.columnGap || '22');
-    return firstCard.getBoundingClientRect().width + gap;
-  }
-
-  function next() {
-    const maxScrollLeft = track.scrollWidth - track.clientWidth;
-    const nextScroll = track.scrollLeft + getStepWidth();
-
-    if (nextScroll >= maxScrollLeft - 8) {
-      track.scrollTo({ left: 0, behavior: 'smooth' });
-    } else {
-      track.scrollTo({ left: nextScroll, behavior: 'smooth' });
-    }
-  }
-
-  function start() {
-    stop();
-    intervalId = window.setInterval(next, delay);
-  }
-
-  function stop() {
-    if (intervalId) {
-      clearInterval(intervalId);
-      intervalId = null;
-    }
-  }
-
-  slider.addEventListener('mouseenter', stop);
-  slider.addEventListener('mouseleave', start);
-  slider.addEventListener('touchstart', stop, { passive: true });
-  slider.addEventListener('touchend', start, { passive: true });
-
-  start();
-}
-
-/* =========================
-   MODAL DE CONTATO
-========================= */
-function initContactModal() {
-  const modal = document.getElementById('contactModal');
-  const form = document.getElementById('contactForm');
+  /* =========================================================
+     MODAL DE CONTATO
+  ========================================================= */
+  const contactModal = document.getElementById('contactModal');
+  const contactForm = document.getElementById('contactForm');
+  const openContactButtons = document.querySelectorAll('[data-open-contact]');
+  const closeContactButtons = document.querySelectorAll('[data-close-contact]');
   const serviceField = document.getElementById('servico');
 
-  if (!modal || !form) return;
+  function openContactModal(service = '') {
+    if (!contactModal) return;
 
-  const openButtons = document.querySelectorAll('[data-open-contact]');
-  const closeButtons = modal.querySelectorAll('[data-close-contact]');
-  let lastFocusedElement = null;
-
-  function openModal(service = '') {
-    lastFocusedElement = document.activeElement;
-    modal.classList.add('is-active');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('modal-open');
+    contactModal.classList.add('active');
+    contactModal.classList.add('is-active');
+    contactModal.setAttribute('aria-hidden', 'false');
+    body.classList.add('modal-open');
 
     if (service && serviceField) {
       serviceField.value = service;
     }
+
+    const firstInput = contactModal.querySelector('input, select, textarea');
+    setTimeout(() => {
+      firstInput?.focus();
+    }, 150);
   }
 
-  function closeModal() {
-    modal.classList.remove('is-active');
-    modal.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('modal-open');
+  function closeContactModal() {
+    if (!contactModal) return;
 
-    if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
-      lastFocusedElement.focus();
-    }
+    contactModal.classList.remove('active');
+    contactModal.classList.remove('is-active');
+    contactModal.setAttribute('aria-hidden', 'true');
+    body.classList.remove('modal-open');
   }
 
-  openButtons.forEach((button) => {
+  openContactButtons.forEach((button) => {
     button.addEventListener('click', () => {
-      const service = button.dataset.service || '';
-      openModal(service);
+      const selectedService = button.getAttribute('data-service') || '';
+      closeMenu();
+      openContactModal(selectedService);
     });
   });
 
-  closeButtons.forEach((button) => {
-    button.addEventListener('click', closeModal);
+  closeContactButtons.forEach((button) => {
+    button.addEventListener('click', closeContactModal);
   });
 
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && modal.classList.contains('is-active')) {
-      closeModal();
+  contactModal?.addEventListener('click', (event) => {
+    if (event.target === contactModal) {
+      closeContactModal();
     }
   });
 
-  form.addEventListener('submit', (event) => {
+  /* =========================================================
+     ENVIO FORMULÁRIO PARA WHATSAPP
+  ========================================================= */
+  contactForm?.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    const nome = form.querySelector('#nome')?.value.trim() || '';
-    const whatsapp = form.querySelector('#whatsapp')?.value.trim() || '';
-    const servico = form.querySelector('#servico')?.value.trim() || '';
-    const cidade = form.querySelector('#cidade')?.value.trim() || '';
-    const endereco = form.querySelector('#endereco')?.value.trim() || '';
-    const detalhes = form.querySelector('#detalhes')?.value.trim() || '';
+    const nome = document.getElementById('nome')?.value.trim() || '';
+    const whatsapp = document.getElementById('whatsapp')?.value.trim() || '';
+    const servico = document.getElementById('servico')?.value.trim() || '';
+    const cidade = document.getElementById('cidade')?.value.trim() || '';
+    const endereco = document.getElementById('endereco')?.value.trim() || '';
+    const detalhes = document.getElementById('detalhes')?.value.trim() || '';
 
     if (!nome || !whatsapp || !servico || !cidade || !endereco) {
-      alert('Preencha nome, WhatsApp, serviço, cidade/região e endereço.');
+      alert('Preencha os campos obrigatórios para enviar o orçamento.');
       return;
     }
 
-    const mensagem = `Olá, vim pelo site da ALUMNORT e gostaria de solicitar um orçamento.
+    const mensagem =
+      `Olá! Vim pelo site da ALUMNORT.%0A%0A` +
+      `*Solicitação de orçamento*%0A%0A` +
+      `*Nome:* ${encodeURIComponent(nome)}%0A` +
+      `*WhatsApp:* ${encodeURIComponent(whatsapp)}%0A` +
+      `*Tipo de serviço:* ${encodeURIComponent(servico)}%0A` +
+      `*Cidade / Região:* ${encodeURIComponent(cidade)}%0A` +
+      `*Endereço:* ${encodeURIComponent(endereco)}%0A` +
+      `*Detalhes:* ${encodeURIComponent(detalhes || 'Não informado')}`;
 
-*DADOS DO CLIENTE*
-*Nome:* ${nome}
-*WhatsApp:* ${whatsapp}
-*Serviço:* ${servico}
-*Cidade / Região:* ${cidade}
-*Endereço:* ${endereco}
+    const numero = '553899658215';
+    const url = `https://wa.me/${numero}?text=${mensagem}`;
 
-*Detalhes do pedido:*
-${detalhes || 'Não informado'}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
 
-    const whatsappUrl = `https://wa.me/553899658215?text=${encodeURIComponent(mensagem)}`;
-    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-
-    form.reset();
-    closeModal();
+    closeContactModal();
+    contactForm.reset();
   });
-}
+
+  /* =========================================================
+     LIGHTBOX
+  ========================================================= */
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImage = document.getElementById('lightboxImage');
+  const lightboxTitle = document.getElementById('lightboxTitle');
+  const lightboxDescription = document.getElementById('lightboxDescription');
+  const lightboxClose = document.getElementById('lightboxClose');
+  const lightboxBackdrop = document.querySelector('[data-lightbox-close]');
+  const projectCards = document.querySelectorAll('.project-card');
+
+  function openLightbox(image, title, description) {
+    if (!lightbox || !lightboxImage || !lightboxTitle || !lightboxDescription) return;
+
+    lightboxImage.src = image;
+    lightboxImage.alt = title || 'Projeto ALUMNORT';
+    lightboxTitle.textContent = title || 'Projeto';
+    lightboxDescription.textContent = description || 'Descrição do projeto.';
+
+    lightbox.classList.add('active');
+    lightbox.setAttribute('aria-hidden', 'false');
+    body.classList.add('lightbox-open');
+  }
+
+  function closeLightbox() {
+    if (!lightbox || !lightboxImage) return;
+
+    lightbox.classList.remove('active');
+    lightbox.setAttribute('aria-hidden', 'true');
+    body.classList.remove('lightbox-open');
+
+    setTimeout(() => {
+      lightboxImage.src = '';
+      lightboxImage.alt = '';
+    }, 200);
+  }
+
+  projectCards.forEach((card) => {
+    card.addEventListener('click', () => {
+      const image = card.getAttribute('data-lightbox-image');
+      const title = card.getAttribute('data-lightbox-title');
+      const description = card.getAttribute('data-lightbox-description');
+
+      if (!image) return;
+      openLightbox(image, title, description);
+    });
+
+    card.addEventListener('keypress', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+
+        const image = card.getAttribute('data-lightbox-image');
+        const title = card.getAttribute('data-lightbox-title');
+        const description = card.getAttribute('data-lightbox-description');
+
+        if (!image) return;
+        openLightbox(image, title, description);
+      }
+    });
+
+    card.setAttribute('tabindex', '0');
+  });
+
+  lightboxClose?.addEventListener('click', closeLightbox);
+  lightboxBackdrop?.addEventListener('click', closeLightbox);
+
+  /* =========================================================
+     SLIDER HORIZONTAL AUTOMÁTICO - PARCEIROS
+  ========================================================= */
+  const partnersSlider = document.querySelector('#partnersSlider .partners-slider__track');
+
+  function autoScrollSlider(track, speed = 1) {
+    if (!track) return;
+
+    let animationFrame;
+    let paused = false;
+
+    const maxScroll = () => track.scrollWidth - track.clientWidth;
+
+    function step() {
+      if (!paused) {
+        if (track.scrollLeft >= maxScroll()) {
+          track.scrollLeft = 0;
+        } else {
+          track.scrollLeft += speed;
+        }
+      }
+      animationFrame = requestAnimationFrame(step);
+    }
+
+    track.addEventListener('mouseenter', () => { paused = true; });
+    track.addEventListener('mouseleave', () => { paused = false; });
+    track.addEventListener('touchstart', () => { paused = true; }, { passive: true });
+    track.addEventListener('touchend', () => { paused = false; }, { passive: true });
+
+    animationFrame = requestAnimationFrame(step);
+
+    window.addEventListener('beforeunload', () => {
+      cancelAnimationFrame(animationFrame);
+    });
+  }
+
+  autoScrollSlider(partnersSlider, 0.35);
+
+  /* =========================================================
+     SLIDER HORIZONTAL AUTOMÁTICO - DEPOIMENTOS
+  ========================================================= */
+  const testimonialsSlider = document.querySelector('#testimonialsSlider .testimonials-slider__track');
+  autoScrollSlider(testimonialsSlider, 0.30);
+
+  /* =========================================================
+     FECHAR COM ESC
+  ========================================================= */
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeMenu();
+      closeContactModal();
+      closeLightbox();
+    }
+  });
+});
