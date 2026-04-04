@@ -37,7 +37,6 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <!-- WhatsApp flutuante premium -->
   <a
     href="https://wa.me/553899658215?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ALUMNORT%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento."
     class="whatsapp-float"
@@ -51,15 +50,12 @@
     <span class="whatsapp-float__text">WhatsApp</span>
   </a>
 
-  <!-- Botão subir -->
-  <button class="scroll-top" id="scrollTopBtn" aria-label="Voltar ao topo">
+  <button id="btnTopo" aria-label="Voltar ao topo">
     <i class="fa-solid fa-arrow-up"></i>
   </button>
 
-  <!-- Backdrop menu mobile -->
   <div class="menu-backdrop" id="menuBackdrop"></div>
 
-  <!-- LIGHTBOX PADRONIZADA -->
   <div class="lightbox" id="lightbox" aria-hidden="true">
     <div class="lightbox__backdrop" data-lightbox-close></div>
 
@@ -80,12 +76,11 @@
     </div>
   </div>
 
-  <!-- MODAL ORÇAMENTO -->
   <div class="contact-modal" id="contactModal" aria-hidden="true">
-    <div class="contact-modal__overlay" data-modal-close></div>
+    <div class="contact-modal__overlay" data-close-contact></div>
 
     <div class="contact-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle">
-      <button class="contact-modal__close" id="contactModalClose" aria-label="Fechar formulário">
+      <button class="contact-modal__close" type="button" data-close-contact aria-label="Fechar formulário">
         <i class="fa-solid fa-xmark"></i>
       </button>
 
@@ -99,22 +94,17 @@
 
       <form class="contact-form" id="contactForm">
         <div class="form-grid">
-          <div class="form-group">
+          <div class="form-field">
             <label for="nome">Nome</label>
             <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required />
           </div>
 
-          <div class="form-group">
-            <label for="telefone">Telefone</label>
-            <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" required />
+          <div class="form-field">
+            <label for="whatsapp">WhatsApp</label>
+            <input type="tel" id="whatsapp" name="whatsapp" placeholder="(00) 00000-0000" required />
           </div>
 
-          <div class="form-group">
-            <label for="email">E-mail</label>
-            <input type="email" id="email" name="email" placeholder="seuemail@exemplo.com" />
-          </div>
-
-          <div class="form-group">
+          <div class="form-field">
             <label for="servico">Tipo de serviço</label>
             <select id="servico" name="servico" required>
               <option value="">Selecione</option>
@@ -128,37 +118,31 @@
               <option value="Outro">Outro</option>
             </select>
           </div>
-        </div>
 
-        <div class="form-grid">
-          <div class="form-group">
-            <label for="cidade">Cidade</label>
-            <input type="text" id="cidade" name="cidade" placeholder="Ex.: Janaúba" />
+          <div class="form-field">
+            <label for="cidade">Cidade / Região</label>
+            <input type="text" id="cidade" name="cidade" placeholder="Ex.: Janaúba - MG" required />
           </div>
 
-          <div class="form-group">
-            <label for="bairro">Bairro / Região</label>
-            <input type="text" id="bairro" name="bairro" placeholder="Ex.: Centro / Norte de Minas" />
+          <div class="form-field form-field--full">
+            <label for="endereco">Endereço</label>
+            <input type="text" id="endereco" name="endereco" placeholder="Rua, número, bairro" required />
+          </div>
+
+          <div class="form-field form-field--full">
+            <label for="detalhes">Detalhes do pedido</label>
+            <textarea
+              id="detalhes"
+              name="detalhes"
+              rows="5"
+              placeholder="Descreva seu projeto. Ex.: box, janela, portão, fachada, medidas aproximadas e prazo."
+            ></textarea>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="mensagem">Mensagem</label>
-          <textarea
-            id="mensagem"
-            name="mensagem"
-            rows="5"
-            placeholder="Descreva o que você precisa. Ex.: box, janela, portão, fachada, medidas aproximadas e prazo."
-          ></textarea>
-        </div>
-
-        <div class="contact-form__actions">
-          <button type="button" class="btn btn--ghost" data-modal-close>Cancelar</button>
-          <button type="submit" class="btn btn--primary">
-            <i class="fa-brands fa-whatsapp"></i>
-            Enviar pelo WhatsApp
-          </button>
-        </div>
+        <button type="submit" class="btn-enviar-whats">
+          Enviar para WhatsApp
+        </button>
       </form>
     </div>
   </div>
@@ -169,9 +153,9 @@
         <p class="topbar__text">Atendimento em Janaúba e todo o Norte de Minas</p>
 
         <div class="topbar__actions">
-          <a href="tel:+553899658215">
+          <a href="tel:+5538999658215">
             <i class="fa-solid fa-phone-volume"></i>
-            +55 38 9965-8215
+            +55 38 99965-8215
           </a>
 
           <a href="mailto:alumnort1@gmail.com">
@@ -218,7 +202,7 @@
             <span class="brandbar__icon"><i class="fa-solid fa-location-dot"></i></span>
             <div>
               <strong>Endereço</strong>
-              <p>R. João Medeiros, 100 • Janaúba - MG</p>
+              <p>Janaúba - MG • Atendimento regional</p>
             </div>
           </div>
         </div>
@@ -239,7 +223,7 @@
 
         <nav class="nav-menu" id="navMenu" aria-label="Menu principal">
           <div class="nav-menu__links">
-            <a href="#home" class="nav-link">Home</a>
+            <a href="#home" class="nav-link active">Home</a>
             <a href="#quem-somos" class="nav-link">Quem Somos</a>
             <a href="#servicos" class="nav-link">Nossos Serviços</a>
             <a href="#projetos" class="nav-link">Projetos</a>
@@ -257,75 +241,64 @@
   </header>
 
   <main>
-   <!-- HERO -->
-<section class="hero hero--landscape" id="home">
-  <div class="hero__bg" style="background-image: url('img/hero-1.jpg');"></div>
-  <div class="hero__overlay"></div>
+    <section class="hero hero--landscape" id="home">
+      <div class="hero__bg" style="background-image: url('img/hero-1.jpg');"></div>
+      <div class="hero__overlay"></div>
 
-  <div class="container hero__content hero__content--landscape">
-    <div class="hero__grid hero__grid--landscape">
-      <div class="hero__text hero__text--landscape reveal">
-        <span class="section-tag section-tag--light">ALUMNORT • JANAÚBA - MG</span>
+      <div class="container hero__content hero__content--landscape">
+        <div class="hero__grid hero__grid--landscape">
+          <div class="hero__text hero__text--landscape reveal">
+            <span class="section-tag section-tag--light">ALUMNORT • JANAÚBA - MG</span>
 
-        <h1>
-          Esquadrias de alumínio e vidro com acabamento que valoriza seu imóvel
-        </h1>
+            <h1>Esquadrias de alumínio e vidro com acabamento que valoriza seu imóvel</h1>
 
-        <button class="btn btn--primary btn--hero-pulse" data-open-contact>
-          Pedir orçamento
-        </button>
+            <p class="hero-lead">
+              Projetos sob medida para residências e comércios, com visual moderno, funcionalidade,
+              segurança e presença profissional do início ao acabamento final.
+            </p>
+
+            <button class="btn btn--primary btn--hero-pulse" data-open-contact>
+              Pedir orçamento
+            </button>
+          </div>
+
+          <div class="hero__visual hero__visual--landscape reveal">
+            <img
+              src="img/avatar-hero.png"
+              alt="Especialista ALUMNORT"
+              class="hero__avatar"
+            />
+          </div>
+        </div>
       </div>
+    </section>
 
-      <div class="hero__visual hero__visual--landscape reveal">
-        <img
-          src="img/avatar-hero.png"
-          alt="Especialista ALUMNORT"
-          class="hero__avatar"
-        />
-      </div>
-    </div>
-  </div>
-</section>
-    <!-- STATS -->
-    <section class="stats">
+    <section class="hero-metrics">
       <div class="container">
-        <div class="stats__grid">
-          <article class="stats__card reveal">
-            <div class="stats__top">
-              <strong class="stats__number" data-target="2">0</strong>
-              <span class="stats__suffix">+</span>
-            </div>
-            <p>Anos no mercado regional</p>
+        <div class="hero-metrics__grid">
+          <article class="hero-metric-card reveal">
+            <strong>2<span>+</span></strong>
+            <p>Anos no mercado regional, com atuação séria e presença crescente no segmento.</p>
           </article>
 
-          <article class="stats__card reveal">
-            <div class="stats__top">
-              <strong class="stats__number" data-target="100">0</strong>
-              <span class="stats__suffix">+</span>
-            </div>
-            <p>Projetos executados com foco em acabamento e presença visual</p>
+          <article class="hero-metric-card reveal">
+            <strong>100<span>+</span></strong>
+            <p>Projetos executados com foco em acabamento, funcionalidade e valorização visual.</p>
           </article>
 
-          <article class="stats__card reveal">
-            <div class="stats__top">
-              <strong class="stats__number" data-target="1">0</strong>
-              <span class="stats__suffix"> região</span>
-            </div>
-            <p>Atendimento em Janaúba e todo o Norte de Minas</p>
+          <article class="hero-metric-card reveal">
+            <strong>100<span>%</span></strong>
+            <p>Atendimento em Janaúba e todo o Norte de Minas, com suporte comercial direto.</p>
           </article>
 
-          <article class="stats__card reveal">
-            <div class="stats__top">
-              <strong class="stats__number" data-target="200">0</strong>
-              <span class="stats__suffix">%</span>
-            </div>
-            <p>Compromisso com atendimento sério e solução sob medida</p>
+          <article class="hero-metric-card reveal">
+            <strong>200<span>%</span></strong>
+            <p>Compromisso com atendimento sério, solução sob medida e entrega bem apresentada.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- ABOUT -->
     <section class="about section" id="quem-somos">
       <div class="container">
         <div class="section-heading reveal">
@@ -375,7 +348,6 @@
       </div>
     </section>
 
-    <!-- SERVICES -->
     <section class="services section section--alt" id="servicos">
       <div class="container">
         <div class="section-heading reveal">
@@ -456,15 +428,12 @@
       </div>
     </section>
 
-    <!-- PARCEIROS EM SLIDE CLICÁVEL -->
     <section class="partners section" id="parceiros">
       <div class="container">
         <div class="section-heading reveal">
           <span class="section-tag">Nossos parceiros</span>
           <h2>Parcerias e conexões que fortalecem a presença da marca</h2>
-          <p>
-            Área pronta para funcionar em slide, com todos os cards clicáveis.
-          </p>
+          <p>Área pronta para funcionar em slide, com todos os cards clicáveis.</p>
         </div>
 
         <div class="partners-slider reveal" id="partnersSlider">
@@ -499,7 +468,7 @@
               </div>
             </a>
 
-            <a class="partner-card" href="#" target="_blank" rel="noopener noreferrer">
+            <a class="partner-card" href="#">
               <div class="partner-card__logo">
                 <i class="fa-solid fa-building"></i>
               </div>
@@ -509,7 +478,7 @@
               </div>
             </a>
 
-            <a class="partner-card" href="#" target="_blank" rel="noopener noreferrer">
+            <a class="partner-card" href="#">
               <div class="partner-card__logo">
                 <i class="fa-solid fa-building"></i>
               </div>
@@ -523,26 +492,23 @@
       </div>
     </section>
 
-    <!-- PROJECTS -->
     <section class="portfolio section section--alt" id="projetos">
       <div class="container">
         <div class="section-heading reveal">
           <span class="section-tag">Projetos</span>
           <h2>Projetos que mostram acabamento, presença e valorização visual</h2>
-          <p>
-            Clique nas imagens para ampliar. Lightbox padronizada para desktop e celular.
-          </p>
+          <p>Clique nas imagens para ampliar. Lightbox padronizada para desktop e celular.</p>
         </div>
 
         <div class="portfolio__grid">
           <article
             class="project-card reveal"
-            data-lightbox-image="img/projetos/corredor-esquadrias-alumínio-preto.jpg"
+            data-lightbox-image="img/projetos/corredor-esquadrias-aluminio-preto.jpg"
             data-lightbox-title="Corredor com esquadrias em alumínio preto"
             data-lightbox-description="Projeto com linhas modernas, presença arquitetônica e leitura visual sofisticada."
           >
             <div class="project-card__image">
-              <img src="img/projetos/corredor-esquadrias-alumínio-preto.jpg" alt="Corredor com esquadrias em alumínio preto" />
+              <img src="img/projetos/corredor-esquadrias-aluminio-preto.jpg" alt="Corredor com esquadrias em alumínio preto" />
             </div>
             <div class="project-card__content">
               <h3>Corredor com esquadrias em alumínio preto</h3>
@@ -552,12 +518,12 @@
 
           <article
             class="project-card reveal"
-            data-lightbox-image="img/projetos/escada-guarda-corpo-vidro-alumínio.jpg"
+            data-lightbox-image="img/projetos/escada-guarda-corpo-vidro-aluminio.jpg"
             data-lightbox-title="Escada com guarda-corpo em vidro e alumínio"
             data-lightbox-description="Aplicação com equilíbrio entre segurança, sofisticação e leveza visual."
           >
             <div class="project-card__image">
-              <img src="img/projetos/escada-guarda-corpo-vidro-alumínio.jpg" alt="Escada com guarda-corpo em vidro e alumínio" />
+              <img src="img/projetos/escada-guarda-corpo-vidro-aluminio.jpg" alt="Escada com guarda-corpo em vidro e alumínio" />
             </div>
             <div class="project-card__content">
               <h3>Escada com guarda-corpo em vidro e alumínio</h3>
@@ -598,15 +564,12 @@
       </div>
     </section>
 
-    <!-- DEPOIMENTOS EM BALÕES / SLIDER -->
     <section class="testimonials section">
       <div class="container">
         <div class="section-heading reveal">
           <span class="section-tag">Depoimentos</span>
           <h2>Comentários que passam mais confiança para quem entra no site</h2>
-          <p>
-            Estrutura pronta para funcionar em slider com visual de balões.
-          </p>
+          <p>Estrutura pronta para funcionar em slider com visual de balões.</p>
         </div>
 
         <div class="testimonials-slider reveal" id="testimonialsSlider">
@@ -660,7 +623,6 @@
       </div>
     </section>
 
-    <!-- CTA FINAL -->
     <section class="cta-final section" id="contato">
       <div class="container">
         <div class="cta-final__box reveal">
@@ -753,7 +715,7 @@
         <ul>
           <li>
             <i class="fa-solid fa-phone"></i>
-            <a href="tel:+553899658215">+55 38 9965-8215</a>
+            <a href="tel:+5538999658215">+55 38 99965-8215</a>
           </li>
           <li>
             <i class="fa-solid fa-envelope"></i>
@@ -761,7 +723,7 @@
           </li>
           <li>
             <i class="fa-solid fa-location-dot"></i>
-            <span>R. João Medeiros, 100 - Algodões I, Janaúba - MG</span>
+            <span>Janaúba - MG</span>
           </li>
           <li>
             <i class="fa-solid fa-map"></i>
