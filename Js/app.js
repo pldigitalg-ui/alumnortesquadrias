@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCounters();
   initLightbox();
   initTestimonialsSlider();
+  initPartnersSlider();
   initContactModal();
 });
 
@@ -133,6 +134,13 @@ function initHeroSlider() {
   let current = 0;
   let intervalId = null;
   const delay = 5000;
+
+  slides.forEach((slide) => {
+    const bg = slide.dataset.bg;
+    if (bg) {
+      slide.style.backgroundImage = `url("${bg}")`;
+    }
+  });
 
   function showSlide(index) {
     slides.forEach((slide, i) => {
@@ -399,4 +407,17 @@ function initTestimonialsSlider() {
 
   updateSlider();
   start();
+}
+
+function initPartnersSlider() {
+  const slider = document.getElementById('partnersSlider');
+  const track = slider?.querySelector('.partners-slider__track');
+
+  if (!slider || !track) return;
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (prefersReducedMotion) {
+    track.style.animation = 'none';
+  }
 }
