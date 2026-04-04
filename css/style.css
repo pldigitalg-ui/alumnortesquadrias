@@ -1955,3 +1955,51 @@ ul{
     padding:22px 16px;
   }
 }
+/* MAPA */
+.map-section{
+  padding:0;
+  line-height:0;
+  border-top:1px solid rgba(16,40,68,0.08);
+}
+
+.map-section iframe{
+  display:block;
+  width:100%;
+  height:380px;
+  filter:grayscale(0.08) contrast(1.02);
+}
+
+/* HERO VISUAL AJUSTADO */
+.hero__visual--landscape{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  padding-right:0;
+}
+
+.hero__avatar{
+  width:min(100%, 760px);
+  max-height:78vh;
+  object-fit:contain;
+  object-position:center bottom;
+  display:block;
+  filter:drop-shadow(0 22px 46px rgba(0,0,0,0.28));
+}
+
+@media (max-width: 991px){
+  .hero__avatar{
+    width:min(88vw, 420px);
+    max-height:40vh;
+    object-position:center bottom;
+  }
+
+  .map-section iframe{
+    height:320px;
+  }
+}
+
+@media (max-width: 767px){
+  .map-section iframe{
+    height:280px;
+  }
+}
