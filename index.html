@@ -241,9 +241,9 @@
   </header>
 
   <main>
-    <section class="hero hero--landscape" id="home">
-      <div class="hero__bg" style="background-image: url('img/hero-1.jpg');"></div>
-      <div class="hero__overlay"></div>
+   <div class="hero__visual hero__visual--landscape reveal">
+  <img src="img/hero-1.jpg" alt="Projeto ALUMNORT" class="hero__image-full" />
+</div>
 
       <div class="container hero__content hero__content--landscape">
         <div class="hero__grid hero__grid--landscape">
@@ -491,7 +491,11 @@
         </div>
       </div>
     </section>
-
+    
+<button id="btnTopo" class="btn-topo">
+  <i class="fa-solid fa-arrow-up"></i>
+</button>
+    
     <section class="portfolio section section--alt" id="projetos">
       <div class="container">
         <div class="section-heading reveal">
@@ -637,6 +641,7 @@
           <div class="cta-final__actions">
             <button class="btn btn--light btn--large" data-open-contact>
               Solicite um orçamento
+              <button type="button" class="btn btn--primary btn--hero-pulse" data-open-contact>
             </button>
 
             <a
@@ -739,6 +744,17 @@
         <p>Esquadrias de Alumínio e Vidraçaria • Janaúba - MG</p>
       </div>
     </div>
+    <section class="map-section">
+  <iframe
+    src="https://www.google.com/maps?q=Janaúba+MG&output=embed"
+    width="100%"
+    height="350"
+    style="border:0;"
+    allowfullscreen=""
+    loading="lazy">
+  </iframe>
+</section>
+    
   </footer>
 
   <script type="module" src="js/app.js"></script>
