@@ -215,7 +215,7 @@
           <img src="img/logo.png" alt="Logo ALUMNORT" />
         </a>
 
-        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false" type="button">
           <span></span>
           <span></span>
           <span></span>
@@ -231,7 +231,7 @@
           </div>
 
           <div class="nav-menu__center-cta">
-            <button class="btn btn--primary nav-menu__cta" data-open-contact>
+            <button type="button" class="btn btn--primary nav-menu__cta" data-open-contact>
               Pedir orçamento
             </button>
           </div>
@@ -241,9 +241,9 @@
   </header>
 
   <main>
-   <div class="hero__visual hero__visual--landscape reveal">
-  <img src="img/hero-1.jpg" alt="Projeto ALUMNORT" class="hero__image-full" />
-</div>
+    <section class="hero hero--landscape" id="home">
+      <div class="hero__bg"></div>
+      <div class="hero__overlay"></div>
 
       <div class="container hero__content hero__content--landscape">
         <div class="hero__grid hero__grid--landscape">
@@ -257,7 +257,7 @@
               segurança e presença profissional do início ao acabamento final.
             </p>
 
-            <button class="btn btn--primary btn--hero-pulse" data-open-contact>
+            <button type="button" class="btn btn--primary btn--hero-pulse" data-open-contact>
               Pedir orçamento
             </button>
           </div>
@@ -366,7 +366,7 @@
             <div class="service-card__content">
               <h3>Portas em Alumínio</h3>
               <p>Soluções resistentes, elegantes e alinhadas ao padrão arquitetônico do ambiente.</p>
-              <button class="btn btn--outline" data-open-contact data-service="Portas em Alumínio">Pedir orçamento</button>
+              <button type="button" class="btn btn--outline" data-open-contact data-service="Portas em Alumínio">Pedir orçamento</button>
             </div>
           </article>
 
@@ -377,7 +377,7 @@
             <div class="service-card__content">
               <h3>Janelas Sob Medida</h3>
               <p>Mais ventilação, iluminação e um visual moderno para seu projeto.</p>
-              <button class="btn btn--outline" data-open-contact data-service="Janelas Sob Medida">Pedir orçamento</button>
+              <button type="button" class="btn btn--outline" data-open-contact data-service="Janelas Sob Medida">Pedir orçamento</button>
             </div>
           </article>
 
@@ -388,7 +388,7 @@
             <div class="service-card__content">
               <h3>Portões em Alumínio</h3>
               <p>Durabilidade, segurança e presença de fachada para valorizar o imóvel.</p>
-              <button class="btn btn--outline" data-open-contact data-service="Portões em Alumínio">Solicitar avaliação</button>
+              <button type="button" class="btn btn--outline" data-open-contact data-service="Portões em Alumínio">Solicitar avaliação</button>
             </div>
           </article>
 
@@ -399,7 +399,7 @@
             <div class="service-card__content">
               <h3>Vidraçaria</h3>
               <p>Aplicações em vidro com acabamento limpo, elegante e forte valorização visual.</p>
-              <button class="btn btn--outline" data-open-contact data-service="Vidraçaria">Pedir orçamento</button>
+              <button type="button" class="btn btn--outline" data-open-contact data-service="Vidraçaria">Pedir orçamento</button>
             </div>
           </article>
 
@@ -410,7 +410,7 @@
             <div class="service-card__content">
               <h3>Vidro Temperado</h3>
               <p>Segurança, resistência e sofisticação para aplicações residenciais e comerciais.</p>
-              <button class="btn btn--outline" data-open-contact data-service="Vidro Temperado">Solicitar avaliação</button>
+              <button type="button" class="btn btn--outline" data-open-contact data-service="Vidro Temperado">Solicitar avaliação</button>
             </div>
           </article>
 
@@ -421,7 +421,7 @@
             <div class="service-card__content">
               <h3>Pele de Vidro</h3>
               <p>Fachadas de forte impacto visual para projetos que pedem presença premium.</p>
-              <button class="btn btn--outline" data-open-contact data-service="Pele de Vidro">Pedir orçamento</button>
+              <button type="button" class="btn btn--outline" data-open-contact data-service="Pele de Vidro">Pedir orçamento</button>
             </div>
           </article>
         </div>
@@ -491,11 +491,7 @@
         </div>
       </div>
     </section>
-    
-<button id="btnTopo" class="btn-topo">
-  <i class="fa-solid fa-arrow-up"></i>
-</button>
-    
+
     <section class="portfolio section section--alt" id="projetos">
       <div class="container">
         <div class="section-heading reveal">
@@ -639,9 +635,8 @@
           </div>
 
           <div class="cta-final__actions">
-            <button class="btn btn--light btn--large" data-open-contact>
+            <button type="button" class="btn btn--light btn--large" data-open-contact>
               Solicite um orçamento
-              <button type="button" class="btn btn--primary btn--hero-pulse" data-open-contact>
             </button>
 
             <a
@@ -656,6 +651,18 @@
           </div>
         </div>
       </div>
+    </section>
+
+    <section class="map-section" aria-label="Mapa de localização da ALUMNORT">
+      <iframe
+        src="https://www.google.com/maps?q=Jana%C3%BAba%20MG&output=embed"
+        width="100%"
+        height="350"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
     </section>
   </main>
 
@@ -744,19 +751,8 @@
         <p>Esquadrias de Alumínio e Vidraçaria • Janaúba - MG</p>
       </div>
     </div>
-    <section class="map-section">
-  <iframe
-    src="https://www.google.com/maps?q=Janaúba+MG&output=embed"
-    width="100%"
-    height="350"
-    style="border:0;"
-    allowfullscreen=""
-    loading="lazy">
-  </iframe>
-</section>
-    
   </footer>
 
-  <script type="module" src="js/app.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
