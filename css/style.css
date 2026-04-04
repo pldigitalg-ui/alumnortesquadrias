@@ -599,33 +599,271 @@ ul{
   min-height:min(88vh, 860px);
 }
 
-.hero__slider{
-  position:absolute;
-  inset:0;
+
+/* =========================
+   HERO NOVO - PAISAGEM
+========================= */
+.hero--landscape {
+  position: relative;
+  min-height: 88vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: #0f2238;
 }
 
-.hero__slide{
-  position:absolute;
-  inset:0;
-  background-size:cover;
-  background-position:center;
-  opacity:0;
-  transform:scale(1.05);
-  transition:opacity 1s ease, transform 5s ease;
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transform: scale(1.03);
 }
 
-.hero__slide.active{
-  opacity:1;
-  transform:scale(1);
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(7, 19, 34, 0.90) 0%, rgba(7, 19, 34, 0.72) 36%, rgba(7, 19, 34, 0.26) 72%, rgba(7, 19, 34, 0.12) 100%),
+    linear-gradient(180deg, rgba(10, 24, 42, 0.30) 0%, rgba(10, 24, 42, 0.48) 100%);
+  z-index: 1;
 }
 
-.hero__slide::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(90deg, rgba(8,22,36,0.88) 0%, rgba(8,22,36,0.72) 35%, rgba(8,22,36,0.48) 62%, rgba(8,22,36,0.58) 100%);
+.hero__content--landscape {
+  position: relative;
+  z-index: 2;
+  width: 100%;
 }
 
+.hero__grid--landscape {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: end;
+  gap: 24px;
+  min-height: 88vh;
+  padding: 150px 0 70px;
+}
+
+.hero__text--landscape {
+  max-width: 720px;
+  align-self: center;
+}
+
+.hero__text--landscape .section-tag {
+  margin-bottom: 22px;
+}
+
+.hero__text--landscape h1 {
+  margin: 0;
+  color: #fff;
+  font-family: "Manrope", sans-serif;
+  font-size: clamp(2.9rem, 5vw, 5.4rem);
+  line-height: 0.98;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  max-width: 11ch;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.24);
+}
+
+.hero__visual--landscape {
+  display: flex;
+  justify-content: flex-end;
+  align-items: end;
+  align-self: end;
+}
+
+.hero__avatar {
+  width: min(100%, 520px);
+  max-height: 78vh;
+  object-fit: contain;
+  object-position: bottom right;
+  display: block;
+  filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.28));
+}
+
+/* CTA principal */
+.btn--hero-pulse {
+  margin-top: 30px;
+  min-width: 290px;
+  min-height: 66px;
+  padding: 18px 32px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #0d4fa1 0%, #0a3871 100%);
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 800;
+  box-shadow:
+    0 14px 34px rgba(11, 73, 148, 0.30),
+    0 0 0 0 rgba(36, 139, 255, 0.45);
+  animation: heroPulse 1.9s infinite;
+}
+
+.btn--hero-pulse:hover {
+  transform: translateY(-2px);
+}
+
+@keyframes heroPulse {
+  0% {
+    transform: scale(1);
+    box-shadow:
+      0 14px 34px rgba(11, 73, 148, 0.30),
+      0 0 0 0 rgba(36, 139, 255, 0.45);
+  }
+  70% {
+    transform: scale(1.025);
+    box-shadow:
+      0 14px 34px rgba(11, 73, 148, 0.34),
+      0 0 0 18px rgba(36, 139, 255, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 14px 34px rgba(11, 73, 148, 0.30),
+      0 0 0 0 rgba(36, 139, 255, 0);
+  }
+}
+
+/* =========================
+   TOPO LIMPO NO CELULAR
+========================= */
+@media (max-width: 991px) {
+  .topbar,
+  .brandbar {
+    display: none;
+  }
+
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(16, 40, 68, 0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    z-index: 1000;
+  }
+
+  .navbar__inner {
+    min-height: 88px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .navbar__brand-mobile img {
+    width: 82px;
+    height: 82px;
+    object-fit: contain;
+    display: block;
+  }
+
+  .nav-menu__links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .nav-menu__center-cta {
+    display: none;
+  }
+}
+
+/* =========================
+   HERO RESPONSIVO
+========================= */
+@media (max-width: 1200px) {
+  .hero__grid--landscape {
+    grid-template-columns: 1fr 0.85fr;
+    gap: 10px;
+  }
+
+  .hero__avatar {
+    width: min(100%, 450px);
+  }
+}
+
+@media (max-width: 991px) {
+  .hero--landscape {
+    min-height: 100svh;
+  }
+
+  .hero__overlay {
+    background:
+      linear-gradient(180deg, rgba(7, 19, 34, 0.52) 0%, rgba(7, 19, 34, 0.60) 100%),
+      linear-gradient(90deg, rgba(7, 19, 34, 0.82) 0%, rgba(7, 19, 34, 0.48) 55%, rgba(7, 19, 34, 0.18) 100%);
+  }
+
+  .hero__grid--landscape {
+    grid-template-columns: 1fr;
+    min-height: 100svh;
+    padding: 118px 0 42px;
+    align-items: center;
+  }
+
+  .hero__text--landscape {
+    max-width: 100%;
+    text-align: left;
+    order: 1;
+  }
+
+  .hero__text--landscape h1 {
+    font-size: clamp(2.15rem, 9vw, 3.9rem);
+    max-width: 10ch;
+  }
+
+  .hero__visual--landscape {
+    order: 2;
+    justify-content: flex-end;
+    margin-top: 12px;
+  }
+
+  .hero__avatar {
+    width: min(82vw, 360px);
+    max-height: 44vh;
+    object-position: bottom right;
+  }
+
+  .btn--hero-pulse {
+    margin-top: 24px;
+    width: 100%;
+    max-width: 320px;
+    min-height: 60px;
+    font-size: 1.08rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero__grid--landscape {
+    padding: 108px 0 32px;
+  }
+
+  .hero__text--landscape {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero__text--landscape h1 {
+    max-width: 9.5ch;
+    font-size: clamp(2rem, 10vw, 3.2rem);
+  }
+
+  .hero__visual--landscape {
+    justify-content: center;
+  }
+
+  .hero__avatar {
+    width: min(84vw, 310px);
+    max-height: 34vh;
+  }
+
+  .btn--hero-pulse {
+    max-width: 100%;
+  }
+}
 .hero__overlay{
   position:absolute;
   inset:0;
