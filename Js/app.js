@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   initMenu();
-  initHeroSlider();
   initReveal();
-  initCounter();
   initLightbox();
   initContactModal();
   initScrollTop();
@@ -38,7 +36,11 @@ function initMenu() {
   }
 
   menuToggle.addEventListener('click', () => {
-    navMenu.classList.contains('active') ? closeMenu() : openMenu();
+    if (navMenu.classList.contains('active')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
   });
 
   menuBackdrop.addEventListener('click', closeMenu);
@@ -56,47 +58,6 @@ function initMenu() {
       closeMenu();
     }
   });
-}
-
-/* =========================
-   HERO SLIDER AUTOMÁTICO
-========================= */
-function initHeroSlider() {
-  const slider = document.getElementById('heroSlider');
-  if (!slider) return;
-
-  const slides = slider.querySelectorAll('.hero__slide');
-  if (!slides.length) return;
-
-  let current = 0;
-  let intervalId = null;
-
-  function showSlide(index) {
-    slides.forEach((slide, i) => {
-      slide.classList.toggle('active', i === index);
-    });
-  }
-
-  function nextSlide() {
-    current = (current + 1) % slides.length;
-    showSlide(current);
-  }
-
-  function startAuto() {
-    if (slides.length <= 1) return;
-    stopAuto();
-    intervalId = setInterval(nextSlide, 5000);
-  }
-
-  function stopAuto() {
-    if (intervalId) clearInterval(intervalId);
-  }
-
-  showSlide(current);
-  startAuto();
-
-  slider.addEventListener('mouseenter', stopAuto);
-  slider.addEventListener('mouseleave', startAuto);
 }
 
 /* =========================
@@ -127,48 +88,6 @@ function initReveal() {
   );
 
   items.forEach(item => observer.observe(item));
-}
-
-/* =========================
-   COUNTER
-========================= */
-function initCounter() {
-  const counters = document.querySelectorAll('.stats__number');
-  if (!counters.length) return;
-
-  function animateCounter(el) {
-    const target = Number(el.dataset.target || 0);
-    const duration = 1600;
-    const start = performance.now();
-
-    function update(now) {
-      const progress = Math.min((now - start) / duration, 1);
-      const value = Math.floor(progress * target);
-      el.textContent = value;
-
-      if (progress < 1) {
-        requestAnimationFrame(update);
-      } else {
-        el.textContent = target;
-      }
-    }
-
-    requestAnimationFrame(update);
-  }
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !entry.target.dataset.counted) {
-          entry.target.dataset.counted = 'true';
-          animateCounter(entry.target);
-        }
-      });
-    },
-    { threshold: 0.45 }
-  );
-
-  counters.forEach(counter => observer.observe(counter));
 }
 
 /* =========================
@@ -221,7 +140,9 @@ function initLightbox() {
     });
   });
 
-  closeTriggers.forEach(btn => btn.addEventListener('click', closeLightbox));
+  closeTriggers.forEach(trigger => {
+    trigger.addEventListener('click', closeLightbox);
+  });
 
   if (lightboxClose) {
     lightboxClose.addEventListener('click', closeLightbox);
@@ -245,11 +166,10 @@ function initContactModal() {
   if (!modal || !form) return;
 
   const openButtons = document.querySelectorAll('[data-open-contact]');
-  const closeButtons = modal.querySelectorAll('[data-modal-close]');
-  const modalClose = document.getElementById('contactModalClose');
+  const closeButtons = modal.querySelectorAll('[data-close-contact]');
 
   function openModal(service = '') {
-    modal.classList.add('active');
+    modal.classList.add('is-active');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
 
@@ -259,7 +179,7 @@ function initContactModal() {
   }
 
   function closeModal() {
-    modal.classList.remove('active');
+    modal.classList.remove('is-active');
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('modal-open');
   }
@@ -275,12 +195,8 @@ function initContactModal() {
     button.addEventListener('click', closeModal);
   });
 
-  if (modalClose) {
-    modalClose.addEventListener('click', closeModal);
-  }
-
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) {
+    if (e.key === 'Escape' && modal.classList.contains('is-active')) {
       closeModal();
     }
   });
@@ -289,32 +205,28 @@ function initContactModal() {
     e.preventDefault();
 
     const nome = form.querySelector('#nome')?.value.trim() || '';
-    const telefone = form.querySelector('#telefone')?.value.trim() || '';
-    const email = form.querySelector('#email')?.value.trim() || '';
+    const whatsapp = form.querySelector('#whatsapp')?.value.trim() || '';
     const servico = form.querySelector('#servico')?.value.trim() || '';
     const cidade = form.querySelector('#cidade')?.value.trim() || '';
-    const bairro = form.querySelector('#bairro')?.value.trim() || '';
     const endereco = form.querySelector('#endereco')?.value.trim() || '';
-    const mensagem = form.querySelector('#mensagem')?.value.trim() || '';
+    const detalhes = form.querySelector('#detalhes')?.value.trim() || '';
 
-    if (!nome || !telefone || !servico) {
-      alert('Preencha pelo menos nome, telefone e tipo de serviço.');
+    if (!nome || !whatsapp || !servico || !cidade || !endereco) {
+      alert('Preencha nome, WhatsApp, serviço, cidade/região e endereço.');
       return;
     }
 
     const texto = `Olá, vim pelo site da ALUMNORT e gostaria de solicitar um orçamento.
 
-*RELATÓRIO DO CLIENTE*
+*DADOS DO CLIENTE*
 *Nome:* ${nome}
-*Telefone:* ${telefone}
-*E-mail:* ${email || 'Não informado'}
+*WhatsApp:* ${whatsapp}
 *Serviço:* ${servico}
-*Cidade:* ${cidade || 'Não informado'}
-*Bairro/Região:* ${bairro || 'Não informado'}
-*Endereço:* ${endereco || 'Não informado'}
+*Cidade / Região:* ${cidade}
+*Endereço:* ${endereco}
 
 *Detalhes do pedido:*
-${mensagem || 'Não informado'}`;
+${detalhes || 'Não informado'}`;
 
     const url = `https://wa.me/553899658215?text=${encodeURIComponent(texto)}`;
     window.open(url, '_blank', 'noopener,noreferrer');
@@ -328,14 +240,14 @@ ${mensagem || 'Não informado'}`;
    BOTÃO VOLTAR AO TOPO
 ========================= */
 function initScrollTop() {
-  const button = document.getElementById('scrollTopBtn');
+  const button = document.getElementById('btnTopo');
   if (!button) return;
 
   function toggleButton() {
     if (window.scrollY > 300) {
-      button.classList.add('is-visible');
+      button.classList.add('show');
     } else {
-      button.classList.remove('is-visible');
+      button.classList.remove('show');
     }
   }
 
@@ -362,9 +274,9 @@ function initHorizontalAutoSliders() {
 
   sliderSelectors.forEach(selector => {
     const track = document.querySelector(selector);
-    if (!track) return;
+    if (!track || track.children.length < 2) return;
 
-    let autoScroll;
+    let autoScroll = null;
     let isPaused = false;
 
     function getCardWidth() {
@@ -396,10 +308,21 @@ function initHorizontalAutoSliders() {
       if (autoScroll) clearInterval(autoScroll);
     }
 
-    track.addEventListener('mouseenter', () => { isPaused = true; });
-    track.addEventListener('mouseleave', () => { isPaused = false; });
-    track.addEventListener('touchstart', () => { isPaused = true; }, { passive: true });
-    track.addEventListener('touchend', () => { isPaused = false; }, { passive: true });
+    track.addEventListener('mouseenter', () => {
+      isPaused = true;
+    });
+
+    track.addEventListener('mouseleave', () => {
+      isPaused = false;
+    });
+
+    track.addEventListener('touchstart', () => {
+      isPaused = true;
+    }, { passive: true });
+
+    track.addEventListener('touchend', () => {
+      isPaused = false;
+    }, { passive: true });
 
     startAutoScroll();
   });
