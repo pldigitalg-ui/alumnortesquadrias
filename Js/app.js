@@ -1,23 +1,58 @@
 document.addEventListener('DOMContentLoaded', () => {
-  initMenu();
+  const uiState = createUiStateController();
+
+  initMenu(uiState);
   initHeroSlider();
   initReveal();
   initCounter();
-  initLightbox();
-  initContactModal();
+  initLightbox(uiState);
+  initContactModal(uiState);
   initScrollTop();
   initHorizontalAutoSliders();
   initActiveNavOnScroll();
 });
 
 /* =========================
+   CONTROLE DE ESTADO GLOBAL DO BODY
+========================= */
+function createUiStateController() {
+  const state = {
+    menu: false,
+    modal: false,
+    lightbox: false
+  };
+
+  function sync() {
+    document.body.classList.toggle('menu-open', state.menu);
+    document.body.classList.toggle('modal-open', state.modal);
+    document.body.classList.toggle('lightbox-open', state.lightbox);
+  }
+
+  return {
+    setMenu(value) {
+      state.menu = Boolean(value);
+      sync();
+    },
+    setModal(value) {
+      state.modal = Boolean(value);
+      sync();
+    },
+    setLightbox(value) {
+      state.lightbox = Boolean(value);
+      sync();
+    }
+  };
+}
+
+/* =========================
    MENU MOBILE
 ========================= */
-function initMenu() {
+function initMenu(uiState) {
   const menuToggle = document.getElementById('menuToggle');
   const navMenu = document.getElementById('navMenu');
   const menuBackdrop = document.getElementById('menuBackdrop');
   const navLinks = document.querySelectorAll('.nav-link');
+  const contactButtons = document.querySelectorAll('[data-open-contact]');
 
   if (!menuToggle || !navMenu || !menuBackdrop) return;
 
@@ -26,7 +61,8 @@ function initMenu() {
     menuBackdrop.classList.add('active');
     menuToggle.classList.add('active');
     menuToggle.setAttribute('aria-expanded', 'true');
-    document.body.classList.add('menu-open');
+    menuBackdrop.setAttribute('aria-hidden', 'false');
+    uiState.setMenu(true);
   }
 
   function closeMenu() {
@@ -34,69 +70,120 @@ function initMenu() {
     menuBackdrop.classList.remove('active');
     menuToggle.classList.remove('active');
     menuToggle.setAttribute('aria-expanded', 'false');
-    document.body.classList.remove('menu-open');
+    menuBackdrop.setAttribute('aria-hidden', 'true');
+    uiState.setMenu(false);
   }
 
-  menuToggle.addEventListener('click', () => {
-    navMenu.classList.contains('active') ? closeMenu() : openMenu();
-  });
+  function toggleMenu() {
+    if (navMenu.classList.contains('active')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  }
 
+  menuToggle.addEventListener('click', toggleMenu);
   menuBackdrop.addEventListener('click', closeMenu);
 
   navLinks.forEach(link => {
     link.addEventListener('click', closeMenu);
   });
 
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 991) closeMenu();
+  contactButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      if (window.innerWidth <= 991 && navMenu.classList.contains('active')) {
+        closeMenu();
+      }
+    });
   });
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 991 && navMenu.classList.contains('active')) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && navMenu.classList.contains('active')) {
       closeMenu();
     }
   });
 }
 
 /* =========================
-   HERO SLIDER AUTOMÁTICO
+   HERO SLIDER AUTOMÁTICO + DOTS
 ========================= */
 function initHeroSlider() {
   const slider = document.getElementById('heroSlider');
+  const dotsContainer = document.getElementById('heroDots');
+
   if (!slider) return;
 
-  const slides = slider.querySelectorAll('.hero__slide');
+  const slides = Array.from(slider.querySelectorAll('.hero__slide'));
+  const dots = dotsContainer ? Array.from(dotsContainer.querySelectorAll('.hero__dot')) : [];
+
   if (!slides.length) return;
 
-  let current = 0;
-  let intervalId = null;
+  let currentIndex = 0;
+  let autoPlayId = null;
+  const intervalTime = 5000;
 
-  function showSlide(index) {
-    slides.forEach((slide, i) => {
-      slide.classList.toggle('active', i === index);
+  function syncDots(index) {
+    dots.forEach((dot, dotIndex) => {
+      dot.classList.toggle('active', dotIndex === index);
+      dot.setAttribute('aria-current', dotIndex === index ? 'true' : 'false');
     });
   }
 
+  function showSlide(index) {
+    slides.forEach((slide, slideIndex) => {
+      slide.classList.toggle('active', slideIndex === index);
+    });
+
+    syncDots(index);
+    currentIndex = index;
+  }
+
   function nextSlide() {
-    current = (current + 1) % slides.length;
-    showSlide(current);
+    const nextIndex = (currentIndex + 1) % slides.length;
+    showSlide(nextIndex);
   }
 
-  function startAuto() {
+  function startAutoPlay() {
+    stopAutoPlay();
     if (slides.length <= 1) return;
-    stopAuto();
-    intervalId = setInterval(nextSlide, 5000);
+    autoPlayId = window.setInterval(nextSlide, intervalTime);
   }
 
-  function stopAuto() {
-    if (intervalId) clearInterval(intervalId);
+  function stopAutoPlay() {
+    if (autoPlayId) {
+      window.clearInterval(autoPlayId);
+      autoPlayId = null;
+    }
   }
 
-  showSlide(current);
-  startAuto();
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      showSlide(index);
+      startAutoPlay();
+    });
+  });
 
-  slider.addEventListener('mouseenter', stopAuto);
-  slider.addEventListener('mouseleave', startAuto);
+  slider.addEventListener('mouseenter', stopAutoPlay);
+  slider.addEventListener('mouseleave', startAutoPlay);
+  slider.addEventListener('touchstart', stopAutoPlay, { passive: true });
+  slider.addEventListener('touchend', startAutoPlay, { passive: true });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopAutoPlay();
+    } else {
+      startAutoPlay();
+    }
+  });
+
+  showSlide(currentIndex);
+  startAutoPlay();
 }
 
 /* =========================
@@ -106,21 +193,21 @@ function initReveal() {
   const items = document.querySelectorAll('.reveal');
   if (!items.length) return;
 
-  items.forEach(item => {
+  items.forEach((item) => {
     item.style.opacity = '0';
     item.style.transform = 'translateY(24px)';
     item.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
   });
 
   const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
+    (entries, instance) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        entry.target.classList.add('is-visible');
+        instance.unobserve(entry.target);
       });
     },
     { threshold: 0.12 }
@@ -136,33 +223,32 @@ function initCounter() {
   const counters = document.querySelectorAll('.stats__number');
   if (!counters.length) return;
 
-  function animateCounter(el) {
-    const target = Number(el.dataset.target || 0);
+  function animateCounter(element) {
+    const target = Number(element.dataset.target || 0);
     const duration = 1600;
-    const start = performance.now();
+    const startTime = performance.now();
 
-    function update(now) {
-      const progress = Math.min((now - start) / duration, 1);
+    function updateCounter(currentTime) {
+      const progress = Math.min((currentTime - startTime) / duration, 1);
       const value = Math.floor(progress * target);
-      el.textContent = value;
+      element.textContent = String(value);
 
       if (progress < 1) {
-        requestAnimationFrame(update);
+        requestAnimationFrame(updateCounter);
       } else {
-        el.textContent = target;
+        element.textContent = String(target);
       }
     }
 
-    requestAnimationFrame(update);
+    requestAnimationFrame(updateCounter);
   }
 
   const observer = new IntersectionObserver(
     (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !entry.target.dataset.counted) {
-          entry.target.dataset.counted = 'true';
-          animateCounter(entry.target);
-        }
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting || entry.target.dataset.counted === 'true') return;
+        entry.target.dataset.counted = 'true';
+        animateCounter(entry.target);
       });
     },
     { threshold: 0.45 }
@@ -174,7 +260,7 @@ function initCounter() {
 /* =========================
    LIGHTBOX
 ========================= */
-function initLightbox() {
+function initLightbox(uiState) {
   const lightbox = document.getElementById('lightbox');
   const lightboxImage = document.getElementById('lightboxImage');
   const lightboxTitle = document.getElementById('lightboxTitle');
@@ -191,23 +277,24 @@ function initLightbox() {
     lightboxImage.alt = alt || title || 'Imagem ampliada';
     lightboxTitle.textContent = title || 'Projeto';
     lightboxDescription.textContent = description || '';
+
     lightbox.classList.add('active');
     lightbox.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('lightbox-open');
+    uiState.setLightbox(true);
   }
 
   function closeLightbox() {
     lightbox.classList.remove('active');
     lightbox.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('lightbox-open');
+    uiState.setLightbox(false);
 
-    setTimeout(() => {
+    window.setTimeout(() => {
       lightboxImage.src = '';
       lightboxImage.alt = '';
-    }, 200);
+    }, 220);
   }
 
-  triggers.forEach(trigger => {
+  triggers.forEach((trigger) => {
     trigger.style.cursor = 'pointer';
 
     trigger.addEventListener('click', () => {
@@ -221,14 +308,16 @@ function initLightbox() {
     });
   });
 
-  closeTriggers.forEach(btn => btn.addEventListener('click', closeLightbox));
+  closeTriggers.forEach((closeTrigger) => {
+    closeTrigger.addEventListener('click', closeLightbox);
+  });
 
   if (lightboxClose) {
     lightboxClose.addEventListener('click', closeLightbox);
   }
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && lightbox.classList.contains('active')) {
       closeLightbox();
     }
   });
@@ -237,7 +326,7 @@ function initLightbox() {
 /* =========================
    MODAL DE CONTATO + WHATSAPP
 ========================= */
-function initContactModal() {
+function initContactModal(uiState) {
   const modal = document.getElementById('contactModal');
   const form = document.getElementById('contactForm');
   const serviceField = document.getElementById('servico');
@@ -251,7 +340,7 @@ function initContactModal() {
   function openModal(service = '') {
     modal.classList.add('active');
     modal.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('modal-open');
+    uiState.setModal(true);
 
     if (service && serviceField) {
       serviceField.value = service;
@@ -261,17 +350,17 @@ function initContactModal() {
   function closeModal() {
     modal.classList.remove('active');
     modal.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('modal-open');
+    uiState.setModal(false);
   }
 
-  openButtons.forEach(button => {
+  openButtons.forEach((button) => {
     button.addEventListener('click', () => {
       const service = button.dataset.service || '';
       openModal(service);
     });
   });
 
-  closeButtons.forEach(button => {
+  closeButtons.forEach((button) => {
     button.addEventListener('click', closeModal);
   });
 
@@ -279,49 +368,58 @@ function initContactModal() {
     modalClose.addEventListener('click', closeModal);
   }
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) {
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && modal.classList.contains('active')) {
       closeModal();
     }
   });
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
 
-    const nome = form.querySelector('#nome')?.value.trim() || '';
-    const telefone = form.querySelector('#telefone')?.value.trim() || '';
-    const email = form.querySelector('#email')?.value.trim() || '';
-    const servico = form.querySelector('#servico')?.value.trim() || '';
-    const cidade = form.querySelector('#cidade')?.value.trim() || '';
-    const bairro = form.querySelector('#bairro')?.value.trim() || '';
-    const endereco = form.querySelector('#endereco')?.value.trim() || '';
-    const mensagem = form.querySelector('#mensagem')?.value.trim() || '';
+    const nome = getFieldValue(form, '#nome');
+    const telefone = getFieldValue(form, '#telefone');
+    const email = getFieldValue(form, '#email');
+    const servico = getFieldValue(form, '#servico');
+    const cidade = getFieldValue(form, '#cidade');
+    const bairro = getFieldValue(form, '#bairro');
+    const endereco = getFieldValue(form, '#endereco');
+    const mensagem = getFieldValue(form, '#mensagem');
 
     if (!nome || !telefone || !servico) {
-      alert('Preencha pelo menos nome, telefone e tipo de serviço.');
+      alert('Preencha pelo menos nome, telefone e serviço.');
       return;
     }
 
-    const texto = `Olá, vim pelo site da ALUMNORT e gostaria de solicitar um orçamento.
+    const textoWhatsapp = [
+      'Olá! Vim pelo site da ALUMNORT e gostaria de solicitar um orçamento.',
+      '',
+      '*DADOS DO CLIENTE*',
+      `*Nome:* ${nome}`,
+      `*Telefone:* ${telefone}`,
+      `*E-mail:* ${email || 'Não informado'}`,
+      `*Serviço:* ${servico}`,
+      `*Cidade:* ${cidade || 'Não informado'}`,
+      `*Bairro/Região:* ${bairro || 'Não informado'}`,
+      `*Endereço:* ${endereco || 'Não informado'}`,
+      '',
+      '*Mensagem:*',
+      mensagem || 'Não informado'
+    ].join('\n');
 
-*RELATÓRIO DO CLIENTE*
-*Nome:* ${nome}
-*Telefone:* ${telefone}
-*E-mail:* ${email || 'Não informado'}
-*Serviço:* ${servico}
-*Cidade:* ${cidade || 'Não informado'}
-*Bairro/Região:* ${bairro || 'Não informado'}
-*Endereço:* ${endereco || 'Não informado'}
+    const whatsappNumber = '553899658215';
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(textoWhatsapp)}`;
 
-*Detalhes do pedido:*
-${mensagem || 'Não informado'}`;
-
-    const url = `https://wa.me/553899658215?text=${encodeURIComponent(texto)}`;
-    window.open(url, '_blank', 'noopener,noreferrer');
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
 
     form.reset();
     closeModal();
   });
+
+  function getFieldValue(formElement, selector) {
+    const field = formElement.querySelector(selector);
+    return field ? field.value.trim() : '';
+  }
 }
 
 /* =========================
@@ -332,7 +430,7 @@ function initScrollTop() {
   if (!button) return;
 
   function toggleButton() {
-    if (window.scrollY > 300) {
+    if (window.scrollY > 320) {
       button.classList.add('is-visible');
     } else {
       button.classList.remove('is-visible');
@@ -355,51 +453,81 @@ function initScrollTop() {
    PARCEIROS / DEPOIMENTOS
 ========================= */
 function initHorizontalAutoSliders() {
-  const sliderSelectors = [
+  const trackSelectors = [
     '#partnersSlider .partners-slider__track',
     '#testimonialsSlider .testimonials-slider__track'
   ];
 
-  sliderSelectors.forEach(selector => {
+  trackSelectors.forEach((selector) => {
     const track = document.querySelector(selector);
-    if (!track) return;
+    if (!track || !track.children.length) return;
 
-    let autoScroll;
+    let autoScrollId = null;
     let isPaused = false;
 
-    function getCardWidth() {
+    function getScrollStep() {
       const firstCard = track.children[0];
       if (!firstCard) return 320;
-      const styles = window.getComputedStyle(track);
-      const gap = parseInt(styles.columnGap || styles.gap || 22, 10);
-      return firstCard.offsetWidth + gap;
+
+      const trackStyles = window.getComputedStyle(track);
+      const gap = parseInt(trackStyles.gap || trackStyles.columnGap || '22', 10);
+
+      return firstCard.getBoundingClientRect().width + gap;
+    }
+
+    function scrollNext() {
+      const maxScrollLeft = track.scrollWidth - track.clientWidth;
+      const nextPosition = track.scrollLeft + getScrollStep();
+
+      if (nextPosition >= maxScrollLeft - 10) {
+        track.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        track.scrollTo({ left: nextPosition, behavior: 'smooth' });
+      }
     }
 
     function startAutoScroll() {
       stopAutoScroll();
-
-      autoScroll = setInterval(() => {
+      autoScrollId = window.setInterval(() => {
         if (isPaused) return;
-
-        const maxScrollLeft = track.scrollWidth - track.clientWidth;
-        const next = track.scrollLeft + getCardWidth();
-
-        if (next >= maxScrollLeft - 10) {
-          track.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          track.scrollTo({ left: next, behavior: 'smooth' });
-        }
+        scrollNext();
       }, 3500);
     }
 
     function stopAutoScroll() {
-      if (autoScroll) clearInterval(autoScroll);
+      if (autoScrollId) {
+        window.clearInterval(autoScrollId);
+        autoScrollId = null;
+      }
     }
 
-    track.addEventListener('mouseenter', () => { isPaused = true; });
-    track.addEventListener('mouseleave', () => { isPaused = false; });
-    track.addEventListener('touchstart', () => { isPaused = true; }, { passive: true });
-    track.addEventListener('touchend', () => { isPaused = false; }, { passive: true });
+    track.addEventListener('mouseenter', () => {
+      isPaused = true;
+    });
+
+    track.addEventListener('mouseleave', () => {
+      isPaused = false;
+    });
+
+    track.addEventListener('touchstart', () => {
+      isPaused = true;
+    }, { passive: true });
+
+    track.addEventListener('touchend', () => {
+      isPaused = false;
+    }, { passive: true });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        stopAutoScroll();
+      } else {
+        startAutoScroll();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      startAutoScroll();
+    });
 
     startAutoScroll();
   });
@@ -409,29 +537,38 @@ function initHorizontalAutoSliders() {
    MENU ATIVO CONFORME SCROLL
 ========================= */
 function initActiveNavOnScroll() {
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-link');
+  const sections = Array.from(document.querySelectorAll('section[id]'));
+  const navLinks = Array.from(document.querySelectorAll('.nav-link'));
+  const navbar = document.getElementById('navbar');
 
   if (!sections.length || !navLinks.length) return;
 
-  function setActiveLink() {
-    let currentId = '';
+  function getOffset() {
+    const navbarHeight = navbar ? navbar.offsetHeight : 84;
+    return navbarHeight + 100;
+  }
 
-    sections.forEach(section => {
-      const top = section.offsetTop - 180;
-      const height = section.offsetHeight;
+  function updateActiveLink() {
+    const offset = getOffset();
+    const scrollPosition = window.scrollY + offset;
+    let currentId = sections[0]?.id || '';
 
-      if (window.scrollY >= top && window.scrollY < top + height) {
-        currentId = section.getAttribute('id');
+    sections.forEach((section) => {
+      const top = section.offsetTop;
+      const bottom = top + section.offsetHeight;
+
+      if (scrollPosition >= top && scrollPosition < bottom) {
+        currentId = section.id;
       }
     });
 
-    navLinks.forEach(link => {
+    navLinks.forEach((link) => {
       const href = link.getAttribute('href') || '';
       link.classList.toggle('active', href === `#${currentId}`);
     });
   }
 
-  window.addEventListener('scroll', setActiveLink, { passive: true });
-  setActiveLink();
+  window.addEventListener('scroll', updateActiveLink, { passive: true });
+  window.addEventListener('resize', updateActiveLink);
+  updateActiveLink();
 }
