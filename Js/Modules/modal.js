@@ -1,30 +1,52 @@
 export default function initContactModal() {
   const modal = document.getElementById('contactModal');
+  if (!modal) return;
+
+  const body = document.body;
+  const openButtons = document.querySelectorAll('[data-open-contact]');
+  const closeButtons = modal.querySelectorAll('[data-modal-close], #contactModalClose');
+  const overlay = modal.querySelector('.contact-modal__overlay');
   const form = document.getElementById('contactForm');
   const serviceField = document.getElementById('servico');
-  const openButtons = document.querySelectorAll('[data-open-contact]');
-  const closeButtons = document.querySelectorAll('[data-modal-close]');
-  const closeIcon = document.getElementById('contactModalClose');
+  const firstField = document.getElementById('nome');
 
-  if (!modal || !form || !openButtons.length) return;
+  const WHATSAPP_NUMBER = '5538999658215';
 
-  const whatsappNumber = '553899658215';
+  let lastFocusedElement = null;
 
-  const openModal = (service = '') => {
-    modal.classList.add('is-active');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('modal-open');
+  function lockBody() {
+    body.classList.add('modal-open');
+  }
+
+  function unlockBody() {
+    body.classList.remove('modal-open');
+  }
+
+  function openModal(service = '') {
+    lastFocusedElement = document.activeElement;
 
     if (service && serviceField) {
       serviceField.value = service;
     }
-  };
 
-  const closeModal = () => {
-    modal.classList.remove('is-active');
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    lockBody();
+
+    window.requestAnimationFrame(() => {
+      if (firstField) firstField.focus();
+    });
+  }
+
+  function closeModal() {
+    modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('modal-open');
-  };
+    unlockBody();
+
+    if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+      lastFocusedElement.focus();
+    }
+  }
 
   openButtons.forEach((button) => {
     button.addEventListener('click', () => {
@@ -37,43 +59,129 @@ export default function initContactModal() {
     button.addEventListener('click', closeModal);
   });
 
-  if (closeIcon) {
-    closeIcon.addEventListener('click', closeModal);
+  if (overlay) {
+    overlay.addEventListener('click', closeModal);
   }
 
-  window.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && modal.classList.contains('is-active')) {
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && modal.classList.contains('is-open')) {
       closeModal();
     }
   });
 
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
+  function onlyDigits(value) {
+    return value.replace(/\D/g, '');
+  }
 
-    const nome = document.getElementById('nome')?.value.trim() || '';
-    const telefone = document.getElementById('telefone')?.value.trim() || '';
-    const email = document.getElementById('email')?.value.trim() || '';
-    const servico = document.getElementById('servico')?.value.trim() || '';
-    const cidade = document.getElementById('cidade')?.value.trim() || '';
-    const bairro = document.getElementById('bairro')?.value.trim() || '';
-    const mensagem = document.getElementById('mensagem')?.value.trim() || '';
+  function formatPhone(value) {
+    const digits = onlyDigits(value).slice(0, 11);
 
-    const texto = [
+    if (digits.length <= 10) {
+      return digits.replace(/^(\d{0,2})(\d{0,4})(\d{0,4}).*/, (_, a, b, c) => {
+        let result = '';
+        if (a) result += `(${a}`;
+        if (a.length === 2) result += ') ';
+        if (b) result += b;
+        if (c) result += `-${c}`;
+        return result;
+      });
+    }
+
+    return digits.replace(/^(\d{0,2})(\d{0,5})(\d{0,4}).*/, (_, a, b, c) => {
+      let result = '';
+      if (a) result += `(${a}`;
+      if (a.length === 2) result += ') ';
+      if (b) result += b;
+      if (c) result += `-${c}`;
+      return result;
+    });
+  }
+
+  const phoneField = document.getElementById('telefone');
+  if (phoneField) {
+    phoneField.addEventListener('input', (event) => {
+      event.target.value = formatPhone(event.target.value);
+    });
+  }
+
+  function getFieldValue(id) {
+    const field = document.getElementById(id);
+    return field ? field.value.trim() : '';
+  }
+
+  function validateForm() {
+    const nome = getFieldValue('nome');
+    const telefone = onlyDigits(getFieldValue('telefone'));
+    const servico = getFieldValue('servico');
+
+    if (!nome) {
+      alert('Preencha o nome.');
+      document.getElementById('nome')?.focus();
+      return false;
+    }
+
+    if (telefone.length < 10) {
+      alert('Preencha um telefone válido.');
+      document.getElementById('telefone')?.focus();
+      return false;
+    }
+
+    if (!servico) {
+      alert('Selecione o serviço.');
+      document.getElementById('servico')?.focus();
+      return false;
+    }
+
+    return true;
+  }
+
+  function buildMessage() {
+    const nome = getFieldValue('nome');
+    const telefone = getFieldValue('telefone');
+    const email = getFieldValue('email');
+    const servico = getFieldValue('servico');
+    const cidade = getFieldValue('cidade');
+    const bairro = getFieldValue('bairro');
+    const endereco = getFieldValue('endereco');
+    const mensagem = getFieldValue('mensagem');
+
+    const lines = [
       'Olá! Vim pelo site da ALUMNORT e gostaria de solicitar um orçamento.',
       '',
-      `Nome: ${nome}`,
-      `Telefone: ${telefone}`,
-      `E-mail: ${email || 'Não informado'}`,
-      `Serviço: ${servico || 'Não informado'}`,
-      `Cidade: ${cidade || 'Não informada'}`,
-      `Bairro/Região: ${bairro || 'Não informado'}`,
-      `Mensagem: ${mensagem || 'Não informada'}`
-    ].join('\n');
+      '*DADOS DO CLIENTE*',
+      `*Nome:* ${nome || '-'}`,
+      `*Telefone:* ${telefone || '-'}`,
+      `*E-mail:* ${email || '-'}`,
+      '',
+      '*DETALHES DO SERVIÇO*',
+      `*Serviço:* ${servico || '-'}`,
+      `*Cidade:* ${cidade || '-'}`,
+      `*Bairro / Região:* ${bairro || '-'}`,
+      `*Endereço:* ${endereco || '-'}`,
+      '',
+      '*Mensagem:*',
+      mensagem || '-'
+    ];
 
-    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(texto)}`;
-    window.open(url, '_blank');
+    return lines.join('\n');
+  }
 
-    closeModal();
-    form.reset();
-  });
+  if (form) {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      if (!validateForm()) return;
+
+      const message = buildMessage();
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+      window.open(url, '_blank', 'noopener,noreferrer');
+      closeModal();
+    });
+  }
+
+  return {
+    openModal,
+    closeModal
+  };
 }
