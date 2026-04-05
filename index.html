@@ -40,7 +40,6 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <!-- Ações flutuantes agrupadas para evitar sobreposição no mobile -->
   <div class="floating-actions" aria-label="Ações rápidas">
     <a
       href="https://wa.me/553899658215?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ALUMNORT%20e%20gostaria%20de%20pedir%20um%20or%C3%A7amento."
@@ -229,7 +228,6 @@
 
         <nav class="nav-menu" id="navMenu" aria-label="Menu principal">
           <div class="nav-menu__links">
-            <!-- removido active fixo -->
             <a href="#home" class="nav-link">Home</a>
             <a href="#quem-somos" class="nav-link">Quem Somos</a>
             <a href="#servicos" class="nav-link">Nossos Serviços</a>
@@ -237,61 +235,52 @@
             <a href="#projetos" class="nav-link">Projetos</a>
             <a href="#contato" class="nav-link">Contato</a>
           </div>
-
-          <div class="nav-menu__center-cta">
-            <button type="button" class="btn btn--primary nav-menu__cta" data-open-contact>
-              Pedir orçamento
-            </button>
-          </div>
         </nav>
       </div>
     </div>
   </header>
 
   <main>
-   <!-- HERO CORRIGIDA -->
-<section class="hero hero--landscape" id="home">
-  <div class="hero__bg"></div>
-  <div class="hero__overlay"></div>
+    <section class="hero hero--landscape" id="home">
+      <div class="hero__bg"></div>
+      <div class="hero__overlay"></div>
 
-  <div class="container hero__content hero__content--landscape">
+      <div class="container hero__content hero__content--landscape">
+        <div class="hero__grid hero__grid--landscape">
+          <div class="hero__text hero__text--landscape reveal">
+            <span class="section-tag section-tag--light">ALUMNORT • JANAÚBA - MG</span>
 
-    <div class="hero__grid hero__grid--landscape">
+            <h1>Esquadrias de alumínio e vidro com acabamento que valoriza seu imóvel</h1>
 
-      <div class="hero__text hero__text--landscape reveal">
-        <span class="section-tag section-tag--light">ALUMNORT • JANAÚBA - MG</span>
+            <p class="hero-lead">
+              Projetos sob medida para residências e comércios, com visual moderno, funcionalidade,
+              segurança e acabamento profissional.
+            </p>
+          </div>
 
-        <h1>Esquadrias de alumínio e vidro com acabamento que valoriza seu imóvel</h1>
+          <div class="hero__visual hero__visual--landscape reveal">
+            <div class="hero__media-frame">
+              <img
+                src="img/avatar-hero.webp"
+                class="hero__avatar"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+                alt="Especialista ALUMNORT"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+          </div>
+        </div>
 
-        <p class="hero-lead">
-          Projetos sob medida para residências e comércios, com visual moderno,
-          funcionalidade, segurança e acabamento profissional.
-        </p>
-      </div>
-
-      <div class="hero__visual hero__visual--landscape reveal">
-        <div class="hero__media-frame">
-          <img
-            src="img/avatar-hero.webp"
-            class="hero__avatar"
-            alt="Especialista ALUMNORT"
-          />
+        <div class="hero__cta-center reveal">
+          <button type="button" class="btn btn--primary btn--hero-pulse" data-open-contact>
+            Pedir orçamento
+          </button>
         </div>
       </div>
+    </section>
 
-    </div>
-
-    <!-- BOTÃO CENTRAL FINAL -->
-    <div class="hero__cta-center">
-      <button type="button" class="btn btn--primary" data-open-contact>
-        Pedir orçamento
-      </button>
-    </div>
-
-  </div>
-</section>
-
-    <!-- MÉTRICAS -->
     <section class="hero-metrics">
       <div class="container">
         <div class="hero-metrics__grid">
@@ -318,7 +307,6 @@
       </div>
     </section>
 
-    <!-- QUEM SOMOS -->
     <section class="about section" id="quem-somos">
       <div class="container">
         <div class="section-heading reveal">
@@ -366,7 +354,6 @@
       </div>
     </section>
 
-    <!-- SERVIÇOS -->
     <section class="services section section--alt" id="servicos">
       <div class="container">
         <div class="section-heading reveal">
@@ -457,7 +444,6 @@
       </div>
     </section>
 
-    <!-- PARCEIROS -->
     <section class="partners section" id="parceiros">
       <div class="container">
         <div class="section-heading reveal">
@@ -566,7 +552,6 @@
       </div>
     </section>
 
-    <!-- PROJETOS -->
     <section class="portfolio section section--alt" id="projetos">
       <div class="container">
         <div class="section-heading reveal">
@@ -669,7 +654,6 @@
       </div>
     </section>
 
-    <!-- DEPOIMENTOS -->
     <section class="testimonials section">
       <div class="container">
         <div class="section-heading reveal">
@@ -724,7 +708,6 @@
       </div>
     </section>
 
-    <!-- CTA FINAL -->
     <section class="cta-final section" id="contato">
       <div class="container">
         <div class="cta-final__box reveal">
@@ -746,7 +729,6 @@
       </div>
     </section>
 
-    <!-- MAPA -->
     <section class="map-section" aria-label="Mapa de localização da ALUMNORT">
       <iframe
         src="https://www.google.com/maps?q=Jana%C3%BAba%20MG&output=embed"
