@@ -270,7 +270,32 @@ document.addEventListener('DOMContentLoaded', () => {
       closeLightbox();
     }
   });
+// SLIDER PARCEIROS AUTOMÁTICO
+const track = document.querySelector('.partners-slider__track');
 
+let index = 0;
+
+function autoSlide(){
+  const cards = document.querySelectorAll('.partner-card');
+  if(!cards.length) return;
+
+  index++;
+  if(index >= cards.length) index = 0;
+
+  track.style.transform = `translateX(-${index * 220}px)`;
+}
+
+setInterval(autoSlide, 3000);
+
+// CLICK NOS PARCEIROS
+document.querySelectorAll('.partner-card').forEach(card=>{
+  card.addEventListener('click',()=>{
+    const link = card.closest('a');
+    if(link){
+      window.open(link.href, '_blank');
+    }
+  });
+});
   function setupSlider(sliderId, trackSelector, options = {}) {
     const slider = document.getElementById(sliderId);
     if (!slider) return null;
