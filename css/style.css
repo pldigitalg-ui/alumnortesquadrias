@@ -1780,12 +1780,8 @@ ul{
     min-height:420px;
   }
 
-  .hero__avatar{
-    height:100%;
-    width:100%;
-    object-fit:contain;
-    object-position:center bottom;
-  }
+.hero__avatar{
+  width:100%;
 
   .btn--hero-pulse{
     width:100%;
