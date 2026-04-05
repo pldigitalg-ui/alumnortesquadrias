@@ -26,8 +26,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const lightboxBackdrop = $('[data-lightbox-close]');
   const projectCards = $$('.project-card');
 
+  /* =========================
+     MENU
+  ========================= */
+  function isMobileMenu() {
+    return window.innerWidth <= 991;
+  }
+
   function openMenu() {
-    if (!navMenu) return;
+    if (!navMenu || !isMobileMenu()) return;
+
     navMenu.classList.add('active');
     menuBackdrop?.classList.add('active');
     body.classList.add('menu-open');
@@ -36,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function closeMenu() {
     if (!navMenu) return;
+
     navMenu.classList.remove('active');
     menuBackdrop?.classList.remove('active');
     body.classList.remove('menu-open');
@@ -43,7 +52,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function toggleMenu() {
-    if (!navMenu) return;
+    if (!navMenu || !isMobileMenu()) return;
+
     navMenu.classList.contains('active') ? closeMenu() : openMenu();
   }
 
@@ -53,28 +63,52 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   menuBackdrop?.addEventListener('click', closeMenu);
+
   navLinks.forEach((link) => {
-    link.addEventListener('click', closeMenu);
+    link.addEventListener('click', () => {
+      if (isMobileMenu()) closeMenu();
+    });
   });
 
-  function setActiveLink() {
-    const scrollY = window.scrollY + 180;
+  /* =========================
+     LINK ATIVO NO MENU
+  ========================= */
+  function clearActiveLinks() {
+    navLinks.forEach((link) => link.classList.remove('active'));
+  }
+
+  function setActiveLinkByScroll() {
+    if (!sections.length || !navLinks.length) return;
+
+    const scrollPosition = window.scrollY + 180;
+    let currentSectionId = '';
 
     sections.forEach((section) => {
       const sectionTop = section.offsetTop;
       const sectionHeight = section.offsetHeight;
-      const sectionId = section.getAttribute('id');
-      const currentLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
 
-      if (!currentLink) return;
-
-      if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
-        navLinks.forEach((link) => link.classList.remove('active'));
-        currentLink.classList.add('active');
+      if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+        currentSectionId = section.getAttribute('id') || '';
       }
     });
+
+    if (!currentSectionId) return;
+
+    clearActiveLinks();
+    const currentLink = document.querySelector(`.nav-link[href="#${currentSectionId}"]`);
+    currentLink?.classList.add('active');
   }
 
+  navLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      clearActiveLinks();
+      link.classList.add('active');
+    });
+  });
+
+  /* =========================
+     BOTÃO TOPO
+  ========================= */
   function toggleScrollTopButton() {
     if (!btnTopo) return;
 
@@ -87,9 +121,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   btnTopo?.addEventListener('click', (e) => {
     e.preventDefault();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   });
 
+  /* =========================
+     MODAL DE CONTATO
+  ========================= */
   function openContactModal(service = '') {
     if (!contactModal) return;
 
@@ -130,10 +170,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   contactModal?.addEventListener('click', (event) => {
+    const target = event.target;
+
     const clickedOverlay =
-      event.target === contactModal ||
-      event.target.classList.contains('contact-modal__overlay') ||
-      event.target.hasAttribute('data-close-contact');
+      target === contactModal ||
+      target.classList.contains('contact-modal__overlay') ||
+      target.hasAttribute('data-close-contact');
 
     if (clickedOverlay) {
       closeContactModal();
@@ -170,19 +212,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const url = `https://wa.me/${numero}?text=${mensagem}`;
 
     window.open(url, '_blank', 'noopener,noreferrer');
+
     closeContactModal();
     contactForm.reset();
   });
 
+  /* =========================
+     LIGHTBOX
+  ========================= */
   function openLightbox(image, title, description) {
     if (!lightbox || !lightboxImage) return;
 
     lightboxImage.src = image || '';
     lightboxImage.alt = title || 'Projeto ALUMNORT';
 
-    if (lightboxTitle) lightboxTitle.textContent = title || 'Projeto';
+    if (lightboxTitle) {
+      lightboxTitle.textContent = title || 'Projeto';
+    }
+
     if (lightboxDescription) {
-      lightboxDescription.textContent = description || 'Projeto executado pela ALUMNORT.';
+      lightboxDescription.textContent =
+        description || 'Projeto executado pela ALUMNORT.';
     }
 
     lightbox.classList.add('active');
@@ -226,10 +276,13 @@ document.addEventListener('DOMContentLoaded', () => {
         $('p', card)?.textContent?.trim() ||
         'Projeto executado pela ALUMNORT.';
 
-      if (image) openLightbox(image, title, description);
+      if (image) {
+        openLightbox(image, title, description);
+      }
     };
 
     card.addEventListener('click', triggerOpen);
+
     card.addEventListener('keydown', (event) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
@@ -242,59 +295,222 @@ document.addEventListener('DOMContentLoaded', () => {
   lightboxBackdrop?.addEventListener('click', closeLightbox);
 
   lightbox?.addEventListener('click', (event) => {
+    const target = event.target;
+
     if (
-      event.target === lightbox ||
-      event.target.classList.contains('lightbox__backdrop') ||
-      event.target.hasAttribute('data-lightbox-close')
+      target === lightbox ||
+      target.classList.contains('lightbox__backdrop') ||
+      target.hasAttribute('data-lightbox-close')
     ) {
       closeLightbox();
     }
   });
 
-  function autoScrollTrack(track, speed = 0.35) {
-    if (!track) return;
+  /* =========================
+     SLIDERS
+  ========================= */
+  function setupSlider(sliderId, trackSelector, options = {}) {
+    const slider = document.getElementById(sliderId);
+    if (!slider) return null;
 
-    let paused = false;
-    let rafId = null;
+    const track = slider.querySelector(trackSelector);
+    if (!track) return null;
 
-    function maxScroll() {
-      return Math.max(0, track.scrollWidth - track.clientWidth);
+    const prevButton = document.querySelector(`[data-slider-prev="${sliderId}"]`);
+    const nextButton = document.querySelector(`[data-slider-next="${sliderId}"]`);
+    const dotsContainer = document.querySelector(`[data-slider-dots="${sliderId}"]`);
+
+    const config = {
+      autoplay: options.autoplay ?? true,
+      speed: options.speed ?? 3500,
+      pauseOnHover: options.pauseOnHover ?? true
+    };
+
+    let intervalId = null;
+    let isHovered = false;
+
+    function getCards() {
+      return Array.from(track.children);
     }
 
-    function step() {
-      if (!paused) {
-        const limit = maxScroll();
+    function getCardWidth() {
+      const firstCard = track.children[0];
+      if (!firstCard) return 0;
 
-        if (limit > 0) {
-          if (track.scrollLeft >= limit) {
-            track.scrollLeft = 0;
-          } else {
-            track.scrollLeft += speed;
-          }
-        }
+      const styles = window.getComputedStyle(track);
+      const gap = parseFloat(styles.columnGap || styles.gap || 0);
+      return firstCard.getBoundingClientRect().width + gap;
+    }
+
+    function getPagesCount() {
+      const cardWidth = getCardWidth();
+      if (!cardWidth) return 0;
+      return Math.max(1, Math.ceil(track.scrollWidth / track.clientWidth));
+    }
+
+    function getCurrentPage() {
+      const cardWidth = getCardWidth();
+      if (!cardWidth) return 0;
+
+      const page = Math.round(track.scrollLeft / track.clientWidth);
+      const maxPage = Math.max(0, getPagesCount() - 1);
+
+      return Math.min(page, maxPage);
+    }
+
+    function scrollToPage(pageIndex) {
+      const maxPage = Math.max(0, getPagesCount() - 1);
+      const safePage = Math.max(0, Math.min(pageIndex, maxPage));
+
+      track.scrollTo({
+        left: safePage * track.clientWidth,
+        behavior: 'smooth'
+      });
+
+      updateDots();
+    }
+
+    function nextSlide() {
+      const current = getCurrentPage();
+      const maxPage = Math.max(0, getPagesCount() - 1);
+      const next = current >= maxPage ? 0 : current + 1;
+      scrollToPage(next);
+    }
+
+    function prevSlide() {
+      const current = getCurrentPage();
+      const maxPage = Math.max(0, getPagesCount() - 1);
+      const prev = current <= 0 ? maxPage : current - 1;
+      scrollToPage(prev);
+    }
+
+    function buildDots() {
+      if (!dotsContainer) return;
+
+      dotsContainer.innerHTML = '';
+      const totalPages = getPagesCount();
+
+      if (totalPages <= 1) return;
+
+      for (let i = 0; i < totalPages; i += 1) {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.setAttribute('aria-label', `Ir para slide ${i + 1}`);
+        dot.addEventListener('click', () => {
+          scrollToPage(i);
+          restartAutoplay();
+        });
+        dotsContainer.appendChild(dot);
       }
 
-      rafId = requestAnimationFrame(step);
+      updateDots();
     }
 
-    ['mouseenter', 'touchstart'].forEach((evt) => {
-      track.addEventListener(evt, () => { paused = true; }, { passive: true });
+    function updateDots() {
+      if (!dotsContainer) return;
+
+      const dots = Array.from(dotsContainer.querySelectorAll('button'));
+      const current = getCurrentPage();
+
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === current);
+      });
+    }
+
+    function stopAutoplay() {
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+    }
+
+    function startAutoplay() {
+      if (!config.autoplay) return;
+      stopAutoplay();
+
+      intervalId = setInterval(() => {
+        if (!isHovered && !document.hidden) {
+          nextSlide();
+        }
+      }, config.speed);
+    }
+
+    function restartAutoplay() {
+      stopAutoplay();
+      startAutoplay();
+    }
+
+    prevButton?.addEventListener('click', () => {
+      prevSlide();
+      restartAutoplay();
     });
 
-    ['mouseleave', 'touchend'].forEach((evt) => {
-      track.addEventListener(evt, () => { paused = false; }, { passive: true });
+    nextButton?.addEventListener('click', () => {
+      nextSlide();
+      restartAutoplay();
     });
 
-    rafId = requestAnimationFrame(step);
+    track.addEventListener('scroll', () => {
+      updateDots();
+    }, { passive: true });
 
-    window.addEventListener('beforeunload', () => {
-      if (rafId) cancelAnimationFrame(rafId);
+    if (config.pauseOnHover) {
+      slider.addEventListener('mouseenter', () => {
+        isHovered = true;
+      });
+
+      slider.addEventListener('mouseleave', () => {
+        isHovered = false;
+      });
+
+      slider.addEventListener('touchstart', () => {
+        isHovered = true;
+      }, { passive: true });
+
+      slider.addEventListener('touchend', () => {
+        isHovered = false;
+      }, { passive: true });
+    }
+
+    window.addEventListener('resize', () => {
+      buildDots();
+      updateDots();
     });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        stopAutoplay();
+      } else {
+        startAutoplay();
+      }
+    });
+
+    buildDots();
+    updateDots();
+    startAutoplay();
+
+    return {
+      nextSlide,
+      prevSlide,
+      rebuild: buildDots
+    };
   }
 
-  autoScrollTrack(document.querySelector('#partnersSlider .partners-slider__track') || document.querySelector('.partners-slider__track'), 0.45);
-  autoScrollTrack(document.querySelector('#testimonialsSlider .testimonials-slider__track') || document.querySelector('.testimonials-slider__track'), 0.32);
+  const partnersSlider = setupSlider('partnersSlider', '.partners-slider__track', {
+    autoplay: true,
+    speed: 2800,
+    pauseOnHover: true
+  });
 
+  const testimonialsSlider = setupSlider('testimonialsSlider', '.testimonials-slider__track', {
+    autoplay: true,
+    speed: 3600,
+    pauseOnHover: true
+  });
+
+  /* =========================
+     ESC
+  ========================= */
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
       closeMenu();
@@ -303,12 +519,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  /* =========================
+     SCROLL / RESIZE
+  ========================= */
   let ticking = false;
 
   function onScroll() {
     if (!ticking) {
       window.requestAnimationFrame(() => {
-        setActiveLink();
+        setActiveLinkByScroll();
         toggleScrollTopButton();
         ticking = false;
       });
@@ -317,11 +536,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
+
   window.addEventListener('resize', () => {
-    setActiveLink();
+    if (!isMobileMenu()) {
+      closeMenu();
+    }
+
+    setActiveLinkByScroll();
     toggleScrollTopButton();
+    partnersSlider?.rebuild();
+    testimonialsSlider?.rebuild();
   });
 
-  setActiveLink();
+  setActiveLinkByScroll();
   toggleScrollTopButton();
 });
