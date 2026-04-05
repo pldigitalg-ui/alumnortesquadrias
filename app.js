@@ -4,14 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const $ = (selector, parent = document) => parent.querySelector(selector);
   const $$ = (selector, parent = document) => Array.from(parent.querySelectorAll(selector));
 
-  /* =========================
-     ELEMENTOS GERAIS
-  ========================= */
   const menuToggle = $('#menuToggle');
   const navMenu = $('#navMenu');
   const menuBackdrop = $('#menuBackdrop');
   const navLinks = $$('.nav-link');
-
   const btnTopo = $('#btnTopo');
 
   const contactModal = $('#contactModal');
@@ -28,9 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const lightboxBackdrop = $('[data-lightbox-close]');
   const projectCards = $$('.project-card');
 
-  /* =========================
-     MENU MOBILE
-  ========================= */
   function isMobileMenu() {
     return window.innerWidth <= 991;
   }
@@ -70,11 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   menuBackdrop?.addEventListener('click', closeMenu);
 
-  /* =========================
-     LINK ATIVO NO MENU
-     - NÃO inicia com ativo
-     - Só ativa no clique
-  ========================= */
   function clearActiveLinks() {
     navLinks.forEach((link) => link.classList.remove('active'));
   }
@@ -92,9 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* =========================
-     BOTÃO TOPO
-  ========================= */
   function toggleScrollTopButton() {
     if (!btnTopo) return;
 
@@ -113,9 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* =========================
-     MODAL DE CONTATO / ORÇAMENTO
-  ========================= */
   function openContactModal(service = '') {
     if (!contactModal) return;
 
@@ -142,7 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
   openContactButtons.forEach((button) => {
     button.addEventListener('click', (event) => {
       event.preventDefault();
-
       const selectedService = button.getAttribute('data-service') || '';
       closeMenu();
       openContactModal(selectedService);
@@ -204,9 +185,6 @@ document.addEventListener('DOMContentLoaded', () => {
     contactForm.reset();
   });
 
-  /* =========================
-     LIGHTBOX DE PROJETOS
-  ========================= */
   function openLightbox(image, title, description) {
     if (!lightbox || !lightboxImage) return;
 
@@ -293,9 +271,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  /* =========================
-     SLIDER GENÉRICO
-  ========================= */
   function setupSlider(sliderId, trackSelector, options = {}) {
     const slider = document.getElementById(sliderId);
     if (!slider) return null;
@@ -493,9 +468,6 @@ document.addEventListener('DOMContentLoaded', () => {
     pauseOnHover: true
   });
 
-  /* =========================
-     TECLA ESC
-  ========================= */
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
       closeMenu();
@@ -504,9 +476,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  /* =========================
-     RESIZE E SCROLL
-  ========================= */
   let ticking = false;
 
   function handleScroll() {
@@ -531,9 +500,6 @@ document.addEventListener('DOMContentLoaded', () => {
     testimonialsSlider?.rebuild();
   });
 
-  /* =========================
-     ESTADO INICIAL
-  ========================= */
   clearActiveLinks();
   closeMenu();
   closeContactModal();
