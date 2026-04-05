@@ -20,7 +20,7 @@
   <meta property="og:title" content="ALUMNORT | Esquadrias de Alumínio e Vidraçaria em Janaúba - MG" />
   <meta property="og:description" content="Empresa regional em Janaúba e Norte de Minas com foco em acabamento, presença visual e soluções sob medida em alumínio e vidro." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="img/hero.png" />
+  <meta property="og:image" content="img/avatar-hero.webp" />
   <meta property="og:locale" content="pt_BR" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -219,7 +219,7 @@
 
         <nav class="nav-menu" id="navMenu" aria-label="Menu principal">
           <div class="nav-menu__links">
-            <a href="#home" class="nav-link active">Home</a>
+            <a href="#home" class="nav-link">Home</a>
             <a href="#quem-somos" class="nav-link">Quem Somos</a>
             <a href="#servicos" class="nav-link">Nossos Serviços</a>
             <a href="#parceiros" class="nav-link">Parceiros</a>
@@ -238,36 +238,36 @@
   </header>
 
   <main>
-    <section class="hero hero--landscape" id="home">
-      <div class="hero__bg"></div>
+    <section class="hero hero--slider hero--landscape" id="home" aria-label="Hero principal da ALUMNORT">
+      <div class="hero-slider" id="heroSlider">
+        <div class="hero-slide is-active" style="background-image:url('img/avatar-hero.webp');" aria-hidden="false"></div>
+        <div class="hero-slide" style="background-image:url('img/hero-2.jpg');" aria-hidden="true"></div>
+        <div class="hero-slide" style="background-image:url('img/hero-3.jpg');" aria-hidden="true"></div>
+        <div class="hero-slide" style="background-image:url('img/hero-4.jpg');" aria-hidden="true"></div>
+        <div class="hero-slide" style="background-image:url('img/hero-5.jpg');" aria-hidden="true"></div>
+      </div>
+
       <div class="hero__overlay"></div>
+      <div class="hero__reflection"></div>
 
       <div class="container hero__content hero__content--landscape">
-        <div class="hero__grid hero__grid--landscape">
-          <div class="hero__text hero__text--landscape reveal">
+        <div class="hero__grid hero__grid--single">
+          <div class="hero__text hero__text--compact hero__text--shifted reveal">
             <span class="section-tag section-tag--light">ALUMNORT • JANAÚBA - MG</span>
-            <h1>Esquadrias de alumínio e vidro com acabamento que valoriza seu imóvel</h1>
 
-            <p class="hero-lead">
-              Projetos sob medida para residências e comércios, com visual moderno, funcionalidade,
-              segurança e acabamento profissional.
+            <h1 class="hero__title hero__title--smaller">
+              Esquadrias de alumínio e vidro com acabamento que valoriza seu imóvel
+            </h1>
+
+            <p class="hero-lead hero-lead--reduced">
+              Projetos sob medida para residências e comércios, com funcionalidade, segurança e acabamento profissional.
             </p>
 
-            <button type="button" class="btn btn--primary btn--hero-pulse" data-open-contact>
-              Pedir orçamento
-            </button>
-          </div>
-
-      <div class="hero__visual hero__visual--landscape reveal">
-  <img
-    src="img/avatar-hero.webp"
-    class="hero__avatar"
-    loading="eager"
-    fetchpriority="high"
-    decoding="async"
-    alt="Especialista ALUMNORT"
-  />
-</div>
+            <div class="hero__actions hero__actions--center hero__actions--higher">
+              <button type="button" class="btn btn--primary btn--hero-pulse" data-open-contact>
+                Pedir orçamento
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -419,35 +419,82 @@
           <h2>Parcerias e conexões que fortalecem a presença da marca</h2>
         </div>
 
-        <div class="partners-slider reveal" id="partnersSlider">
-          <div class="partners-slider__track">
-            <a class="partner-card" href="https://www.instagram.com/restaurantelpgrill/" target="_blank" rel="noopener noreferrer" aria-label="LP Grill">
-              <div class="partner-card__logo"><i class="fa-solid fa-store"></i></div>
-              <div class="partner-card__content">
-                <h3>LP Grill</h3>
-              </div>
-            </a>
+        <div class="partners-slider partners-slider--auto reveal" id="partnersSlider" aria-label="Logos de parceiros em slide automático">
+          <div class="partners-slider__viewport">
+            <div class="partners-slider__track">
+              <a class="partner-card" href="https://www.instagram.com/restaurantelpgrill/" target="_blank" rel="noopener noreferrer" aria-label="LP Grill">
+                <div class="partner-card__logo">
+                  <img src="img/parceiros/lp-grill.png" alt="Logo LP Grill" onerror="this.style.display='none';this.parentNode.innerHTML='<i class=&quot;fa-solid fa-store&quot;></i>';">
+                </div>
+                <div class="partner-card__content">
+                  <h3>LP Grill</h3>
+                </div>
+              </a>
 
-            <a class="partner-card" href="https://www.instagram.com/pldigitalgroup/" target="_blank" rel="noopener noreferrer" aria-label="PL Digital">
-              <div class="partner-card__logo"><i class="fa-solid fa-bullhorn"></i></div>
-              <div class="partner-card__content">
-                <h3>PL Digital</h3>
-              </div>
-            </a>
+              <a class="partner-card" href="https://www.instagram.com/pldigitalgroup/" target="_blank" rel="noopener noreferrer" aria-label="PL Digital">
+                <div class="partner-card__logo">
+                  <img src="img/parceiros/pl-digital.png" alt="Logo PL Digital" onerror="this.style.display='none';this.parentNode.innerHTML='<i class=&quot;fa-solid fa-bullhorn&quot;></i>';">
+                </div>
+                <div class="partner-card__content">
+                  <h3>PL Digital</h3>
+                </div>
+              </a>
 
-            <a class="partner-card" href="https://www.instagram.com/alumnortesquadrias_de_aluminio" target="_blank" rel="noopener noreferrer" aria-label="ALUMNORT">
-              <div class="partner-card__logo"><i class="fa-solid fa-building"></i></div>
-              <div class="partner-card__content">
-                <h3>ALUMNORT</h3>
-              </div>
-            </a>
+              <a class="partner-card" href="https://www.instagram.com/alumnortesquadrias_de_aluminio" target="_blank" rel="noopener noreferrer" aria-label="ALUMNORT">
+                <div class="partner-card__logo">
+                  <img src="img/parceiros/alumnort.png" alt="Logo ALUMNORT" onerror="this.style.display='none';this.parentNode.innerHTML='<i class=&quot;fa-solid fa-building&quot;></i>';">
+                </div>
+                <div class="partner-card__content">
+                  <h3>ALUMNORT</h3>
+                </div>
+              </a>
 
-            <a class="partner-card" href="https://www.instagram.com/alumnortesquadrias_de_aluminio" target="_blank" rel="noopener noreferrer" aria-label="Conexão regional">
-              <div class="partner-card__logo"><i class="fa-solid fa-handshake"></i></div>
-              <div class="partner-card__content">
-                <h3>Conexão regional</h3>
-              </div>
-            </a>
+              <a class="partner-card" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Conexão Regional">
+                <div class="partner-card__logo">
+                  <img src="img/parceiros/conexao-regional.png" alt="Logo Conexão Regional" onerror="this.style.display='none';this.parentNode.innerHTML='<i class=&quot;fa-solid fa-handshake&quot;></i>';">
+                </div>
+                <div class="partner-card__content">
+                  <h3>Conexão Regional</h3>
+                </div>
+              </a>
+
+              <!-- duplicados para loop contínuo -->
+              <a class="partner-card" href="https://www.instagram.com/restaurantelpgrill/" target="_blank" rel="noopener noreferrer" aria-label="LP Grill duplicado">
+                <div class="partner-card__logo">
+                  <img src="img/parceiros/lp-grill.png" alt="Logo LP Grill" onerror="this.style.display='none';this.parentNode.innerHTML='<i class=&quot;fa-solid fa-store&quot;></i>';">
+                </div>
+                <div class="partner-card__content">
+                  <h3>LP Grill</h3>
+                </div>
+              </a>
+
+              <a class="partner-card" href="https://www.instagram.com/pldigitalgroup/" target="_blank" rel="noopener noreferrer" aria-label="PL Digital duplicado">
+                <div class="partner-card__logo">
+                  <img src="img/parceiros/pl-digital.png" alt="Logo PL Digital" onerror="this.style.display='none';this.parentNode.innerHTML='<i class=&quot;fa-solid fa-bullhorn&quot;></i>';">
+                </div>
+                <div class="partner-card__content">
+                  <h3>PL Digital</h3>
+                </div>
+              </a>
+
+              <a class="partner-card" href="https://www.instagram.com/alumnortesquadrias_de_aluminio" target="_blank" rel="noopener noreferrer" aria-label="ALUMNORT duplicado">
+                <div class="partner-card__logo">
+                  <img src="img/parceiros/alumnort.png" alt="Logo ALUMNORT" onerror="this.style.display='none';this.parentNode.innerHTML='<i class=&quot;fa-solid fa-building&quot;></i>';">
+                </div>
+                <div class="partner-card__content">
+                  <h3>ALUMNORT</h3>
+                </div>
+              </a>
+
+              <a class="partner-card" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Conexão Regional duplicado">
+                <div class="partner-card__logo">
+                  <img src="img/parceiros/conexao-regional.png" alt="Logo Conexão Regional" onerror="this.style.display='none';this.parentNode.innerHTML='<i class=&quot;fa-solid fa-handshake&quot;></i>';">
+                </div>
+                <div class="partner-card__content">
+                  <h3>Conexão Regional</h3>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -533,34 +580,118 @@
           <p>Relatos sobre acabamento, atendimento e resultado final.</p>
         </div>
 
-        <div class="testimonials-slider reveal" id="testimonialsSlider">
-          <div class="testimonials-slider__track">
-            <article class="testimonial-card testimonial-card--balloon">
-              <div class="testimonial-card__stars">
-                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-              </div>
-              <p>“A pele de vidro ficou incrível. O acabamento ficou muito acima do que eu esperava e deu outra presença para a fachada.”</p>
-              <h3>Israel Mendes</h3>
-              <span>Cliente residencial</span>
-            </article>
+        <div class="testimonials-slider testimonials-slider--auto reveal" id="testimonialsSlider">
+          <div class="testimonials-slider__viewport">
+            <div class="testimonials-slider__track">
+              <article class="testimonial-card testimonial-card--balloon">
+                <div class="testimonial-card__stars">
+                  <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p>“A pele de vidro ficou incrível. O acabamento ficou muito acima do que eu esperava e deu outra presença para a fachada.”</p>
+                <h3>Israel Mendes</h3>
+                <span>Centro • Janaúba - MG</span>
+              </article>
 
-            <article class="testimonial-card testimonial-card--balloon">
-              <div class="testimonial-card__stars">
-                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-              </div>
-              <p>“Meu box do banheiro ficou ótimo. Atendimento bom, instalação caprichada e o banheiro ficou muito mais bonito.”</p>
-              <h3>Joana Souza</h3>
-              <span>Cliente residencial</span>
-            </article>
+              <article class="testimonial-card testimonial-card--balloon">
+                <div class="testimonial-card__stars">
+                  <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p>“Meu box do banheiro ficou ótimo. Atendimento bom, instalação caprichada e o banheiro ficou muito mais bonito.”</p>
+                <h3>Joana Souza</h3>
+                <span>Bairro Esplanada • Janaúba - MG</span>
+              </article>
 
-            <article class="testimonial-card testimonial-card--balloon">
-              <div class="testimonial-card__stars">
-                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-              </div>
-              <p>“Gostei muito da janela e do acabamento. Ficou alinhado, bonito e valorizou bastante a parte da frente da casa.”</p>
-              <h3>Marcos Ribeiro</h3>
-              <span>Cliente residencial</span>
-            </article>
+              <article class="testimonial-card testimonial-card--balloon">
+                <div class="testimonial-card__stars">
+                  <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p>“Gostei muito da janela e do acabamento. Ficou alinhado, bonito e valorizou bastante a parte da frente da casa.”</p>
+                <h3>Marcos Ribeiro</h3>
+                <span>Bairro Padre Eustáquio • Janaúba - MG</span>
+              </article>
+
+              <article class="testimonial-card testimonial-card--balloon">
+                <div class="testimonial-card__stars">
+                  <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p>“O portão ficou muito bem feito, firme e com um visual bonito demais. Deu outra cara para a entrada da minha casa.”</p>
+                <h3>Rogério Alves</h3>
+                <span>Bairro Rio Novo • Janaúba - MG</span>
+              </article>
+
+              <article class="testimonial-card testimonial-card--balloon">
+                <div class="testimonial-card__stars">
+                  <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p>“Fizeram a frente da loja com muito capricho. O vidro ficou elegante e o atendimento foi direto, sem enrolação.”</p>
+                <h3>Patrícia Fernandes</h3>
+                <span>Bairro Dente Grande • Janaúba - MG</span>
+              </article>
+
+              <article class="testimonial-card testimonial-card--balloon">
+                <div class="testimonial-card__stars">
+                  <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p>“A esquadria da área gourmet ficou linda. O acabamento veio certinho e valorizou muito o ambiente.”</p>
+                <h3>Luciano Cardoso</h3>
+                <span>Bairro Gameleira • Janaúba - MG</span>
+              </article>
+
+              <!-- duplicados para loop contínuo -->
+              <article class="testimonial-card testimonial-card--balloon">
+                <div class="testimonial-card__stars">
+                  <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p>“A pele de vidro ficou incrível. O acabamento ficou muito acima do que eu esperava e deu outra presença para a fachada.”</p>
+                <h3>Israel Mendes</h3>
+                <span>Centro • Janaúba - MG</span>
+              </article>
+
+              <article class="testimonial-card testimonial-card--balloon">
+                <div class="testimonial-card__stars">
+                  <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p>“Meu box do banheiro ficou ótimo. Atendimento bom, instalação caprichada e o banheiro ficou muito mais bonito.”</p>
+                <h3>Joana Souza</h3>
+                <span>Bairro Esplanada • Janaúba - MG</span>
+              </article>
+
+              <article class="testimonial-card testimonial-card--balloon">
+                <div class="testimonial-card__stars">
+                  <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p>“Gostei muito da janela e do acabamento. Ficou alinhado, bonito e valorizou bastante a parte da frente da casa.”</p>
+                <h3>Marcos Ribeiro</h3>
+                <span>Bairro Padre Eustáquio • Janaúba - MG</span>
+              </article>
+
+              <article class="testimonial-card testimonial-card--balloon">
+                <div class="testimonial-card__stars">
+                  <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p>“O portão ficou muito bem feito, firme e com um visual bonito demais. Deu outra cara para a entrada da minha casa.”</p>
+                <h3>Rogério Alves</h3>
+                <span>Bairro Rio Novo • Janaúba - MG</span>
+              </article>
+
+              <article class="testimonial-card testimonial-card--balloon">
+                <div class="testimonial-card__stars">
+                  <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p>“Fizeram a frente da loja com muito capricho. O vidro ficou elegante e o atendimento foi direto, sem enrolação.”</p>
+                <h3>Patrícia Fernandes</h3>
+                <span>Bairro Dente Grande • Janaúba - MG</span>
+              </article>
+
+              <article class="testimonial-card testimonial-card--balloon">
+                <div class="testimonial-card__stars">
+                  <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p>“A esquadria da área gourmet ficou linda. O acabamento veio certinho e valorizou muito o ambiente.”</p>
+                <h3>Luciano Cardoso</h3>
+                <span>Bairro Gameleira • Janaúba - MG</span>
+              </article>
+            </div>
           </div>
         </div>
       </div>
@@ -575,9 +706,8 @@
             <p>Fale com nossa equipe e receba um atendimento direto, objetivo e pronto para entender a melhor solução em alumínio e vidro.</p>
           </div>
 
-          <div class="cta-final__actions">
-            <button type="button" class="btn btn--light btn--large" data-open-contact>Pedir orçamento</button>
-            <a href="#projetos" class="btn btn--whatsapp btn--large">Ver projetos</a>
+          <div class="cta-final__actions cta-final__actions--single">
+            <a href="#projetos" class="btn btn--whatsapp btn--large btn--projects-only">Ver projetos</a>
           </div>
         </div>
       </div>
@@ -646,15 +776,15 @@
       </div>
     </div>
 
-   <div class="footer__bottom">
-  <div class="container footer__bottom-inner">
-    <p>© 2026 ALUMNORT. Todos os direitos reservados.</p>
-    <p>Esquadrias de Alumínio e Vidraçaria • Janaúba - MG</p>
-  </div>
-</div>
-</footer>
+    <div class="footer__bottom">
+      <div class="container footer__bottom-inner">
+        <p>© 2026 ALUMNORT. Todos os direitos reservados.</p>
+        <p>Esquadrias de Alumínio e Vidraçaria • Janaúba - MG</p>
+      </div>
+    </div>
+  </footer>
 
-<script src="app.js"></script>
-<script src="modal.js"></script>
+  <script src="app.js"></script>
+  <script src="modal.js"></script>
 </body>
 </html>
