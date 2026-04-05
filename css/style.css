@@ -720,10 +720,10 @@ ul{
   color:#fff;
 
   /* ↓ PRINCIPAL: menos grosso */
-  font-weight:600;
+  font-weight:480;
 
   /* ↓ menos apertado (mais elegante) */
-  letter-spacing:-0.02em;
+  letter-spacing:-0.03em;
 
   /* ↓ quebra de linha mais bonita */
   max-width:12ch;
