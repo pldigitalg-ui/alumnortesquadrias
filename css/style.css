@@ -710,13 +710,26 @@ ul{
 .hero__text h2{
   margin:0;
   font-family:"Manrope",sans-serif;
-  font-size:clamp(3rem, 5vw, 5rem);
-  line-height:0.96;
+
+  /* tamanho mais equilibrado */
+  font-size:clamp(2.4rem, 5vw, 4.5rem);
+
+  /* leitura melhor */
+  line-height:1.05;
+
   color:#fff;
-  font-weight:800;
-  letter-spacing:-0.05em;
-  max-width:9.2ch;
-  text-shadow:0 10px 30px rgba(0,0,0,0.24);
+
+  /* ↓ PRINCIPAL: menos grosso */
+  font-weight:600;
+
+  /* ↓ menos apertado (mais elegante) */
+  letter-spacing:-0.02em;
+
+  /* ↓ quebra de linha mais bonita */
+  max-width:12ch;
+
+  /* sombra mais suave */
+  text-shadow:0 8px 24px rgba(0,0,0,0.20);
 }
 
 .hero__title--smaller{
