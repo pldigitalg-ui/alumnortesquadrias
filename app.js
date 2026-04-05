@@ -4,11 +4,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const $ = (selector, parent = document) => parent.querySelector(selector);
   const $$ = (selector, parent = document) => Array.from(parent.querySelectorAll(selector));
 
+  /* =========================
+     ELEMENTOS GERAIS
+  ========================= */
   const menuToggle = $('#menuToggle');
   const navMenu = $('#navMenu');
   const menuBackdrop = $('#menuBackdrop');
   const navLinks = $$('.nav-link');
-  const sections = $$('section[id]');
 
   const btnTopo = $('#btnTopo');
 
@@ -27,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const projectCards = $$('.project-card');
 
   /* =========================
-     MENU
+     MENU MOBILE
   ========================= */
   function isMobileMenu() {
     return window.innerWidth <= 991;
@@ -54,55 +56,39 @@ document.addEventListener('DOMContentLoaded', () => {
   function toggleMenu() {
     if (!navMenu || !isMobileMenu()) return;
 
-    navMenu.classList.contains('active') ? closeMenu() : openMenu();
+    if (navMenu.classList.contains('active')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
   }
 
-  menuToggle?.addEventListener('click', (e) => {
-    e.preventDefault();
+  menuToggle?.addEventListener('click', (event) => {
+    event.preventDefault();
     toggleMenu();
   });
 
   menuBackdrop?.addEventListener('click', closeMenu);
 
-  navLinks.forEach((link) => {
-    link.addEventListener('click', () => {
-      if (isMobileMenu()) closeMenu();
-    });
-  });
-
   /* =========================
      LINK ATIVO NO MENU
+     - NÃO inicia com ativo
+     - Só ativa no clique
   ========================= */
   function clearActiveLinks() {
     navLinks.forEach((link) => link.classList.remove('active'));
   }
 
-  function setActiveLinkByScroll() {
-    if (!sections.length || !navLinks.length) return;
-
-    const scrollPosition = window.scrollY + 180;
-    let currentSectionId = '';
-
-    sections.forEach((section) => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.offsetHeight;
-
-      if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-        currentSectionId = section.getAttribute('id') || '';
-      }
-    });
-
-    if (!currentSectionId) return;
-
-    clearActiveLinks();
-    const currentLink = document.querySelector(`.nav-link[href="#${currentSectionId}"]`);
-    currentLink?.classList.add('active');
-  }
-
   navLinks.forEach((link) => {
+    link.classList.remove('active');
+
     link.addEventListener('click', () => {
       clearActiveLinks();
       link.classList.add('active');
+
+      if (isMobileMenu()) {
+        closeMenu();
+      }
     });
   });
 
@@ -119,8 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  btnTopo?.addEventListener('click', (e) => {
-    e.preventDefault();
+  btnTopo?.addEventListener('click', (event) => {
+    event.preventDefault();
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
@@ -128,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* =========================
-     MODAL DE CONTATO
+     MODAL DE CONTATO / ORÇAMENTO
   ========================= */
   function openContactModal(service = '') {
     if (!contactModal) return;
@@ -156,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
   openContactButtons.forEach((button) => {
     button.addEventListener('click', (event) => {
       event.preventDefault();
+
       const selectedService = button.getAttribute('data-service') || '';
       closeMenu();
       openContactModal(selectedService);
@@ -218,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* =========================
-     LIGHTBOX
+     LIGHTBOX DE PROJETOS
   ========================= */
   function openLightbox(image, title, description) {
     if (!lightbox || !lightboxImage) return;
@@ -307,7 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* =========================
-     SLIDERS
+     SLIDER GENÉRICO
   ========================= */
   function setupSlider(sliderId, trackSelector, options = {}) {
     const slider = document.getElementById(sliderId);
@@ -329,42 +316,27 @@ document.addEventListener('DOMContentLoaded', () => {
     let intervalId = null;
     let isHovered = false;
 
-    function getCards() {
-      return Array.from(track.children);
-    }
-
-    function getCardWidth() {
-      const firstCard = track.children[0];
-      if (!firstCard) return 0;
-
-      const styles = window.getComputedStyle(track);
-      const gap = parseFloat(styles.columnGap || styles.gap || 0);
-      return firstCard.getBoundingClientRect().width + gap;
-    }
-
-    function getPagesCount() {
-      const cardWidth = getCardWidth();
-      if (!cardWidth) return 0;
+    function getTotalPages() {
+      if (!track || track.children.length === 0) return 0;
       return Math.max(1, Math.ceil(track.scrollWidth / track.clientWidth));
     }
 
     function getCurrentPage() {
-      const cardWidth = getCardWidth();
-      if (!cardWidth) return 0;
+      if (!track) return 0;
 
-      const page = Math.round(track.scrollLeft / track.clientWidth);
-      const maxPage = Math.max(0, getPagesCount() - 1);
+      const current = Math.round(track.scrollLeft / track.clientWidth);
+      const maxPage = Math.max(0, getTotalPages() - 1);
 
-      return Math.min(page, maxPage);
+      return Math.max(0, Math.min(current, maxPage));
     }
 
-    function scrollToPage(pageIndex) {
-      const maxPage = Math.max(0, getPagesCount() - 1);
+    function scrollToPage(pageIndex, smooth = true) {
+      const maxPage = Math.max(0, getTotalPages() - 1);
       const safePage = Math.max(0, Math.min(pageIndex, maxPage));
 
       track.scrollTo({
         left: safePage * track.clientWidth,
-        behavior: 'smooth'
+        behavior: smooth ? 'smooth' : 'auto'
       });
 
       updateDots();
@@ -372,14 +344,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function nextSlide() {
       const current = getCurrentPage();
-      const maxPage = Math.max(0, getPagesCount() - 1);
+      const maxPage = Math.max(0, getTotalPages() - 1);
       const next = current >= maxPage ? 0 : current + 1;
       scrollToPage(next);
     }
 
     function prevSlide() {
       const current = getCurrentPage();
-      const maxPage = Math.max(0, getPagesCount() - 1);
+      const maxPage = Math.max(0, getTotalPages() - 1);
       const prev = current <= 0 ? maxPage : current - 1;
       scrollToPage(prev);
     }
@@ -388,7 +360,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!dotsContainer) return;
 
       dotsContainer.innerHTML = '';
-      const totalPages = getPagesCount();
+      const totalPages = getTotalPages();
 
       if (totalPages <= 1) return;
 
@@ -396,10 +368,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const dot = document.createElement('button');
         dot.type = 'button';
         dot.setAttribute('aria-label', `Ir para slide ${i + 1}`);
+
         dot.addEventListener('click', () => {
           scrollToPage(i);
           restartAutoplay();
         });
+
         dotsContainer.appendChild(dot);
       }
 
@@ -426,6 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startAutoplay() {
       if (!config.autoplay) return;
+
       stopAutoplay();
 
       intervalId = setInterval(() => {
@@ -450,9 +425,13 @@ document.addEventListener('DOMContentLoaded', () => {
       restartAutoplay();
     });
 
-    track.addEventListener('scroll', () => {
-      updateDots();
-    }, { passive: true });
+    track.addEventListener(
+      'scroll',
+      () => {
+        updateDots();
+      },
+      { passive: true }
+    );
 
     if (config.pauseOnHover) {
       slider.addEventListener('mouseenter', () => {
@@ -463,19 +442,22 @@ document.addEventListener('DOMContentLoaded', () => {
         isHovered = false;
       });
 
-      slider.addEventListener('touchstart', () => {
-        isHovered = true;
-      }, { passive: true });
+      slider.addEventListener(
+        'touchstart',
+        () => {
+          isHovered = true;
+        },
+        { passive: true }
+      );
 
-      slider.addEventListener('touchend', () => {
-        isHovered = false;
-      }, { passive: true });
+      slider.addEventListener(
+        'touchend',
+        () => {
+          isHovered = false;
+        },
+        { passive: true }
+      );
     }
-
-    window.addEventListener('resize', () => {
-      buildDots();
-      updateDots();
-    });
 
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
@@ -492,7 +474,10 @@ document.addEventListener('DOMContentLoaded', () => {
     return {
       nextSlide,
       prevSlide,
-      rebuild: buildDots
+      rebuild() {
+        buildDots();
+        updateDots();
+      }
     };
   }
 
@@ -509,7 +494,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* =========================
-     ESC
+     TECLA ESC
   ========================= */
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
@@ -520,14 +505,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* =========================
-     SCROLL / RESIZE
+     RESIZE E SCROLL
   ========================= */
   let ticking = false;
 
-  function onScroll() {
+  function handleScroll() {
     if (!ticking) {
       window.requestAnimationFrame(() => {
-        setActiveLinkByScroll();
         toggleScrollTopButton();
         ticking = false;
       });
@@ -535,19 +519,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('scroll', handleScroll, { passive: true });
 
   window.addEventListener('resize', () => {
     if (!isMobileMenu()) {
       closeMenu();
     }
 
-    setActiveLinkByScroll();
     toggleScrollTopButton();
     partnersSlider?.rebuild();
     testimonialsSlider?.rebuild();
   });
 
-  setActiveLinkByScroll();
+  /* =========================
+     ESTADO INICIAL
+  ========================= */
+  clearActiveLinks();
+  closeMenu();
+  closeContactModal();
+  closeLightbox();
   toggleScrollTopButton();
 });
