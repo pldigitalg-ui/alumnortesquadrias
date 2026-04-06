@@ -2015,3 +2015,13 @@ ul{
     scroll-behavior:auto !important;
   }
 }
+.footer__bottom a {
+  color: #d8b36a;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer__bottom a:hover {
+  text-decoration: underline;
+  opacity: 0.9;
+}
